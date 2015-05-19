@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6250" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <deployment identifier="iOS"/>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6244"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="setting_shedViewController">
+            <connections>
+                <outlet property="aboutusbtn" destination="gMq-fI-Ngo" id="5EE-YR-Gwr"/>
+                <outlet property="dailyGratReminderTitle" destination="w8G-ZZ-2Ti" id="eXE-kc-CaE"/>
+                <outlet property="downArrow" destination="eTL-hS-ZUz" id="JSV-95-eNj"/>
+                <outlet property="enablePopupBtn" destination="Otv-b2-IHU" id="cIl-bm-Byd"/>
+                <outlet property="gratClickView" destination="9tj-3B-Dsb" id="JtX-q1-o8C"/>
+                <outlet property="gratNotifyBtn" destination="6Bh-vl-rvx" id="nSf-6R-NA2"/>
+                <outlet property="gratNotifyTime" destination="YQX-ta-UrP" id="ZL1-zb-QYO"/>
+                <outlet property="gratNotifyTitle" destination="7z7-Jx-2sB" id="noi-2g-2xe"/>
+                <outlet property="gratToggle" destination="KaA-cu-GmS" id="xzN-0K-YMh"/>
+                <outlet property="gratitudeSettings" destination="U7A-ns-mdK" id="444-p3-6XO"/>
+                <outlet property="headertitle" destination="0Hb-Sp-cX7" id="qE3-qM-rVb"/>
+                <outlet property="passcodebtn" destination="mb9-An-XQa" id="ub3-Ur-5kw"/>
+                <outlet property="popUpToggle" destination="uUP-Iu-4bZ" id="1kG-bL-RFt"/>
+                <outlet property="ratebtn" destination="X7P-kP-qtd" id="Jfm-HW-0KE"/>
+                <outlet property="sideArrow" destination="bG6-pC-pYs" id="M9B-RD-ccn"/>
+                <outlet property="view" destination="1" id="3"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view contentMode="scaleToFill" id="1">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="header-bg.png" translatesAutoresizingMaskIntoConstraints="NO" id="1ff-ux-xbL">
+                    <rect key="frame" x="0.0" y="17" width="320" height="47"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="TNx-wP-k1O">
+                    <rect key="frame" x="5" y="19" width="60" height="40"/>
+                    <state key="normal" image="back-icon.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="moveback:" destination="-1" eventType="touchUpInside" id="V5h-dm-aaG"/>
+                    </connections>
+                </button>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Settings" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="0Hb-Sp-cX7">
+                    <rect key="frame" x="83" y="16" width="154" height="49"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                    <color key="textColor" red="0.98279061840000004" green="0.98423926220000002" blue="0.99492704870000004" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" red="0.086274509799999996" green="0.086274509799999996" blue="0.28235294119999998" alpha="1" colorSpace="calibratedRGB"/>
+                    <size key="shadowOffset" width="0.0" height="2"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gMq-fI-Ngo">
+                    <rect key="frame" x="0.0" y="63" width="320" height="57"/>
+                    <state key="normal" title="   About Us" backgroundImage="list-bg.png">
+                        <color key="titleColor" red="0.082948022960000006" green="0.082948022960000006" blue="0.082948022960000006" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" red="0.25594418757086168" green="0.25451433177437643" blue="0.25737404336734693" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="aboutusbtn:" destination="-1" eventType="touchUpInside" id="9nk-ge-8v0"/>
+                    </connections>
+                </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="arrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="SWo-1s-DMv">
+                    <rect key="frame" x="287" y="84" width="11" height="15"/>
+                </imageView>
+                <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="mb9-An-XQa">
+                    <rect key="frame" x="0.0" y="119" width="320" height="57"/>
+                    <color key="backgroundColor" red="0.48390376984126987" green="0.48120039682539689" blue="0.4866071428571429" alpha="1" colorSpace="calibratedRGB"/>
+                    <state key="normal" title="   Passcode" backgroundImage="list-bg.png">
+                        <color key="titleColor" red="0.082948022960000006" green="0.082948022960000006" blue="0.082948022960000006" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" red="0.25594418757086168" green="0.25451433177437643" blue="0.25737404336734693" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="passcodeBtn:" destination="-1" eventType="touchUpInside" id="ZYZ-V9-WdZ"/>
+                    </connections>
+                </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="arrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="KUg-Mw-cS0">
+                    <rect key="frame" x="287" y="140" width="11" height="15"/>
+                </imageView>
+                <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="X7P-kP-qtd">
+                    <rect key="frame" x="0.0" y="176" width="320" height="57"/>
+                    <state key="normal" title="   Rate App, Review/Feedback" backgroundImage="list-bg.png">
+                        <color key="titleColor" red="0.082948022960000006" green="0.082948022960000006" blue="0.082948022960000006" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="ratingbtn:" destination="-1" eventType="touchUpInside" id="SmQ-PV-3mS"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="U7A-ns-mdK">
+                    <rect key="frame" x="0.0" y="233" width="320" height="57"/>
+                    <state key="normal" title="   Gratitude Archive Settings" backgroundImage="list-bg.png">
+                        <color key="titleColor" red="0.082948022960000006" green="0.082948022960000006" blue="0.082948022960000006" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="GratitudeSettng:" destination="-1" eventType="touchUpInside" id="xUh-Mu-s4y"/>
+                    </connections>
+                </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="arrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="zQv-hV-fVS">
+                    <rect key="frame" x="287" y="197" width="11" height="15"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="arrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="E8O-Pg-XXo">
+                    <rect key="frame" x="287" y="254" width="11" height="15"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="footer-social.png" translatesAutoresizingMaskIntoConstraints="NO" id="Fp8-IX-MHT">
+                    <rect key="frame" x="0.0" y="513" width="320" height="55"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="gYa-9g-SYo">
+                    <rect key="frame" x="280" y="524" width="33" height="33"/>
+                    <state key="normal" image="fb-icon.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="PostToFacebook:" destination="-1" eventType="touchUpInside" id="js1-Yx-bEG"/>
+                    </connections>
+                </button>
+                <button opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="Otv-b2-IHU">
+                    <rect key="frame" x="0.0" y="290" width="320" height="57"/>
+                    <state key="normal" title="    Enable Popups" backgroundImage="list-bg.png">
+                        <color key="titleColor" red="0.082948022960000006" green="0.082948022960000006" blue="0.082948022960000006" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                </button>
+                <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="w8G-ZZ-2Ti">
+                    <rect key="frame" x="0.0" y="342" width="320" height="47"/>
+                    <state key="normal" title="    Daily Gratitude Reminder" backgroundImage="list-bg.png">
+                        <color key="titleColor" red="0.082948022960000006" green="0.082948022960000006" blue="0.082948022960000006" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="gratitudeReminder:" destination="-1" eventType="touchUpInside" id="Th4-NR-uzZ"/>
+                    </connections>
+                </button>
+                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="arrow-icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="eTL-hS-ZUz">
+                    <rect key="frame" x="280" y="363" width="18" height="12"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="arrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="bG6-pC-pYs">
+                    <rect key="frame" x="287" y="358" width="11" height="15"/>
+                </imageView>
+                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" on="YES" translatesAutoresizingMaskIntoConstraints="NO" id="uUP-Iu-4bZ">
+                    <rect key="frame" x="252" y="303" width="51" height="31"/>
+                    <connections>
+                        <action selector="popUpToggle:" destination="-1" eventType="valueChanged" id="ggu-qU-DUg"/>
+                    </connections>
+                </switch>
+                <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="9tj-3B-Dsb">
+                    <rect key="frame" x="0.0" y="389" width="320" height="57"/>
+                    <subviews>
+                        <button opaque="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="6Bh-vl-rvx">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="57"/>
+                            <color key="backgroundColor" red="0.58823529411764708" green="0.58823529411764708" blue="0.58823529411764708" alpha="1" colorSpace="calibratedRGB"/>
+                            <state key="normal" title=" ">
+                                <color key="titleColor" red="0.082948022960000006" green="0.082948022960000006" blue="0.082948022960000006" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="gratitudeNotify:" destination="-1" eventType="touchUpInside" id="yXR-ke-Ugd"/>
+                            </connections>
+                        </button>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Time" lineBreakMode="tailTruncation" numberOfLines="2" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" preferredMaxLayoutWidth="180" translatesAutoresizingMaskIntoConstraints="NO" id="7z7-Jx-2sB">
+                            <rect key="frame" x="25" y="0.0" width="180" height="57"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="5:00" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="YQX-ta-UrP">
+                            <rect key="frame" x="90" y="18" width="141" height="21"/>
+                            <fontDescription key="fontDescription" name="HelveticaNeue-Bold" family="Helvetica Neue" pointSize="17"/>
+                            <color key="textColor" cocoaTouchSystemColor="darkTextColor"/>
+                            <nil key="highlightedColor"/>
+                        </label>
+                        <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="KaA-cu-GmS">
+                            <rect key="frame" x="254" y="13" width="51" height="31"/>
+                            <connections>
+                                <action selector="gratitudeToggle:" destination="-1" eventType="valueChanged" id="f9y-s1-wol"/>
+                                <action selector="popUpToggle:" destination="-1" eventType="valueChanged" id="w9Z-ai-0hw"/>
+                            </connections>
+                        </switch>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="arrow-icon.png" width="22" height="13"/>
+        <image name="arrow.png" width="13" height="22"/>
+        <image name="back-icon.png" width="115" height="85"/>
+        <image name="fb-icon.png" width="50" height="50"/>
+        <image name="footer-social.png" width="640" height="100"/>
+        <image name="header-bg.png" width="320" height="61"/>
+        <image name="list-bg.png" width="640" height="100"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>

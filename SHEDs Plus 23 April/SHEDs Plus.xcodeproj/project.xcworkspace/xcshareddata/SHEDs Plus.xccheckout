@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>2356BD9B-557D-4AE3-8B45-0954402B63D2</string>
+	<key>IDESourceControlProjectName</key>
+	<string>SHEDs Plus</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>C09BBE2E-77C8-4398-80AE-97624DDAC3F9</key>
+		<string>https://112.196.24.205:8443/svn/IPhoneProjects/SHED/trunk/SHEDs%20Plus</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>SHEDs Plus.xcodeproj/project.xcworkspace</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>C09BBE2E-77C8-4398-80AE-97624DDAC3F9</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectRepositoryRootDictionary</key>
+	<dict>
+		<key>C09BBE2E-77C8-4398-80AE-97624DDAC3F9</key>
+		<string>https://112.196.24.205:8443/svn/IPhoneProjects</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://112.196.24.205:8443/svn/IPhoneProjects/SHED/trunk/SHEDs%20Plus/SHEDs%20Plus.xcodeproj</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>110</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>C09BBE2E-77C8-4398-80AE-97624DDAC3F9</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.subversion</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>C09BBE2E-77C8-4398-80AE-97624DDAC3F9</string>
+			<key>IDESourceControlWCCName</key>
+			<string>SHEDs Plus</string>
+		</dict>
+	</array>
+</dict>
+</plist>

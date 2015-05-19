@@ -1,0 +1,167 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="6245" systemVersion="13F34" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="6238"/>
+    </dependencies>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="passcodeOptionViewController">
+            <connections>
+                <outlet property="changePasscodebtn" destination="RVK-Y4-c5Y" id="Y7w-vG-t6W"/>
+                <outlet property="downArrow" destination="7b6-3x-67j" id="quL-tP-mo4"/>
+                <outlet property="emailView" destination="SvM-4l-i4Y" id="Edt-0L-Jft"/>
+                <outlet property="enablePasscodeBtn" destination="zvP-DM-Pll" id="FOd-gE-eg6"/>
+                <outlet property="headertitle" destination="PUl-i2-adA" id="XX9-de-etE"/>
+                <outlet property="passcodeRecoveryEmailtxt" destination="dz7-jd-Och" id="ydE-EG-ZX8"/>
+                <outlet property="passcodeToggle" destination="Rap-4E-Jo7" id="8q6-MS-DJD"/>
+                <outlet property="passwordRecovoryBtn" destination="vk4-2K-ob6" id="Q69-Dj-p9Z"/>
+                <outlet property="setPasscodeBtn" destination="keS-bW-bzp" id="fuy-fq-7qL"/>
+                <outlet property="sideArrow" destination="bGP-ER-VSP" id="Q3e-3E-9qX"/>
+                <outlet property="view" destination="N8O-VJ-CWD" id="Vqb-2C-QQg"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="N8O-VJ-CWD">
+            <rect key="frame" x="0.0" y="0.0" width="320" height="480"/>
+            <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="header-bg.png" translatesAutoresizingMaskIntoConstraints="NO" id="f3v-3h-DM5">
+                    <rect key="frame" x="0.0" y="17" width="320" height="47"/>
+                </imageView>
+                <label opaque="NO" clipsSubviews="YES" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Passcode" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="PUl-i2-adA">
+                    <rect key="frame" x="83" y="14" width="154" height="49"/>
+                    <fontDescription key="fontDescription" type="system" pointSize="28"/>
+                    <color key="textColor" red="0.98279061840000004" green="0.98423926220000002" blue="0.99492704870000004" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                    <color key="shadowColor" red="0.086274509799999996" green="0.086274509799999996" blue="0.28235294119999998" alpha="1" colorSpace="calibratedRGB"/>
+                    <size key="shadowOffset" width="0.0" height="2"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="E5Q-Nh-XWD">
+                    <rect key="frame" x="5" y="19" width="60" height="40"/>
+                    <state key="normal" image="back-icon.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="backBtn:" destination="-1" eventType="touchUpInside" id="WJG-0k-yxG"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="zvP-DM-Pll">
+                    <rect key="frame" x="0.0" y="63" width="320" height="58"/>
+                    <state key="normal" title="    Enable Passcode" backgroundImage="list-bg.png">
+                        <color key="titleColor" red="0.082948022960000006" green="0.082948022960000006" blue="0.082948022960000006" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" red="0.25594418759999998" green="0.25451433179999999" blue="0.25737404339999997" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                </button>
+                <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="keS-bW-bzp">
+                    <rect key="frame" x="0.0" y="121" width="320" height="60"/>
+                    <color key="backgroundColor" red="0.48390376979999999" green="0.48120039679999999" blue="0.48660714290000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <state key="normal" title="    Set Passcode" backgroundImage="list-bg.png">
+                        <color key="titleColor" red="0.082948022960000006" green="0.082948022960000006" blue="0.082948022960000006" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" red="0.25594418759999998" green="0.25451433179999999" blue="0.25737404339999997" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="changePasscode:" destination="-1" eventType="touchUpInside" id="DZR-zW-EgH"/>
+                    </connections>
+                </button>
+                <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="RVK-Y4-c5Y">
+                    <rect key="frame" x="0.0" y="121" width="320" height="61"/>
+                    <color key="backgroundColor" red="0.48390376979999999" green="0.48120039679999999" blue="0.48660714290000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <state key="normal" title="    Change Passcode" backgroundImage="list-bg.png">
+                        <color key="titleColor" red="0.082948022960000006" green="0.082948022960000006" blue="0.082948022960000006" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" red="0.25594418759999998" green="0.25451433179999999" blue="0.25737404339999997" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="changePasscode:" destination="-1" eventType="touchUpInside" id="Mmt-sx-gv5"/>
+                    </connections>
+                </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="arrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="Aei-lO-ueF">
+                    <rect key="frame" x="289" y="144" width="11" height="15"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="footer-social.png" translatesAutoresizingMaskIntoConstraints="NO" id="93h-kV-4bQ">
+                    <rect key="frame" x="0.0" y="425" width="320" height="55"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="ucN-Ra-inW">
+                    <rect key="frame" x="280" y="438" width="33" height="33"/>
+                    <state key="normal" image="fb-icon.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="PostToFacebook:" destination="-1" eventType="touchUpInside" id="TqW-yI-zS9"/>
+                    </connections>
+                </button>
+                <switch opaque="NO" contentMode="scaleToFill" horizontalHuggingPriority="750" verticalHuggingPriority="750" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" translatesAutoresizingMaskIntoConstraints="NO" id="Rap-4E-Jo7">
+                    <rect key="frame" x="251" y="76" width="51" height="31"/>
+                    <connections>
+                        <action selector="toggleSwitch:" destination="-1" eventType="valueChanged" id="WXn-Td-J0T"/>
+                    </connections>
+                </switch>
+                <button opaque="NO" tag="1" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="vk4-2K-ob6">
+                    <rect key="frame" x="0.0" y="181" width="320" height="61"/>
+                    <color key="backgroundColor" red="0.48390376979999999" green="0.48120039679999999" blue="0.48660714290000001" alpha="1" colorSpace="calibratedRGB"/>
+                    <state key="normal" title="    Passcode Recovery Email              " backgroundImage="list-bg.png">
+                        <color key="titleColor" red="0.082948022960000006" green="0.082948022960000006" blue="0.082948022960000006" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" red="0.25594418759999998" green="0.25451433179999999" blue="0.25737404339999997" alpha="1" colorSpace="calibratedRGB"/>
+                    </state>
+                    <connections>
+                        <action selector="passwordRecovryBtn:" destination="-1" eventType="touchUpInside" id="YZM-PF-LIc"/>
+                    </connections>
+                </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="arrow.png" translatesAutoresizingMaskIntoConstraints="NO" id="bGP-ER-VSP">
+                    <rect key="frame" x="289" y="204" width="11" height="15"/>
+                </imageView>
+                <imageView hidden="YES" userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" image="arrow-icon.png" translatesAutoresizingMaskIntoConstraints="NO" id="7b6-3x-67j">
+                    <rect key="frame" x="285" y="207" width="18" height="12"/>
+                </imageView>
+                <view hidden="YES" contentMode="scaleToFill" fixedFrame="YES" translatesAutoresizingMaskIntoConstraints="NO" id="SvM-4l-i4Y">
+                    <rect key="frame" x="0.0" y="242" width="320" height="57"/>
+                    <subviews>
+                        <button opaque="NO" userInteractionEnabled="NO" tag="2" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="fill" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="XM7-Ud-0Cm">
+                            <rect key="frame" x="0.0" y="0.0" width="320" height="57"/>
+                            <color key="backgroundColor" red="0.58823529409999997" green="0.58823529409999997" blue="0.58823529409999997" alpha="1" colorSpace="calibratedRGB"/>
+                            <state key="normal" title=" ">
+                                <color key="titleColor" red="0.082948022960000006" green="0.082948022960000006" blue="0.082948022960000006" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                        </button>
+                        <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" placeholder="Enter Your Email" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="dz7-jd-Och">
+                            <rect key="frame" x="19" y="15" width="209" height="30"/>
+                            <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                            <textInputTraits key="textInputTraits" keyboardType="emailAddress"/>
+                            <connections>
+                                <outlet property="delegate" destination="-1" id="YCL-TB-8Fz"/>
+                            </connections>
+                        </textField>
+                        <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="AkP-Ub-K6k">
+                            <rect key="frame" x="248" y="8" width="58" height="41"/>
+                            <fontDescription key="fontDescription" name="Georgia" family="Georgia" pointSize="15"/>
+                            <state key="normal" image="save-icon.png">
+                                <color key="titleColor" red="0.0" green="0.0" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                                <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                            </state>
+                            <connections>
+                                <action selector="saveEmailBtn:" destination="-1" eventType="touchUpInside" id="scM-cs-Ucg"/>
+                            </connections>
+                        </button>
+                    </subviews>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                </view>
+            </subviews>
+            <color key="backgroundColor" white="1" alpha="1" colorSpace="custom" customColorSpace="calibratedWhite"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="arrow-icon.png" width="22" height="13"/>
+        <image name="arrow.png" width="13" height="22"/>
+        <image name="back-icon.png" width="115" height="85"/>
+        <image name="fb-icon.png" width="50" height="50"/>
+        <image name="footer-social.png" width="640" height="100"/>
+        <image name="header-bg.png" width="320" height="61"/>
+        <image name="list-bg.png" width="640" height="100"/>
+        <image name="save-icon.png" width="102" height="83"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>
