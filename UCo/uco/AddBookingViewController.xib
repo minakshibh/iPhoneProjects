@@ -1,0 +1,539 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.XIB" version="3.0" toolsVersion="7702" systemVersion="14B25" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="7701"/>
+    </dependencies>
+    <customFonts key="customFonts">
+        <mutableArray key="Lovelo Black.otf">
+            <string>LoveloBlack</string>
+            <string>LoveloBlack</string>
+            <string>LoveloBlack</string>
+            <string>LoveloBlack</string>
+            <string>LoveloBlack</string>
+            <string>LoveloBlack</string>
+            <string>LoveloBlack</string>
+            <string>LoveloBlack</string>
+            <string>LoveloBlack</string>
+            <string>LoveloBlack</string>
+            <string>LoveloBlack</string>
+            <string>LoveloBlack</string>
+            <string>LoveloBlack</string>
+            <string>LoveloBlack</string>
+            <string>LoveloBlack</string>
+            <string>LoveloBlack</string>
+            <string>LoveloBlack</string>
+            <string>LoveloBlack</string>
+            <string>LoveloBlack</string>
+            <string>LoveloBlack</string>
+            <string>LoveloBlack</string>
+            <string>LoveloBlack</string>
+            <string>LoveloBlack</string>
+            <string>LoveloBlack</string>
+            <string>LoveloBlack</string>
+            <string>LoveloBlack</string>
+            <string>LoveloBlack</string>
+            <string>LoveloBlack</string>
+            <string>LoveloBlack</string>
+            <string>LoveloBlack</string>
+            <string>LoveloBlack</string>
+        </mutableArray>
+    </customFonts>
+    <objects>
+        <placeholder placeholderIdentifier="IBFilesOwner" id="-1" userLabel="File's Owner" customClass="AddBookingViewController">
+            <connections>
+                <outlet property="MrMissTableView" destination="URU-rK-tbn" id="c6t-ef-A4C"/>
+                <outlet property="addBookingInnrBtn" destination="al7-dp-8ft" id="Aq5-Hz-4cp"/>
+                <outlet property="bookingTimeTableView" destination="u18-hB-xuC" id="1hQ-v2-xql"/>
+                <outlet property="createBookingBtn" destination="rts-Ms-nyT" id="jFl-pa-OPB"/>
+                <outlet property="dateLbl" destination="hkH-5I-dWb" id="ny3-8V-OKM"/>
+                <outlet property="dateSelectedLbl" destination="Lhc-Mh-aM7" id="iZK-py-IYk"/>
+                <outlet property="editBookingBtn" destination="vVu-ww-LHW" id="Nq3-MH-L4c"/>
+                <outlet property="emailAddressTxt" destination="UPG-WR-sNH" id="K9j-1m-lnh"/>
+                <outlet property="firstNameTxt" destination="vnP-ka-Dty" id="HB4-6B-V1w"/>
+                <outlet property="floorSelectTableView" destination="gph-Bh-aVD" id="YUB-1c-l6x"/>
+                <outlet property="guestNotesTxt" destination="mv8-lv-QYo" id="4PO-cR-82a"/>
+                <outlet property="horizontalScroller" destination="8zn-9u-ioK" id="2dA-r8-j3E"/>
+                <outlet property="insideZoneLbl" destination="sty-XD-mi3" id="s2V-0h-cWV"/>
+                <outlet property="lastNameTxt" destination="qpw-hw-Qn0" id="i4A-Vw-JYU"/>
+                <outlet property="mrMissSelectdBtn" destination="MyL-HL-dEc" id="i1s-Wl-ebh"/>
+                <outlet property="partySizeBtn" destination="taW-IH-KZk" id="aMC-q5-F1o"/>
+                <outlet property="partySizeLbl" destination="cYT-Av-8vP" id="xbc-nB-n1W"/>
+                <outlet property="partySizeTableView" destination="P6Q-hB-OnM" id="Hj9-0i-KM2"/>
+                <outlet property="phoneNumbrTxt" destination="AQ7-yX-KDg" id="oKI-ni-AvD"/>
+                <outlet property="saveTypeBtn" destination="idz-yG-Ge7" id="Lkg-Rt-m0J"/>
+                <outlet property="selectFloorBtn" destination="lQl-De-mgA" id="fGH-Xc-Ozp"/>
+                <outlet property="selectRestaurantBtn" destination="34C-uv-nLS" id="uHz-oo-uJw"/>
+                <outlet property="sessionBtnTitle" destination="Wrh-9n-5u3" id="9Ep-Z7-HDH"/>
+                <outlet property="sessionTableView" destination="6g9-Ih-8au" id="D3o-mT-yhT"/>
+                <outlet property="showCalendarBtn" destination="cva-YK-R84" id="cpo-7g-lts"/>
+                <outlet property="sourceOfBookingBtnTitle" destination="Um7-L3-xXu" id="J4P-KX-maq"/>
+                <outlet property="sourceOfBookingTableView" destination="NTo-P9-0sk" id="LVZ-iZ-aeX"/>
+                <outlet property="tableHorizontalScroller" destination="g86-Eq-dLa" id="qf9-GH-sKC"/>
+                <outlet property="tableLbl" destination="EeW-Vf-qzP" id="lzG-pN-Jyk"/>
+                <outlet property="timeLbl" destination="aMs-eS-zIL" id="nJj-4l-EA9"/>
+                <outlet property="timeSelectedBtn" destination="jdF-C8-3Wc" id="P6z-Sv-ivM"/>
+                <outlet property="titleLbl" destination="uaU-Z4-1Bp" id="VQ5-A8-Z43"/>
+                <outlet property="todaySelectdBtn" destination="rKe-WM-Yhs" id="mUu-zi-zyf"/>
+                <outlet property="view" destination="i5M-Pr-FkT" id="sfx-zR-JGt"/>
+                <outlet property="walkInSelectedBtn" destination="hfl-hW-wJp" id="hla-Ed-qho"/>
+                <outlet property="walkinLbl" destination="cs1-gy-bUe" id="nXM-De-fT5"/>
+            </connections>
+        </placeholder>
+        <placeholder placeholderIdentifier="IBFirstResponder" id="-2" customClass="UIResponder"/>
+        <view clearsContextBeforeDrawing="NO" contentMode="scaleToFill" id="i5M-Pr-FkT">
+            <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+            <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+            <subviews>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="main-bg.jpg" id="9LV-Bx-BwG">
+                    <rect key="frame" x="0.0" y="0.0" width="1024" height="768"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <gestureRecognizers/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="CET-G3-ejz">
+                    <rect key="frame" x="124" y="8" width="1024" height="768"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="hideAllTablesAction:" destination="-1" eventType="touchUpInside" id="VJX-b4-iZT"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cTH-AD-wcT">
+                    <rect key="frame" x="298" y="498" width="427" height="1"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" name="LoveloBlack" family="Lovelo" pointSize="11"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="mWQ-ww-K5e">
+                    <rect key="frame" x="298" y="558" width="427" height="1"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" name="LoveloBlack" family="Lovelo" pointSize="11"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="CONFIRMATION - YOUR ORDER HAS BEEN CEATED" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="uaU-Z4-1Bp">
+                    <rect key="frame" x="0.0" y="96" width="1024" height="37"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMinX="YES" widthSizable="YES" flexibleMaxX="YES" flexibleMinY="YES" heightSizable="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.26680775359999997" green="0.58659561819999995" blue="0.19868385559999999" alpha="1" colorSpace="calibratedRGB"/>
+                    <inset key="insetFor6xAndEarlier" minX="0.0" minY="-10" maxX="0.0" maxY="10"/>
+                    <fontDescription key="fontDescription" name="LoveloBlack" family="Lovelo" pointSize="18"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="MyL-HL-dEc">
+                    <rect key="frame" x="301" y="242" width="61" height="25"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="LoveloBlack" family="Lovelo" pointSize="13"/>
+                    <state key="normal" title="  Mr.">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="MrOrMissSelectionBtn:" destination="-1" eventType="touchUpInside" id="kee-mm-1fr"/>
+                    </connections>
+                </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dropdown-arrow.png" id="cP5-0i-JPi">
+                    <rect key="frame" x="348" y="252" width="8" height="6"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="input-box-half.png" id="BH5-mY-9B3">
+                    <rect key="frame" x="365" y="235" width="176" height="33"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="idz-yG-Ge7">
+                    <rect key="frame" x="604" y="507" width="119" height="26"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="LoveloBlack" family="Lovelo" pointSize="11"/>
+                    <state key="normal" title="Get Table">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="saveBtnAction:" destination="-1" eventType="touchUpInside" id="w8a-UZ-SLl"/>
+                    </connections>
+                </button>
+                <button hidden="YES" opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="cTj-x7-taK" userLabel="Save Tables">
+                    <rect key="frame" x="602" y="536" width="119" height="28"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="LoveloBlack" family="Lovelo" pointSize="11"/>
+                    <state key="normal" title="Save Type">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="saveBtnAction:" destination="-1" eventType="touchUpInside" id="M2x-7f-vbZ"/>
+                    </connections>
+                </button>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="FIRST NAME" minimumFontSize="17" id="vnP-ka-Dty">
+                    <rect key="frame" x="369" y="235" width="171" height="33"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="LoveloBlack" family="Lovelo" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="input-box-half.png" id="v0V-XT-SzU">
+                    <rect key="frame" x="549" y="235" width="176" height="33"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="LAST NAME" minimumFontSize="17" id="qpw-hw-Qn0">
+                    <rect key="frame" x="555" y="235" width="170" height="33"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="LoveloBlack" family="Lovelo" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="input-box.png" id="cj2-N1-Zbf">
+                    <rect key="frame" x="300" y="276" width="425" height="33"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="input-box.png" id="mS1-JM-jjz">
+                    <rect key="frame" x="298" y="315" width="427" height="33"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="al7-dp-8ft">
+                    <rect key="frame" x="373" y="159" width="133" height="33"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" red="0.87450980392156863" green="0.36862745098039218" blue="0.0" alpha="1" colorSpace="calibratedRGB"/>
+                    <fontDescription key="fontDescription" name="LoveloBlack" family="Lovelo" pointSize="13"/>
+                    <state key="normal" title="ADD A BOOKING">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="addBookingBtn:" destination="-1" eventType="touchUpInside" id="vm0-pv-fGc"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="vVu-ww-LHW">
+                    <rect key="frame" x="528" y="159" width="123" height="33"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="LoveloBlack" family="Lovelo" pointSize="13"/>
+                    <state key="normal" title="EDIT A BOOKING">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="editBookingBtn:" destination="-1" eventType="touchUpInside" id="ckE-eq-gik"/>
+                    </connections>
+                </button>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="EMAIL" minimumFontSize="17" id="UPG-WR-sNH">
+                    <rect key="frame" x="304" y="276" width="421" height="33"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="LoveloBlack" family="Lovelo" pointSize="14"/>
+                    <textInputTraits key="textInputTraits"/>
+                </textField>
+                <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" contentHorizontalAlignment="left" contentVerticalAlignment="center" placeholder="PHONE NUMBER" minimumFontSize="17" id="AQ7-yX-KDg">
+                    <rect key="frame" x="304" y="315" width="421" height="33"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="LoveloBlack" family="Lovelo" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" keyboardType="numberPad"/>
+                </textField>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="DATE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="hkH-5I-dWb">
+                    <rect key="frame" x="298" y="407" width="85" height="25"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="LoveloBlack" family="Lovelo" pointSize="11"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="PARTY SIZE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cYT-Av-8vP">
+                    <rect key="frame" x="298" y="369" width="85" height="25"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="LoveloBlack" family="Lovelo" pointSize="11"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TABLE" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="EeW-Vf-qzP">
+                    <rect key="frame" x="298" y="538" width="85" height="25"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="LoveloBlack" family="Lovelo" pointSize="11"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="01/01/2015" textAlignment="center" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Lhc-Mh-aM7">
+                    <rect key="frame" x="385" y="407" width="100" height="25"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="LoveloBlack" family="Lovelo" pointSize="11"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="cva-YK-R84">
+                    <rect key="frame" x="490" y="406" width="18" height="22"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="calendar-view-icon.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="DateSelectionBtn:" destination="-1" eventType="touchUpInside" id="uPg-z2-Fv0"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="taW-IH-KZk">
+                    <rect key="frame" x="388" y="369" width="115" height="25"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="LoveloBlack" family="Lovelo" pointSize="11"/>
+                    <state key="normal" title="(Select People)">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="partySizeSelectionBtn:" destination="-1" eventType="touchUpInside" id="Wnf-79-3my"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Um7-L3-xXu">
+                    <rect key="frame" x="413" y="442" width="127" height="25"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="LoveloBlack" family="Lovelo" pointSize="11"/>
+                    <state key="normal" title="(Select Booking)">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="sourceOfBookingBtnAction:" destination="-1" eventType="touchUpInside" id="LZZ-J6-9K4"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="lQl-De-mgA">
+                    <rect key="frame" x="619" y="442" width="106" height="25"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="LoveloBlack" family="Lovelo" pointSize="11"/>
+                    <state key="normal" title="(Select Floor)">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="floorSeletionBtnSeletionBtn:" destination="-1" eventType="touchUpInside" id="3Gk-VA-mVU"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="jdF-C8-3Wc">
+                    <rect key="frame" x="625" y="407" width="100" height="25"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="LoveloBlack" family="Lovelo" pointSize="11"/>
+                    <state key="normal" title="(Select Time)">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="timeSelectedBtn:" destination="-1" eventType="touchUpInside" id="Jg6-2Q-TBQ"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="TIME" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="aMs-eS-zIL">
+                    <rect key="frame" x="571" y="407" width="34" height="25"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="LoveloBlack" family="Lovelo" pointSize="11"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select Floor" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="sty-XD-mi3">
+                    <rect key="frame" x="539" y="442" width="79" height="25"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="LoveloBlack" family="Lovelo" pointSize="11"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Source Of Booking" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="l7T-Z1-fPS">
+                    <rect key="frame" x="298" y="442" width="129" height="25"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="LoveloBlack" family="Lovelo" pointSize="11"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Select Table Type" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="apQ-MT-2MA">
+                    <rect key="frame" x="298" y="470" width="129" height="25"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="LoveloBlack" family="Lovelo" pointSize="11"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <textView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="mv8-lv-QYo">
+                    <rect key="frame" x="298" y="610" width="427" height="95"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                    <fontDescription key="fontDescription" name="LoveloBlack" family="Lovelo" pointSize="14"/>
+                    <textInputTraits key="textInputTraits" autocapitalizationType="sentences"/>
+                </textView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="rts-Ms-nyT">
+                    <rect key="frame" x="435" y="713" width="155" height="33"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="LoveloBlack" family="Lovelo" pointSize="13"/>
+                    <state key="normal" title="CREATE BOOKING">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="createBookingActionBtn:" destination="-1" eventType="touchUpInside" id="jCV-cN-dWt"/>
+                    </connections>
+                </button>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="WALK IN?" textAlignment="right" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="cs1-gy-bUe">
+                    <rect key="frame" x="595" y="207" width="82" height="21"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="LoveloBlack" family="Lovelo" pointSize="13"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" lineBreakMode="middleTruncation" id="hfl-hW-wJp">
+                    <rect key="frame" x="685" y="207" width="15" height="22"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <state key="normal" image="checkbox1_checked.png">
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="walkInBtn:" destination="-1" eventType="touchUpInside" id="aMw-v3-i67"/>
+                    </connections>
+                </button>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="rKe-WM-Yhs">
+                    <rect key="frame" x="516" y="407" width="54" height="25"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="LoveloBlack" family="Lovelo" pointSize="11"/>
+                    <state key="normal" title="Today">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="todaySelectionBtn:" destination="-1" eventType="touchUpInside" id="93R-cw-LSl"/>
+                    </connections>
+                </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dropdown-arrow.png" id="Ild-bG-8gm">
+                    <rect key="frame" x="490" y="378" width="8" height="6"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" text="Session" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" id="Ck4-Fe-jy5">
+                    <rect key="frame" x="538" y="369" width="85" height="25"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="LoveloBlack" family="Lovelo" pointSize="11"/>
+                    <color key="textColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                    <nil key="highlightedColor"/>
+                </label>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="Wrh-9n-5u3">
+                    <rect key="frame" x="606" y="369" width="119" height="25"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="LoveloBlack" family="Lovelo" pointSize="11"/>
+                    <state key="normal" title="(Select Session)">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="sessionBtnAction:" destination="-1" eventType="touchUpInside" id="SWD-lQ-bGy"/>
+                    </connections>
+                </button>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dropdown-arrow.png" id="DlK-7Q-X2h">
+                    <rect key="frame" x="713" y="378" width="8" height="6"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dropdown-arrow.png" id="5zR-Ss-s9V">
+                    <rect key="frame" x="527" y="450" width="8" height="6"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dropdown-arrow.png" id="Shg-mL-9Kg">
+                    <rect key="frame" x="713" y="450" width="8" height="6"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <imageView userInteractionEnabled="NO" contentMode="scaleToFill" horizontalHuggingPriority="251" verticalHuggingPriority="251" image="dropdown-arrow.png" id="kwe-jQ-BwH">
+                    <rect key="frame" x="713" y="417" width="8" height="6"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                </imageView>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="8zn-9u-ioK">
+                    <rect key="frame" x="298" y="502" width="301" height="35"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="Jx0-kE-fXC"/>
+                    </connections>
+                </scrollView>
+                <scrollView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" id="g86-Eq-dLa">
+                    <rect key="frame" x="298" y="563" width="427" height="35"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <connections>
+                        <outlet property="delegate" destination="-1" id="en8-qJ-5pE"/>
+                    </connections>
+                </scrollView>
+                <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="URU-rK-tbn">
+                    <rect key="frame" x="300" y="269" width="63" height="109"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="sectionIndexColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="DSs-ar-u2T"/>
+                        <outlet property="delegate" destination="-1" id="SwP-MU-TFV"/>
+                    </connections>
+                </tableView>
+                <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="P6Q-hB-OnM">
+                    <rect key="frame" x="395" y="396" width="100" height="109"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="sectionIndexColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="jZW-oZ-g7U"/>
+                        <outlet property="delegate" destination="-1" id="ZmO-he-LsV"/>
+                    </connections>
+                </tableView>
+                <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="6g9-Ih-8au">
+                    <rect key="frame" x="615" y="395" width="100" height="109"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="sectionIndexColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="dup-Uu-ccv"/>
+                        <outlet property="delegate" destination="-1" id="kF9-zK-UDs"/>
+                    </connections>
+                </tableView>
+                <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="u18-hB-xuC">
+                    <rect key="frame" x="607" y="432" width="137" height="109"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="sectionIndexColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="hzw-GU-rgC"/>
+                        <outlet property="delegate" destination="-1" id="4Gu-gQ-ldh"/>
+                    </connections>
+                </tableView>
+                <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="NTo-P9-0sk">
+                    <rect key="frame" x="417" y="468" width="120" height="109"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="sectionIndexColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="3zf-2d-C0D"/>
+                        <outlet property="delegate" destination="-1" id="p5z-7f-CEq"/>
+                    </connections>
+                </tableView>
+                <tableView hidden="YES" clipsSubviews="YES" contentMode="scaleToFill" alwaysBounceVertical="YES" style="plain" separatorStyle="none" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="gph-Bh-aVD">
+                    <rect key="frame" x="622" y="468" width="100" height="109"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <color key="backgroundColor" white="0.66666666666666663" alpha="1" colorSpace="calibratedWhite"/>
+                    <color key="sectionIndexColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="calibratedRGB"/>
+                    <connections>
+                        <outlet property="dataSource" destination="-1" id="7vc-Jc-hov"/>
+                        <outlet property="delegate" destination="-1" id="gG7-IN-g1H"/>
+                    </connections>
+                </tableView>
+                <button opaque="NO" contentMode="scaleToFill" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" id="34C-uv-nLS">
+                    <rect key="frame" x="301" y="205" width="240" height="25"/>
+                    <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                    <fontDescription key="fontDescription" name="LoveloBlack" family="Lovelo" pointSize="11"/>
+                    <state key="normal" title="(Select Restaurant)">
+                        <color key="titleColor" red="1" green="1" blue="1" alpha="1" colorSpace="calibratedRGB"/>
+                        <color key="titleShadowColor" white="0.5" alpha="1" colorSpace="calibratedWhite"/>
+                    </state>
+                    <connections>
+                        <action selector="selectRestaurantBtnAction:" destination="-1" eventType="touchUpInside" id="bIV-6i-56E"/>
+                    </connections>
+                </button>
+            </subviews>
+            <color key="backgroundColor" white="0.33333333333333331" alpha="1" colorSpace="calibratedWhite"/>
+            <simulatedOrientationMetrics key="simulatedOrientationMetrics" orientation="landscapeRight"/>
+            <simulatedScreenMetrics key="simulatedDestinationMetrics" type="iPad"/>
+            <point key="canvasLocation" x="301" y="306"/>
+        </view>
+    </objects>
+    <resources>
+        <image name="calendar-view-icon.png" width="18" height="20"/>
+        <image name="checkbox1_checked.png" width="15" height="15"/>
+        <image name="dropdown-arrow.png" width="8" height="6"/>
+        <image name="input-box-half.png" width="161" height="33"/>
+        <image name="input-box.png" width="386" height="33"/>
+        <image name="main-bg.jpg" width="1024" height="768"/>
+    </resources>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>
