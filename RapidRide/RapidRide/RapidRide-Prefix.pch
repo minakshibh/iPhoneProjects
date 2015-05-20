@@ -1,0 +1,20 @@
+//
+//  Prefix header
+//
+//  The contents of this file are implicitly included at the beginning of every source file.
+//
+
+#import <Availability.h>
+
+#ifndef __IPHONE_3_0
+#warning "This project uses features only available in iOS SDK 3.0 and later."
+#endif
+
+#ifdef __OBJC__
+    #import <UIKit/UIKit.h>
+    #import <Foundation/Foundation.h>
+#endif
+#define Kwebservices @"http://mapp.riderapid.com/UserRegisteration.asmx"
+#define KgoogleMapApiKey @"AIzaSyAyncD545s2oy_EYfjlB4Re_5_YI69C0Bg"
+
+//#define Kwebservices @"http://112.196.24.205:1011/UserRegisteration.asmx"
