@@ -1,10 +1,3 @@
-//
-//  menuStateViewController.h
-//  Nini Events
-//
-//  Created by Krishna_Mac_1 on 2/16/15.
-//  Copyright (c) 2015 Krishna_Mac_1. All rights reserved.
-//
 
 #import <UIKit/UIKit.h>
 #import "FMDatabase.h"
@@ -18,6 +11,24 @@
     int bulbFlag, webServiceCode;
      NSMutableData *webData;
     NSTimer *hideTimer;
+    
+    IBOutlet UIToolbar *toolBar;
+    
+    IBOutlet UIButton *btnmenufooter;
+    IBOutlet UIButton *btnpingfooter;
+    IBOutlet UIButton *btnlogofooter;
+    IBOutlet UIButton *btnslideshowfooter;
+    IBOutlet UIButton *btneventdetailfooter;
+    IBOutlet UIButton *btnmenu1footer;
+    IBOutlet UIButton *btnVieworderfooter;
+    
+    IBOutlet UIView *viewmenufooter;
+    IBOutlet UIView *viewpingfooter;
+    IBOutlet UIView *viewlogofooter;
+    IBOutlet UIView *viewslideshowfooter;
+    IBOutlet UIView *vieweventdetailfooter;
+    IBOutlet UIView *viewmenu1footer;
+    IBOutlet UIView *viewvieworderfooter;
 }
 @property (strong, nonatomic) IBOutlet UIScrollView *scrollerimage;
 @property (strong, nonatomic) IBOutlet UIView *startUpPopUp;
@@ -37,6 +48,8 @@
 - (IBAction)viewOrderNtnAction:(id)sender;
 - (IBAction)eventDetailsAction:(id)sender;
 - (IBAction)ophemyAction:(id)sender;
+- (IBAction)Slideshow:(id)sender;
+
 @property (strong, nonatomic) IBOutlet UILabel *batchLbl;
 @property (strong, nonatomic) IBOutlet UIView *sideMenuWithoutReqAssistance;
 @property (strong, nonatomic) IBOutlet UIView *footerWithoutEventsDetail;

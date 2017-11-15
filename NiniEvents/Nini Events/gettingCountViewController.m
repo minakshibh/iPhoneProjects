@@ -1,10 +1,3 @@
-//
-//  gettingCountViewController.m
-//  Nini Events
-//
-//  Created by Krishna_Mac_1 on 3/10/15.
-//  Copyright (c) 2015 Krishna_Mac_1. All rights reserved.
-//
 
 #import "gettingCountViewController.h"
 #import "JSON.h"
@@ -28,19 +21,29 @@
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     self.tablesAllotedArray = [[NSMutableArray alloc]initWithObjects:[defaults valueForKey:@"Alloted Tables"], nil];
-    NSMutableArray *tempArray = [self.tablesAllotedArray objectAtIndex:0];
-    NSLog(@"Tables... %@",tempArray);
     tableAllotedIdsArray = [[NSMutableArray alloc] init];
     assignedTablesArray = [[NSMutableArray alloc] init];
-    tableNameArray = [[NSMutableArray alloc] init];
-    for (int i =0 ; i <[tempArray count] ; i++) {
+    for (int i =0 ; i <[self.tablesAllotedArray count] ; i++) {
         tableAllotedObj = [[tableAllotedOC alloc]init];
-        tableAllotedObj.tableId = [[[tempArray valueForKey:@"id"] objectAtIndex:i] intValue];
-        tableAllotedObj.tableName = [[tempArray valueForKey:@"name"] objectAtIndex:i];
-        tableAllotedObj.tableType = [[tempArray valueForKey:@"type"] objectAtIndex:i];
+        NSString *tableIdStr = [NSString stringWithFormat:@"%@",[[self.tablesAllotedArray valueForKey:@"id"] objectAtIndex:i]];
+        tableIdStr = [tableIdStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+        tableIdStr = [tableIdStr stringByReplacingOccurrencesOfString:@"(" withString:@""];
+        tableIdStr = [tableIdStr stringByReplacingOccurrencesOfString:@")" withString:@""];
+        tableIdStr = [tableIdStr stringByReplacingOccurrencesOfString:@" " withString:@""];
+        tableIdStr = [tableIdStr stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+        NSLog(@"Table ID %@",tableIdStr);
+        tableAllotedObj.tableId = [tableIdStr intValue];
+        NSLog(@"Table ID %d",tableAllotedObj.tableId);
+        NSString *tableNameStr = [NSString stringWithFormat:@"%@",[[self.tablesAllotedArray valueForKey:@"name"] objectAtIndex:i]];
+        
+        tableNameStr = [tableNameStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+        tableNameStr = [tableNameStr stringByReplacingOccurrencesOfString:@" " withString:@""];
+        tableNameStr = [tableNameStr stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+        NSLog(@"Table ID %@",tableIdStr);
+        NSLog(@"Table Name %@",tableNameStr);
+        tableAllotedObj.tableName = [NSString stringWithFormat:@"%@",tableNameStr];
         [tableAllotedIdsArray addObject:tableAllotedObj];
         [assignedTablesArray addObject:[NSString stringWithFormat:@"%d",tableAllotedObj.tableId]];
-        [tableNameArray addObject:[NSString stringWithFormat:@"%@",tableAllotedObj.tableName]];
     }
     NSString *assignedTables = [NSString stringWithFormat:@"%@",assignedTablesArray];
    
@@ -62,7 +65,7 @@
         timeStampKey = [NSString stringWithFormat:@"%@_pingTimeStamp",[assignedTablesArray objectAtIndex:i]];
         timeStamp = [NSString stringWithFormat:@"%@",[defaults objectForKey:timeStampKey]];
         if ([timeStamp isEqualToString:@"(null)"]) {
-            timeStamp = [NSString stringWithFormat:@"-1"];
+            timeStamp = [NSString stringWithFormat:@""];
         }
         [assignedTableTimestampsArray addObject:timeStamp];
     }

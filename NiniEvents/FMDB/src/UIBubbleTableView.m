@@ -1,12 +1,3 @@
-//
-//  UIBubbleTableView.m
-//
-//  Created by Alex Barinov
-//  Project home page: http://alexbarinov.github.com/UIBubbleTableView/
-//
-//  This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported License.
-//  To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/
-//
 
 #import "UIBubbleTableView.h"
 #import "NSBubbleData.h"
@@ -169,7 +160,7 @@
     return [[self.bubbleSection objectAtIndex:section] count] + 1;
 }
 
-- (float)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
+- (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath
 {
     // Now typing
     if (indexPath.section >= [self.bubbleSection count])
@@ -230,9 +221,20 @@
     
     cell = [[UIBubbleTableViewCell alloc] init];
     if ([data.isCorner isEqualToString:@"Table"]) {
-        label = [[UILabel alloc] initWithFrame:CGRectMake(cell.frame.size.width/2 + 170, -10, cell.frame.size.width, 50)];
+        if (IS_IPAD_Pro) {
+            label = [[UILabel alloc] initWithFrame:CGRectMake(cell.frame.size.width/2 + 370, -20, cell.frame.size.width, 50)];
+        }else{
+        label = [[UILabel alloc] initWithFrame:CGRectMake(cell.frame.size.width/2 + 170, -20, cell.frame.size.width, 50)];
+        }
+
     }else{
-        label = [[UILabel alloc] initWithFrame:CGRectMake(cell.frame.size.width/2+30 , -10, cell.frame.size.width, 50)];
+        if (IS_IPAD_Pro) {
+             label = [[UILabel alloc] initWithFrame:CGRectMake(cell.frame.size.width/2+150 , -20, cell.frame.size.width, 50)];
+        }else{
+             label = [[UILabel alloc] initWithFrame:CGRectMake(cell.frame.size.width/2+30 , -20, cell.frame.size.width, 50)];
+        }
+       
+
     }
     
     
@@ -240,26 +242,29 @@
     cell.showAvatar = self.showAvatars;
     
     CGFloat width = data.view.frame.size.width;
-    CGFloat height = data.view.frame.size.height;
-    
+    CGFloat height = 22;
+    CGFloat y = data.view.frame.size.height-5;
+
     NSBubbleType type = data.type;
     
     CGFloat x = (type == BubbleTypeSomeoneElse) ? 0 : self.frame.size.width - width - data.insets.left - data.insets.right;
     NSLog(@"%f",x);
     NSLog(@"%f",width);
     NSLog(@"%f",height);
-     dateLbl=[[UILabel alloc]initWithFrame:CGRectMake(10,0, cell.frame.size.height-27,10)];
+    
+    dateLbl=[[UILabel alloc]initWithFrame:CGRectMake(10,0, cell.frame.size.height-27,12)];
+    
     
     nameLbl=[[UILabel alloc]init];
     
-    if (type == BubbleTypeSomeoneElse){
-        
-        dateLbl.frame=CGRectMake(70, height, cell.frame.size.width, 20);
+    if (type == BubbleTypeSomeoneElse)
+    {
+        dateLbl.frame=CGRectMake(70, y, cell.frame.size.width, height);
         dateLbl.textAlignment=NSTextAlignmentLeft;
-        
+
     }else{
         
-        dateLbl.frame=CGRectMake(x+65,height, width, 20);
+        dateLbl.frame=CGRectMake(width,y, width, height);
         dateLbl.textAlignment=NSTextAlignmentRight;
     }
     
@@ -276,43 +281,29 @@
     if (data.dateStr.length <= dateLbl.frame.size.width) {
         if (type == BubbleTypeSomeoneElse){
             
-            dateLbl.frame=CGRectMake(70, height+23, width+8, 20);
+            dateLbl.frame=CGRectMake(70, y+23, width+8, height);
             dateLbl.textAlignment=NSTextAlignmentLeft;
             
         }else{
             
-            dateLbl.frame=CGRectMake(x-45,height+23, width+8, 20);
+            dateLbl.frame=CGRectMake(x-50,y+23, width, height);
             dateLbl.textAlignment=NSTextAlignmentRight;
         }
         
     }
-    if ( height >=25) {
+    if ( y >=25) {
         if (type == BubbleTypeSomeoneElse){
             
-            dateLbl.frame=CGRectMake(70, height-1, width+78, 20);
+            dateLbl.frame=CGRectMake(70, y-1, width+78, height);
             dateLbl.textAlignment=NSTextAlignmentLeft;
             
         }else{
             
-            dateLbl.frame=CGRectMake(x-45,height-1, width+8, 20);
+            dateLbl.frame=CGRectMake(x-50,y-1, width, height);
             dateLbl.textAlignment=NSTextAlignmentRight;
         }
     }
-//    if ( data.namestr.length < 12) {
-//        if (type == BubbleTypeSomeoneElse){
-//            
-//            dateLbl.frame=CGRectMake(x, height+12, width+20, 20);
-//            dateLbl.textAlignment=NSTextAlignmentRight;
-//            
-//        }else{
-//            
-//            dateLbl.frame=CGRectMake(x-50,height+12, width+30, 20);
-//            dateLbl.textAlignment=NSTextAlignmentLeft;
-//        }
-//    }
 
-    
-    
     NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
     
     [formatter setDateFormat:@"dd-MM-yyyy"];
@@ -320,7 +311,7 @@
     NSArray *dateArray = [dateStr componentsSeparatedByString:@" "];
     dateStr = [dateArray objectAtIndex:0];
     NSString *timeStr = [NSString stringWithFormat:@"%@ %@",[dateArray objectAtIndex:1],[dateArray objectAtIndex:2]];
-    //cell.selectionStyle = UITableViewCellSelectionStyleNone;
+    
     if ([data.dateChangeStr isEqualToString:@"YES"]) {
     label.text = dateStr;
     label.font = [UIFont boldSystemFontOfSize:12];
@@ -338,6 +329,7 @@
     [dateLbl setFont:[UIFont fontWithName:@"Helvetica Neue" size:10]];
     
     [cell addSubview:dateLbl];
+    cell.clipsToBounds = YES;                                           
     return cell;
 }
 

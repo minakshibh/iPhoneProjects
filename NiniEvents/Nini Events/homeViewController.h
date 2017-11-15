@@ -1,10 +1,3 @@
-//
-//  homeViewController.h
-//  Nini Events
-//
-//  Created by Krishna_Mac_1 on 11/17/14.
-//  Copyright (c) 2014 Krishna_Mac_1. All rights reserved.
-//
 
 #import <UIKit/UIKit.h>
 #import "FMDatabase.h"
@@ -14,25 +7,24 @@
 #import "pendingOrdersOC.h"
 #import "menuOC.h"
 #import "menuItemsOC.h"
-#import "CustomIOS7AlertView.h"
 #import "UIBubbleTableViewDataSource.h"
 #import "chatOC.h"
 #import "fetchChatOC.h"
 #import "UIView+Animation.h"
 #import "AsyncImageView.h"
-@interface homeViewController : UIViewController<UIScrollViewDelegate,UIPickerViewDataSource, UIPickerViewDelegate, UIAlertViewDelegate,CustomIOS7AlertViewDelegate,UIBubbleTableViewDataSource, UITextViewDelegate>
+@interface homeViewController : UIViewController<UIScrollViewDelegate,UIPickerViewDataSource, UIPickerViewDelegate, UIAlertViewDelegate,UIBubbleTableViewDataSource, UITextViewDelegate>
 {
     UITapGestureRecognizer *imageTapRecognizer;
     NSTimer *myTimer;
     NSTimer *hideTimer;
-    CustomIOS7AlertView *alertViewCustom ;
     chatOC *chatObj;
     fetchChatOC *fetchChatObj;
     UITapGestureRecognizer *letterTapRecognizer;
     NSMutableArray *menuDisplayItemsArray,*menuItemsArray,*arrayForBool,*content,* menuCategoryArray, * menuListArray,*menuCategoryId, *menuCategoryType, *indexArray,*drinkMenuItems, *menuItemsDetailsArray, *fetchedChatData;
     NSMutableArray *itemList,*itemsIDArray, *itemsNameArray,*cuisineArray,*typeIDArray,*quantityArray, *itemsImageArray, *itemPriceArray,*processingOrderList;
-    NSMutableArray *orderList,* placeOrderList, * placeOrderPriceCount,* placeOrderItemName,* pendingOrderListArray,*quantityCounts;
+    NSMutableArray *orderList,* placeOrderList, * placeOrderPriceCount,* placeOrderItemName,* pendingOrderListArray,*quantityCounts,*drinksCategoryIds;
     NSMutableArray *pendingOrderItemNameArray,*pendingOrderItemPriceArray,*pendingOrderItemQuantityArray,*pendingOrderTimeOfDeliveryArray,* chatArray, *allChatMessages;
+    IBOutlet UILabel *priceTagLbl;
     NSMutableDictionary *menuContentDict,*menuItemContentDict;
     NSArray *categoryFirst,* categorySecond;
     NSMutableData *webData;
@@ -44,7 +36,7 @@
     menuItemsOC *menuItemsObj;
     menuOC *menuObj;
     NSIndexPath *menuIndex, *menuItemIndex, *orderIndex, *pendingOrderIndex, *quantityIndex;
-    AsyncImageView *itemImagePage;
+    UIImageView *itemImagePage;
     int webServiceCode, itemID, flag, zeroIndex, maximumQty, chatUsed;
     NSString *categoryID,*timeStampKey,* menuTimeStampKey, *processingOrderID;
     UILabel *subItemsLbl,*itemName, * orderItemsName,* orderItemQuantity, *priceLabel, *placedorderName,* placeOrderquantity, *placedOrderPrice, *pendingOrderIDLbl, * pendingOrderStatusLbl, *pendingorderName,* pendingOrderquantity, *pendingOrderPrice, *pendingOrderTime, *menuItems,*menuHeaders;
@@ -77,6 +69,27 @@
     int bulbFlag;
     UILabel *itemNameToDisplay;
     BOOL drinksButtonTapped;
+    
+    IBOutlet UIToolbar *toolBar;
+    
+    IBOutlet UIButton *btnmenufooter;
+    IBOutlet UIButton *btnpingfooter;
+    
+    IBOutlet UIButton *btnlogofooter;
+    
+    IBOutlet UIButton *btnslideshowfooter;
+    IBOutlet UIButton *btneventdetailfooter;
+    IBOutlet UIButton *btnmenu1footer;
+    IBOutlet UIButton *btnVieworderfooter;
+    IBOutlet UIView *viewmenufooter;
+    IBOutlet UIView *viewpingfooter;
+    IBOutlet UIView *viewlogofooter;
+    IBOutlet UIView *viewslideshowfooter;
+    IBOutlet UIView *vieweventdetailfooter;
+    IBOutlet UIView *viewmenu1footer;
+    IBOutlet UIView *viewvieworderfooter;
+    IBOutlet UILabel *lbleventStatus;
+
 }
 @property (weak, nonatomic) IBOutlet UIImageView *disabledImgView;
 @property (weak, nonatomic) IBOutlet UIButton *selectQuantityBtn;
@@ -153,6 +166,10 @@
 @property (strong, nonatomic) IBOutlet UIButton *backBtn;
 @property (strong, nonatomic) IBOutlet UILabel *headerTitleLbl;
 @property (strong, nonatomic) IBOutlet UIButton *viewOrder;
+@property (strong, nonatomic) IBOutlet UIImageView *imagepingmessage;
+@property (strong, nonatomic) IBOutlet UIView *viewPOPplaceOrder;
+
+
 - (IBAction)dismissBack:(id)sender;
 - (IBAction)viewOrderBtn:(id)sender;
 - (IBAction)addToOrder:(id)sender;
@@ -199,7 +216,9 @@
 @property (strong, nonatomic) IBOutlet UIImageView *assisstanceNotificationBadgeImg;
 @property (strong, nonatomic) IBOutlet UILabel *assisstanceNotificationBadgeLbl;
 @property (strong, nonatomic) IBOutlet UIView *exitPopUpView;
+@property (strong, nonatomic) NSString *itemNameStr;
 - (IBAction)exitYesAction:(id)sender;
 - (IBAction)exitNoAction:(id)sender;
+- (IBAction)Slideshow:(id)sender;
 
 @end

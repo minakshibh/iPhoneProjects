@@ -1,10 +1,3 @@
-//
-//  OrderListDetailViewController.m
-//  Nini Events
-//
-//  Created by Br@R on 09/02/15.
-//  Copyright (c) 2015 Krishna_Mac_1. All rights reserved.
-//
 
 #import "OrderListDetailViewController.h"
 #import "OrderListTableViewCell.h"
@@ -12,6 +5,8 @@
 #import "SBJson.h"
 #import "ASIHTTPRequest.h"
 #import "OrdersListViewController.h"
+#import "AppDelegate.h"
+
 @interface OrderListDetailViewController ()
 
 @end
@@ -30,16 +25,36 @@
     else{
         markDelivrdBtn.hidden=NO;
     }
+    AppDelegate*appdelegate=[[UIApplication sharedApplication]delegate];
+
+    NSString *freeTag = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"Is Paid"]];
+    if ([freeTag isEqualToString:@"1"]) {
+        currencySymbolLbl.hidden = YES;
+        self.totalPriceLbl.hidden = YES;
+        totalLbl.hidden = YES;
+    }else{
+        currencySymbolLbl.hidden = NO;
+        self.totalPriceLbl.hidden = NO;
+        totalLbl.hidden = NO;
+        currencySymbolLbl.text=[[NSUserDefaults standardUserDefaults] valueForKey:@"Currency Value"];
+        float totalBill=[[NSString stringWithFormat:@"%@",pendingOrderObj.TotalBill ]floatValue];
+        self.totalPriceLbl.text=[NSString stringWithFormat: @"%.2f",totalBill];
+    }
+    
+    
     self.headrLbl.text=[NSString stringWithFormat:@"ORDER NUMBER: %@", pendingOrderObj.OrderId ];
-    float totalBill=[[NSString stringWithFormat:@"%@",pendingOrderObj.TotalBill ]floatValue];
-    self.totalPriceLbl.text=[NSString stringWithFormat: @"%.2f",totalBill];
+    
     NSLog(@"NOTES...... %@",pendingOrderObj.note);
     self.notesTextView.text = [NSString stringWithFormat:@"%@",pendingOrderObj.note];
     orderListArray=[[NSMutableArray alloc]init];
     orderListArray=[pendingOrderObj.pendingOrderDetails mutableCopy];
     activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     
-    activityIndicator.center = CGPointMake(512, 374);
+    if (IS_IPAD_Pro) {
+        activityIndicator.center = CGPointMake(1366/2, 1028/2);
+    }else{
+        activityIndicator.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2);
+    }
     
     activityIndicator.color=[UIColor whiteColor];
     
@@ -66,7 +81,8 @@
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 110;
+//    return 112;
+    return 100;
 }
 
 // Customize the appearance of table view cells.

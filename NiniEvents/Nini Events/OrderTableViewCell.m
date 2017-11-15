@@ -1,14 +1,7 @@
-//
-//  OrderTableViewCell.m
-//  Nini Events
-//
-//  Created by Br@R on 29/01/15.
-//  Copyright (c) 2015 Krishna_Mac_1. All rights reserved.
-//
 
 #import "OrderTableViewCell.h"
 #import "UIImageView+WebCache.h"
-
+#import "AppDelegate.h"
 
 @implementation OrderTableViewCell
 
@@ -21,12 +14,25 @@
     
     // Configure the view for the selected state
 }
--(void)setLabelText:(NSString*)orderName :(int)quantity :(NSString*)price :(UIImage*)imageUrl{
-    
+-(void)setLabelText:(NSString*)orderName :(int)quantity :(NSString*)price :(NSString*)imageName{
+   
+
     name.text = [[NSString stringWithFormat:@"%@",orderName]uppercaseString];
-    priceLbl.text = [NSString stringWithFormat:@"$%.2f",[price floatValue]];
+    NSString *freeTag = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"Is Paid"]];
+    if ([freeTag isEqualToString:@"1"]) {
+        priceLbl.hidden = YES;
+    }else{
+        priceLbl.hidden = NO;
+         priceLbl.text = [NSString stringWithFormat:@"%@ %.2f",[[NSUserDefaults standardUserDefaults] valueForKey:@"Currency Value"],[price floatValue]];
+    }
+   
     quantityLbl.text = [NSString stringWithFormat:@"%d",quantity];
-    [productImageView setImage:imageUrl];
+   // NSData* data = [[NSData alloc] initWithBase64EncodedString:imageUrl options:0];
+    // UIImage* img1 = [UIImage imageWithData:data];
+    productImageView.image = [UIImage imageNamed:imageName];
+    
+
+   // [productImageView setImage:imageUrl];
     
 }
 

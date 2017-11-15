@@ -1,10 +1,3 @@
-//
-//  homeViewController.m
-//  Nini Events
-//
-//  Created by Krishna_Mac_1 on 11/17/14.
-//  Copyright (c) 2014 Krishna_Mac_1. All rights reserved.
-//
 
 #import "homeViewController.h"
 #import "JSON.h"
@@ -28,13 +21,30 @@ static int curveValues[] = {
     UIViewAnimationOptionCurveEaseOut,
     UIViewAnimationOptionCurveLinear };
 @interface homeViewController ()
-
+@property (strong, nonatomic) IBOutlet UIImageView *bottomMenuImg;
+@property (strong, nonatomic) IBOutlet UIView *bottomMenuView;
+@property (strong, nonatomic) IBOutlet UIView *ophemyLogoView;
+@property (strong, nonatomic) IBOutlet UIButton *slideMenuBtn;
+@property (strong, nonatomic) IBOutlet UIButton *pingBtn;
 @end
 
 @implementation homeViewController
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    [self createMenu];
+    
+    [self.view addSubview:self.sideScroller];
+    NSArray *ver = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
+    if ([[ver objectAtIndex:0] intValue] >= 7) {
+        // iOS 7.0 or later
+        toolBar.barTintColor = [UIColor colorWithRed:178/255.0f green:38/255.0f blue:12/255.0f alpha:1.0f];
+        toolBar.translucent = NO;
+    }else {
+        // iOS 6.1 or earlier
+        toolBar.tintColor = [UIColor colorWithRed:178/255.0f green:38/255.0f blue:12/255.0f alpha:1.0f];
+    }
+
     if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"bulb"] isEqualToString:@"ON"]) {
         
         [self.pingBulbImg setImage:[UIImage imageNamed:@"bulb-select.png"]];
@@ -83,11 +93,8 @@ static int curveValues[] = {
         self.otheMenuBatchImg.hidden = YES;
     }
     
-
-    NSString *eventStatus = [NSString stringWithFormat:@"%@",[defaults valueForKey:@"Event Status"]];
     NSString *eventChatSupport = [NSString stringWithFormat:@"%@",[defaults valueForKey:@"Event Chat Support"]];
-    
-    if ([eventChatSupport isEqualToString:@"true"]) {
+    if ([eventChatSupport isEqualToString:@"False"]) {
         [self.sideMenuWithoutReqAssistance setFrame:CGRectMake(-269, 19, self.sideMenuWithoutReqAssistance.frame.size.width, self.sideMenuWithoutReqAssistance.frame.size.height)];
         [self.sideScroller addSubview:self.sideMenuWithoutReqAssistance];
         
@@ -95,13 +102,6 @@ static int curveValues[] = {
         [self.sideMenuWithoutReqAssistance removeFromSuperview];
         
     }
-    if ([eventStatus isEqualToString:@"0"]) {
-        [self.footerWithoutEventsDetail setFrame:CGRectMake(0, 704, self.footerWithoutEventsDetail.frame.size.width, self.footerWithoutEventsDetail.frame.size.height)];
-        [self.sideScroller addSubview:self.footerWithoutEventsDetail];
-    }else{
-        [self.footerWithoutEventsDetail removeFromSuperview];
-    }
-
     
     NSLog(@"Image Tag Value..... %d",self.itemTag);
     NSLog(@"Menu Tag Value..... %d",self.menuTagValue);
@@ -153,7 +153,11 @@ static int curveValues[] = {
     appdelegate.navigator.navigationBarHidden = YES;
     activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
     chatUsed = 1;
-    activityIndicator.center = CGPointMake(512, 374);
+    if (IS_IPAD_Pro) {
+        activityIndicator.center = CGPointMake(1366/2, 1028/2);
+    }else{
+        activityIndicator.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2);
+    }
     self.chatView.hidden=YES;
     
     activityIndicator.color=[UIColor whiteColor];
@@ -173,7 +177,7 @@ static int curveValues[] = {
     for (int i = 0; i < [menuItemsArray count]-2; i++) {
         [self fetchDataDB:[menuItemsArray objectAtIndex:i]];
     }
-    [self fetchMenuItemsDB:[NSString stringWithFormat:@"1"]];
+    //[self fetchMenuItemsDB:[NSString stringWithFormat:@"1"]];
     
     if (!arrayForBool) {
         arrayForBool=[[NSMutableArray alloc] init];
@@ -190,46 +194,10 @@ static int curveValues[] = {
     
     [self.menuTableView reloadData];
     [self orderlist];
-    [self FetchPendingPlacedOrder:[NSString stringWithFormat:@"Open"]];
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillShow:) name:UIKeyboardDidShowNotification object:nil];
     
     [[NSNotificationCenter defaultCenter] addObserver:self selector:@selector(keyboardWillHide:) name:UIKeyboardWillHideNotification object:nil];
     
-    // Do any additional setup after loading the view from its nib.
-    
-    //~~~~~~~~~~~~~~~~~ 2nd Xib~~~~~~~~~~~~~~~//
-    //    self.menuBgView.layer.borderColor = [UIColor grayColor].CGColor;
-    //    self.menuBgView.layer.borderWidth = 1.5;
-    //    self.menuBgView.layer.cornerRadius = 0.0;
-    //
-    //    [self.view setUserInteractionEnabled:YES];
-    //    for (int i = 0; i < [menuDisplayItemsArray count]; i++) {
-    //        UIButton *menuItemBtn;
-    //        if (i == 2) {
-    //            menuItemBtn = [[UIButton alloc] initWithFrame:CGRectMake(i *85 +105, 5,135, 40)];
-    //        }else if (i == 3){
-    //            menuItemBtn = [[UIButton alloc] initWithFrame:CGRectMake(i *85 +105, 5, 85, 40)];
-    //        }
-    //        else{
-    //            menuItemBtn = [[UIButton alloc] initWithFrame:CGRectMake(i *85 +105, 5, 85, 40)];
-    //        }
-    //        menuItemBtn.tag = i;
-    //        [menuItemBtn setTitle:[NSString stringWithFormat:@"%@",[menuDisplayItemsArray objectAtIndex:i]] forState:UIControlStateNormal];
-    //
-    //        [menuItemBtn setTitleColor:[UIColor colorWithRed:12/255.0f green:99/255.0f blue:158/255.0f alpha:1] forState:UIControlStateNormal] ;
-    //        [menuItemBtn setUserInteractionEnabled:YES];
-    //        menuItemBtn.titleLabel.font =[UIFont fontWithName:@"Helvetica Neue" size:14];
-    //
-    //        if(i != 3){
-    //        UILabel *menuItemSeperator = [[UILabel alloc] initWithFrame:CGRectMake(menuItemBtn.frame.origin.x+menuItemBtn.frame.size.width,0, 1, self.menuBgView.frame.size.height)];
-    //        [menuItemSeperator setBackgroundColor:[UIColor grayColor]];
-    //        [self.menuBgView addSubview:menuItemSeperator];
-    //        }
-    //        [menuItemBtn addTarget:self action:@selector(openSubMenu:) forControlEvents:UIControlEventTouchUpInside];
-    //        [self.menuBgView addSubview:menuItemBtn];
-    //        [self.view bringSubviewToFront:menuItemBtn];
-    //        [self.menuBgView bringSubviewToFront:menuItemBtn];
-    //   }
     submenuTagValue = 1;
     UIControl* sender;
     
@@ -249,7 +217,16 @@ static int curveValues[] = {
     }
     UIButton *check = (UIButton*)[sender viewWithTag:sender.tag];
     NSLog(@"BUTTON TITLE...... %@",check.titleLabel.text);
-    mainItemName = [NSString stringWithFormat:@"%@",check.titleLabel.text ];
+    if (sender == nil) {
+        if (self.menuTagValue == 1) {
+            mainItemName = [NSString stringWithFormat:@"FOOD"];
+        }else{
+            mainItemName = [NSString stringWithFormat:@"DRINKS"];
+        }
+    }else{
+        mainItemName = [NSString stringWithFormat:@"%@",check.titleLabel.text ];
+    }
+    
     if ([mainItemName isEqualToString:@"FOOD"]) {
         [self.foodBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         [self.drinksbtn setTitleColor:[UIColor colorWithRed:176/255.0f green:176/255.0f blue:176/255.0f alpha:1] forState:UIControlStateNormal];
@@ -289,12 +266,15 @@ static int curveValues[] = {
     menuCategoryArray = [[NSMutableArray alloc] init];
     drinkMenuItems = [[NSMutableArray alloc] init];
     menuCategoryId = [[NSMutableArray alloc]init];
+    drinksCategoryIds = [[NSMutableArray alloc] init];
     while([queryResults next]) {
         categoriesType = [queryResults stringForColumn:@"type"];
-        [menuCategoryId addObject:[queryResults stringForColumn:@"categoryID"]];
+        
         if ([categoriesType isEqualToString:@"Food"]) {
+            [menuCategoryId addObject:[queryResults stringForColumn:@"categoryID"]];
             [menuCategoryArray addObject:[queryResults stringForColumn:@"categoryName"]];
         }else{
+            [drinksCategoryIds addObject:[queryResults stringForColumn:@"categoryID"]];
             [drinkMenuItems addObject:[queryResults stringForColumn:@"categoryName"]];
         }
         
@@ -305,10 +285,16 @@ static int curveValues[] = {
     menuContentDict  = [[NSMutableDictionary alloc] init];
     
     categoryFirst     = [NSArray arrayWithArray:menuCategoryArray];
-    [menuContentDict setValue:categoryFirst forKey:[menuItemsArray objectAtIndex:0]];
+    if (menuItemsArray.count>0) {
+        [menuContentDict setValue:categoryFirst forKey:[menuItemsArray objectAtIndex:0]];
+    }
     
     categorySecond = [NSArray arrayWithArray:drinkMenuItems];
-    [menuContentDict setValue:categorySecond forKey:[menuItemsArray objectAtIndex:1]];
+     if (menuItemsArray.count>1)
+     {
+         [menuContentDict setValue:categorySecond forKey:[menuItemsArray objectAtIndex:1]];
+ 
+     }
     
     NSLog(@"SENDER TAG VALUE..... %ld",(long)sender1.tag);
     UIButton *check = (UIButton*)[sender1 viewWithTag:sender1.tag];
@@ -327,35 +313,86 @@ static int curveValues[] = {
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.menuTagValue-1 inSection:0];
     content = [[NSMutableArray alloc] init];
     content = [menuContentDict valueForKey:[menuItemsArray objectAtIndex:indexPath.row]];
+    if (self.menuTagValue == 1) {
     
-    for (int i = 0; i < [content count]; i++) {
-        UIButton *subMenuItemBtn;
+        for (int i = 0; i < [menuCategoryArray count]; i++) {
+            UIButton *subMenuItemBtn;
+            NSLog(@"Value of i ...... %d",i);
+            
+            if (IS_IPAD_Pro) {
+                subMenuItemBtn = [[UIButton alloc] initWithFrame:CGRectMake(i *1366/content.count+2,1,1366/content.count, 65)];
+            }else{
+                subMenuItemBtn = [[UIButton alloc] initWithFrame:CGRectMake(i *self.subMenuBgView.frame.size.width/content.count+2,1,self.subMenuBgView.frame.size.width/content.count, 45)];
+            }
+            
         
-        subMenuItemBtn = [[UIButton alloc] initWithFrame:CGRectMake(i *self.subMenuBgView.frame.size.width/content.count+2,1,self.subMenuBgView.frame.size.width/content.count, 45)];
-        if (self.menuTagValue == 2)  {
-            subMenuItemBtn.tag = i + [menuCategoryArray count];
-        }else if (self.menuTagValue == 1){
             subMenuItemBtn.tag = i;
+    
+            
+            [subMenuItemBtn setTitle:[[NSString stringWithFormat:@"%@",[content objectAtIndex:i]] uppercaseString] forState:UIControlStateNormal];
+            if (i == 0) {
+                [subMenuItemBtn setBackgroundColor:[UIColor colorWithRed:49/255.0f green:48/255.0f blue:45/255.0f alpha:1.0]];
+            }
+            
+            [subMenuItemBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal] ;
+            [subMenuItemBtn setUserInteractionEnabled:YES];
+            subMenuItemBtn.titleLabel.font =[UIFont fontWithName:@"Helvetica-Condensed" size:20];
+            
+            [subMenuItemBtn addTarget:self action:@selector(openSubMenuItems:) forControlEvents:UIControlEventTouchUpInside];
+            [self.subMenuBgView addSubview:subMenuItemBtn];
+            [self.view bringSubviewToFront:subMenuItemBtn];
+            [self.subMenuBgView bringSubviewToFront:subMenuItemBtn];
+    //        UILabel *vertLine = [[UILabel alloc] initWithFrame:CGRectMake(i*135+1,1,1, 45)];
+    //        [vertLine setBackgroundColor:[UIColor colorWithRed:86/255.0f green:86/255.0f blue:86/255.0f alpha:1]];
+    //        [self.subMenuBgView addSubview:vertLine];
         }
-        
-        [subMenuItemBtn setTitle:[[NSString stringWithFormat:@"%@",[content objectAtIndex:i]] uppercaseString] forState:UIControlStateNormal];
-        if (i == 0) {
-            [subMenuItemBtn setBackgroundColor:[UIColor colorWithRed:49/255.0f green:48/255.0f blue:45/255.0f alpha:1.0]];
+    }else if (self.menuTagValue == 2){
+        for (int j = 0; j < [drinkMenuItems count]; j++) {
+            UIButton *subMenuItemBtn;
+            NSLog(@"Value of i ...... %d",j);
+            if (IS_IPAD_Pro) {
+                subMenuItemBtn = [[UIButton alloc] initWithFrame:CGRectMake(j *1366/content.count+2,1,1366/content.count, 65)];
+            }else{
+                subMenuItemBtn = [[UIButton alloc] initWithFrame:CGRectMake(j *self.subMenuBgView.frame.size.width/content.count+2,1,self.subMenuBgView.frame.size.width/content.count, 45)];
+            }
+            
+            
+            subMenuItemBtn.tag = j;
+            
+            
+            [subMenuItemBtn setTitle:[[NSString stringWithFormat:@"%@",[content objectAtIndex:j]] uppercaseString] forState:UIControlStateNormal];
+            if (j == 0) {
+                [subMenuItemBtn setBackgroundColor:[UIColor colorWithRed:49/255.0f green:48/255.0f blue:45/255.0f alpha:1.0]];
+            }
+            
+            [subMenuItemBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal] ;
+            [subMenuItemBtn setUserInteractionEnabled:YES];
+            subMenuItemBtn.titleLabel.font =[UIFont fontWithName:@"Helvetica-Condensed" size:20];
+            
+            [subMenuItemBtn addTarget:self action:@selector(openSubMenuItems:) forControlEvents:UIControlEventTouchUpInside];
+            [self.subMenuBgView addSubview:subMenuItemBtn];
+            [self.view bringSubviewToFront:subMenuItemBtn];
+            [self.subMenuBgView bringSubviewToFront:subMenuItemBtn];
+            //        UILabel *vertLine = [[UILabel alloc] initWithFrame:CGRectMake(i*135+1,1,1, 45)];
+            //        [vertLine setBackgroundColor:[UIColor colorWithRed:86/255.0f green:86/255.0f blue:86/255.0f alpha:1]];
+            //        [self.subMenuBgView addSubview:vertLine];
         }
-        
-        [subMenuItemBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal] ;
-        [subMenuItemBtn setUserInteractionEnabled:YES];
-        subMenuItemBtn.titleLabel.font =[UIFont fontWithName:@"Helvetica-Condensed" size:20];
-        
-        [subMenuItemBtn addTarget:self action:@selector(openSubMenuItems:) forControlEvents:UIControlEventTouchUpInside];
-        [self.subMenuBgView addSubview:subMenuItemBtn];
-        [self.view bringSubviewToFront:subMenuItemBtn];
-        [self.subMenuBgView bringSubviewToFront:subMenuItemBtn];
-//        UILabel *vertLine = [[UILabel alloc] initWithFrame:CGRectMake(i*135+1,1,1, 45)];
-//        [vertLine setBackgroundColor:[UIColor colorWithRed:86/255.0f green:86/255.0f blue:86/255.0f alpha:1]];
-//        [self.subMenuBgView addSubview:vertLine];
     }
-   
+    if (sender1 == nil) {
+        NSInteger tag=0;
+        if (self.menuTagValue == 2){
+            NSInteger anIndex=[drinkMenuItems indexOfObject:self.itemNameStr];
+           tag = anIndex;
+        }else{
+            NSInteger anIndex=[menuCategoryArray indexOfObject:self.itemNameStr];
+            tag = anIndex;
+        }
+        NSLog(@"Tag Value.... %ld",(long)tag);
+        sender1.tag = tag;
+       NSLog(@"Sender Tag Value.... %ld",(long)sender1.tag);
+    }else{
+        sender1.tag = 0;
+    }
     [self openSubMenuItems:sender1];
     
 }
@@ -364,6 +401,7 @@ static int curveValues[] = {
 
 -(void)openSubMenuItems:(UIControl*)sender2
 {
+    self.itemTag = 0;
     if (sender2 != nil) {
         self.itemTag = sender2.tag;
         NSLog(@"Item Tag ..... %d",self.itemTag);
@@ -371,35 +409,64 @@ static int curveValues[] = {
     {
         [b removeFromSuperview];
     }
+    }else{
+        if (self.menuTagValue == 2) {
+        NSInteger anIndex=[drinkMenuItems indexOfObject:self.itemNameStr];
+        self.itemTag = anIndex;
+        }else{
+             NSInteger anIndex=[menuCategoryArray indexOfObject:self.itemNameStr];
+            self.itemTag = anIndex;
+        }
     }
     if (self.itemTag >= 0) {
         
         for (UIButton* button in self.subMenuBgView.subviews)
         {
-            NSLog(@"object class : %@", [button class]);
+            NSLog(@"Item Tag : %d", self.itemTag);
             NSLog(@"Button found!.... %ld",(long)button.tag);
-            if (self.menuTagValue != 2) {
                 if(self.itemTag != button.tag){
                     [button setBackgroundColor:[UIColor clearColor]];
                 }else{
                     [button setBackgroundColor:[UIColor colorWithRed:49/255.0f green:48/255.0f blue:45/255.0f alpha:1.0]];
                 }
-                
-                
-            }
+            
         }
     }
     
-    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:self.itemTag inSection:0];
+    NSIndexPath *indexPath = [NSIndexPath indexPathForRow:sender2.tag inSection:0];
     NSLog(@"INDEX PATH.... %ld",(long)indexPath.row);
     UIButton *check = (UIButton*)[sender2 viewWithTag:indexPath.row];
+    NSLog(@"Tag Value... %ld",(long)check.tag);
     NSLog(@"BUTTON TITLE...... %@",check.titleLabel.text);
-    [check setBackgroundColor:[UIColor colorWithRed:49/255.0f green:48/255.0f blue:45/255.0f alpha:1.0]];
+
+        [check setBackgroundColor:[UIColor colorWithRed:49/255.0f green:48/255.0f blue:45/255.0f alpha:1.0]];
+    
+    
+   
+    
     
     int menuId = 1;
-    
+    NSLog(@"Item Name.... %@",self.itemNameStr);
+    NSLog(@"Menu Item Name.... %@",menuCategoryArray);
+    NSLog(@"Menu Item Name.... %@",menuCategoryId);
     if (self.menuTagValue == 1) {
-        menuId =[[menuCategoryId objectAtIndex:indexPath.row] intValue];
+        if (sender2 == nil) {
+            NSInteger anIndex=[menuCategoryArray indexOfObject:self.itemNameStr];
+            if (menuCategoryId .count>anIndex)
+            {
+                menuId =[[menuCategoryId objectAtIndex:anIndex] intValue];
+            }
+            else{
+                return;
+            }
+
+        }else{
+            if (menuCategoryId .count>indexPath.row)
+            {
+                menuId =[[menuCategoryId objectAtIndex:indexPath.row] intValue];
+            }
+        }
+        
         
     }else if (self.menuTagValue == 2)
     {
@@ -407,19 +474,29 @@ static int curveValues[] = {
         
             NSLog(@"INDEX PATH.... %ld",(long)indexPath.row);
             
-            int indxPath=indexPath.row+ [menuCategoryArray count];
-            NSLog(@"index path.. %u",indexPath.row + [menuCategoryArray count]);
-        if ([drinkMenuItems count] != 0) {
-        
-            if (drinksButtonTapped == YES)
-            {
-                menuId =[[menuCategoryId objectAtIndex:indexPath.row + [menuCategoryArray count]-1] intValue];
-                
+            int indxPath=indexPath.row + [menuCategoryArray count];
+            NSLog(@"index path.. %lu",indexPath.row + [menuCategoryArray count]);
+        if (sender2 != nil) {
+            if (drinksCategoryIds .count>indexPath.row) {
+                menuId =[[drinksCategoryIds objectAtIndex:indexPath.row] intValue];
             }
             else{
-                menuId =[[menuCategoryId objectAtIndex:indexPath.row ] intValue];
+                return;
+            }
+        }else{
+           
+     NSInteger anIndex=[drinkMenuItems indexOfObject:self.itemNameStr];
+            if (drinksCategoryIds.count>anIndex) {
+                menuId =[[drinksCategoryIds objectAtIndex:anIndex] intValue];
+
+            }
+            else{
+                return;
             }
         }
+        
+            
+        
 //        }else{
 //            NSLog(@"INDEX PATH.... %ld",(long)indexPath.row);
 //            
@@ -451,7 +528,7 @@ static int curveValues[] = {
     FMResultSet *queryResults = [database executeQuery:queryString];
     while([queryResults next]) {
         NSString *categoryName = [queryResults stringForColumn:@"categoryName"];
-        headerTitleName = [[NSString stringWithString:categoryName]uppercaseString];
+//        headerTitleName = [[NSString stringWithString:categoryName]uppercaseString];
         self.itemTypeName.text = [[NSString stringWithString:categoryName] uppercaseString];
     }
     [database close];
@@ -467,9 +544,11 @@ static int curveValues[] = {
     [self.view bringSubviewToFront:self.scrollerimage];
     int count = [menuItemsDetailsArray count];
     if (count%2 != 0) {
-        count = count+ 1;
+        count = (count+ 1)/2;
+    }else{
+        count = count/2;
     }
-    self.scrollerimage.contentSize = CGSizeMake(150,count *  200);
+    self.scrollerimage.contentSize = CGSizeMake(150,(count *  350)+100);
     _scrollerimage.showsHorizontalScrollIndicator = NO;
     _scrollerimage.showsVerticalScrollIndicator = NO;
     
@@ -483,20 +562,26 @@ static int curveValues[] = {
         menuItemsObj = [menuItemsDetailsArray objectAtIndex:i];
         if (i %2 == 0 || i == 0) {
             UIImageView *page = [[UIImageView alloc] init];
-            NSData *data = [[NSData alloc] initWithData:[NSData
-                                                         dataFromBase64String:[NSString stringWithFormat:@"%@",menuItemsObj.Image]]];
             
-            UIImage *itemsImage = [UIImage imageWithData:data];
+            NSString *imageName = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@",menuItemsObj.Image]];
             
+            page.image = [UIImage imageNamed:imageName];
+            UILabel *pageName = [[UILabel alloc] init];
             
-            page.image = itemsImage;
-            page.frame = CGRectMake(0, y, 506, 350);
+            if (IS_IPAD_Pro) {
+                page.frame = CGRectMake(0, y, 679, 430);
+                pageName.frame = CGRectMake(0,380 ,679, 50);
+            }else{
+                page.frame = CGRectMake(0, y, 510, 350);
+                pageName.frame = CGRectMake(0,300 ,510, 50);
+            }
+            
             //page.contentMode = UIViewContentModeScaleAspectFill;
             page.tag = i;
             page.userInteractionEnabled = YES;
             page.multipleTouchEnabled = YES;
             [_scrollerimage addSubview:page];
-            UILabel *pageName = [[UILabel alloc] initWithFrame:CGRectMake(0,300 ,506, 50)];
+        
             NSString *pageNameString = [NSString stringWithFormat:@"%@",menuItemsObj.ItemName];
             pageNameString = [pageNameString uppercaseString];
             pageName.text = pageNameString;
@@ -509,21 +594,29 @@ static int curveValues[] = {
             
         }else{
             UIImageView *page = [[UIImageView alloc] init];
-            NSData *data = [[NSData alloc] initWithData:[NSData
-                                                         dataFromBase64String:[NSString stringWithFormat:@"%@",menuItemsObj.Image]]];
-            
-            UIImage *itemsImage = [UIImage imageWithData:data];
+
+
             
             
-            page.image = itemsImage;
-            page.frame = CGRectMake(508, y, 506, 350);
-            //page.contentMode = UIViewContentModeScaleAspectFill;
+            NSString *imageName = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@",menuItemsObj.Image]];
+            
+            page.image = [UIImage imageNamed:imageName];
+            UILabel *pageName = [[UILabel alloc] init];
+            if (IS_IPAD_Pro) {
+                page.frame = CGRectMake(681, y, 679, 430);
+                pageName.frame = CGRectMake(0,380 ,679, 50);
+                y=y+431;
+            }else{
+                page.frame = CGRectMake(511, y, 511, 350);
+                pageName.frame = CGRectMake(0,300 ,511, 50);
+                y=y+351;
+            }
+            
             page.tag = i;
             page.userInteractionEnabled = YES;
             page.multipleTouchEnabled = YES;
             [_scrollerimage addSubview:page];
-            y=y+353;
-            UILabel *pageName = [[UILabel alloc] initWithFrame:CGRectMake(0, 300, 506,50)];
+        
             NSString *pageNameString = [NSString stringWithFormat:@"%@",menuItemsObj.ItemName];
             pageNameString = [pageNameString uppercaseString];
             pageName.text = pageNameString;
@@ -540,20 +633,20 @@ static int curveValues[] = {
 }
 - (void)imageTapped:(UITapGestureRecognizer *)sender{
     [self.view sendSubviewToBack:self.mainMenuFooter];
-    
+   
     CGRect theFrame = self.itemView.frame;
-    theFrame.size.height = 769.0f;
+    theFrame.size.height = 748;
     theFrame.origin.x = 0.0f;
     theFrame.origin.y = 20.0f;
-    theFrame.size.width = 1024.0f;
+    theFrame.size.width = self.view.bounds.size.width;
     self.itemView.frame = theFrame;
-    
+     NSLog(@"Height = %f", theFrame.size.height);
     
     itemImagePage.hidden = NO;
     self.headerView.hidden = NO;
     self.footerView.hidden = NO;
     self.minimizeAnimatedView.hidden = YES;
-    [itemImagePage removeFromSuperview];
+    
     UIView *view = sender.view; //cast pointer to the derived class if needed
     NSLog(@"%ld", (long)view.tag);
     
@@ -567,50 +660,48 @@ static int curveValues[] = {
     self.itemView.hidden = NO;
     [self.itemView setBackgroundColor:[UIColor whiteColor]];
     [self.view bringSubviewToFront:self.itemView];
-    itemImagePage = [[AsyncImageView alloc] init];
-    NSData *data = [[NSData alloc] initWithData:[NSData
-                                                 dataFromBase64String:[NSString stringWithFormat:@"%@",menuItemsObj.Image]]];
+    [itemImagePage removeFromSuperview];
+    itemImagePage = [[UIImageView alloc]init];
+   
+    NSString *imageName = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@",menuItemsObj.Image]];
     
-    UIImage *itemsImage = [UIImage imageWithData:data];
-    itemImagePage.image = itemsImage;
-    itemImagePage.showActivityIndicator = YES;
-    itemImagePage.frame = CGRectMake(0,53,1024,640);
-//    itemImagePage.contentMode = UIViewContentModeScaleAspectFit;
+    itemImagePage.image = [UIImage imageNamed:imageName];
+    
+    
+    
+    if (IS_IPAD_Pro) {
+        itemImagePage.frame = CGRectMake(1,87,1363,830);
+    }else{
+        itemImagePage.frame = CGRectMake(1,65,1022,618);
+    }
+    
     itemImagePage.autoresizesSubviews = YES;
     
     [self.itemView addSubview:itemImagePage];
     
     
-    NSData *data1 = [[NSData alloc] initWithData:[NSData
-                                                  dataFromBase64String:[NSString stringWithFormat:@"%@",menuItemsObj.Image]]];
+    self.showMinimizeItemImage.image = [UIImage imageNamed:imageName];
+
+   if (IS_IPAD_Pro) {
+        [self.increaseBtn setFrame:CGRectMake(228, 18 , 50, 49.0)];
+        [self.decreaseBtn setFrame:CGRectMake(105, 18 , 50, 49.0)];
+    }else{
+    [self.increaseBtn setFrame:CGRectMake(171, 14 , 35, 35.0)];
+    [self.decreaseBtn setFrame:CGRectMake(81, 14 , 35, 35.0)];
+    }
+    [self.footerView addSubview:self.increaseBtn];
+    NSString *freeTag = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"Is Paid"]];
+    if ([freeTag isEqualToString:@"1"]) {
+        self.priceLbl.hidden = YES;
+        priceTagLbl.hidden = YES;
+    }else{
+        self.priceLbl.hidden = NO;
+        priceTagLbl.hidden = NO;
+        self.priceLbl.text = [NSString stringWithFormat:@"%@ %.2f",[[NSUserDefaults standardUserDefaults] valueForKey:@"Currency Value"],[menuItemsObj.Price floatValue]];
+    }
     
-    UIImage *itemsImage1 = [UIImage imageWithData:data1];
-    self.showMinimizeItemImage.image = itemsImage1;
-    
-    [itemNamebg removeFromSuperview];
-    [itemNameToDisplay  removeFromSuperview];
-    
-    
-    itemNamebg = [[UILabel alloc] initWithFrame:CGRectMake(0, 280, 480, 170)];
-    [itemNamebg setFont:[UIFont fontWithName:@"Helvetica-Condensed" size:30]];
-    
-    [itemNamebg setBackgroundColor:[UIColor whiteColor]];
-    
-    // itemNamebg.textColor = [UIColor whiteColor];
-    [itemNamebg setBackgroundColor:[UIColor colorWithRed:1/255.0f green:1/255.0f blue:1/255.0f alpha:0.5]];
-    [self.itemView addSubview:itemNamebg];
-    
-    itemNameToDisplay = [[UILabel alloc] initWithFrame:CGRectMake(20, 0, 450, 100)];
-    itemNameToDisplay.text =[[NSString stringWithFormat:@"%@", menuItemsObj.ItemName] uppercaseString];
-    [itemNameToDisplay setFont:[UIFont fontWithName:@"Helvetica-Condensed" size:42]];
-    itemNameToDisplay.textColor = [UIColor whiteColor];
-    itemNameToDisplay.numberOfLines = 3;
-    [itemNameToDisplay setBackgroundColor:[UIColor clearColor]];
-    [itemNamebg addSubview:itemNameToDisplay];
-    
-    self.priceLbl.text = [NSString stringWithFormat:@"$ %.2f",[menuItemsObj.Price floatValue]];
     self.quantityLbl.text = [NSString stringWithFormat:@"%d",menuItemsObj.Quantity];
-    self.headerTitleLbl.text = headerTitleName;
+    self.headerTitleLbl.text = [[NSString stringWithFormat:@"%@",menuItemsObj.ItemName]uppercaseString];
     [self changeQuantity:[[NSString stringWithFormat:@"%d",menuItemsObj.ItemId] intValue]];
     self.minimizeViewHeader.text = @"YOU JUST ADDED";
     self.minimizeItemName.text =[NSString stringWithFormat:@"%@", menuItemsObj.ItemName];
@@ -704,6 +795,21 @@ static int curveValues[] = {
     
 }
 - (void)viewWillAppear:(BOOL)animated {
+    
+    
+    NSLog(@"Scroller Height%f",self.sideScroller.frame.size.height);
+    NSLog(@"Image Scroller Height%f",self.scrollerimage.frame.size.height);
+    
+    CGRect sideScrollerFrame = self.sideScroller.frame;
+    sideScrollerFrame.size.height = 748;
+    self.sideScroller.frame = sideScrollerFrame;
+    
+    CGRect scrollerimageFrame = self.scrollerimage.frame;
+    scrollerimageFrame.size.height = 748;
+    self.scrollerimage.frame = scrollerimageFrame;
+    
+    [self.sideScroller setFrame:CGRectMake(self.sideScroller.frame.origin.x,0, self.sideScroller.frame.size.width, self.sideScroller.frame.size.height+20)];
+    [self.view sendSubviewToBack:self.sideScroller];
     [super viewWillAppear:animated];
     //initData
 }
@@ -886,10 +992,12 @@ static int curveValues[] = {
         [itemImage setClipsToBounds:YES];
         [cell.contentView addSubview:itemImage];
         
+        AppDelegate*appdelegate=[[UIApplication sharedApplication]delegate];
+
         cell.backgroundColor = [UIColor clearColor];
         menuItemsObj = [menuItemsDetailsArray objectAtIndex:indexPath.row];
         itemName.text = [NSString stringWithFormat:@"%@",menuItemsObj.ItemName];
-        priceLabel.text =[NSString stringWithFormat:@"$%@",menuItemsObj.Price];
+        priceLabel.text =[NSString stringWithFormat:@"%@ %@",[[[NSUserDefaults standardUserDefaults] valueForKey:@"Currency Value"] valueForKey:@"Currency Value"],menuItemsObj.Price];
         NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@",menuItemsObj.Image]];
         NSData *data = [NSData dataWithContentsOfURL:url];
         UIImage *img = [UIImage imageWithData:data];
@@ -961,10 +1069,12 @@ static int curveValues[] = {
         [cell.contentView addSubview:placedOrderPrice];
         
         cell.backgroundColor = [UIColor clearColor];
+        AppDelegate*appdelegate=[[UIApplication sharedApplication]delegate];
+
         placeOrderObj = [placeOrderList objectAtIndex:indexPath.row];
         placedorderName.text =[NSString stringWithFormat:@"%@",placeOrderObj.itemName];
         placeOrderquantity.text =[NSString stringWithFormat:@"Quantity: %d",placeOrderObj.Quantity];
-        placedOrderPrice.text = [NSString stringWithFormat:@"$%d",placeOrderObj.Price];
+        placedOrderPrice.text = [NSString stringWithFormat:@"%@ %d",[[NSUserDefaults standardUserDefaults] valueForKey:@"Currency Value"],placeOrderObj.Price];
     }
     
     else if (tableView == self.pendingOrdersTableView)
@@ -1189,7 +1299,8 @@ static int curveValues[] = {
         pendingOrderPrice.lineBreakMode = NSLineBreakByCharWrapping;
         pendingOrderPrice.numberOfLines = 2;
         [cell.contentView addSubview:pendingOrderPrice];
-        
+        AppDelegate*appdelegate=[[UIApplication sharedApplication]delegate];
+
         cell.backgroundColor = [UIColor clearColor];
         if (flag == 0) {
             
@@ -1197,14 +1308,15 @@ static int curveValues[] = {
             NSString *priceStr = [NSString stringWithFormat:@"%@",[pendingOrderItemPriceArray objectAtIndex:indexPath.row]];
             int p = [priceStr intValue];
             pendingOrderquantity.text =[NSString stringWithFormat:@"Quantity: %@",[pendingOrderItemQuantityArray objectAtIndex:indexPath.row]];
-            pendingOrderPrice.text = [NSString stringWithFormat:@"$ %d",p];
+
+            pendingOrderPrice.text = [NSString stringWithFormat:@"%@ %d",[[NSUserDefaults standardUserDefaults] valueForKey:@"Currency Value"],p];
         }else{
             
             pendingorderName.text =[NSString stringWithFormat:@"%@",[pendingOrderItemNameArray objectAtIndex:indexPath.row]];
             NSString *priceStr = [NSString stringWithFormat:@"%@",[pendingOrderItemPriceArray objectAtIndex:indexPath.row]];
             int p = [priceStr intValue];
             pendingOrderquantity.text =[NSString stringWithFormat:@"Quantity: %@",[pendingOrderItemQuantityArray objectAtIndex:indexPath.row]];
-            pendingOrderPrice.text = [NSString stringWithFormat:@"$ %d",p];
+            pendingOrderPrice.text = [NSString stringWithFormat:@"%@ %d",[[NSUserDefaults standardUserDefaults] valueForKey:@"Currency Value"],p];
         }
         
         
@@ -1361,9 +1473,11 @@ static int curveValues[] = {
             tempPrice= ([quantity intValue] * [price intValue])+tempPrice;
             
         }
+        AppDelegate*appdelegate=[[UIApplication sharedApplication]delegate];
+
         NSString *totalStr = [NSString stringWithFormat:@"%@",pendingOrderObj.TotalBill];
         int p = [totalStr intValue];
-        self.pendingOrderTotalLbl.text = [NSString stringWithFormat:@"$ %d",tempPrice];
+        self.pendingOrderTotalLbl.text = [NSString stringWithFormat:@"%@ %d",[[NSUserDefaults standardUserDefaults] valueForKey:@"Currency Value"],tempPrice];
         [self.pendingOrderTotalLbl setFont:[UIFont fontWithName:@"Poor Richard" size:18]];
         [self pendingOrderItems:indexPath.row];
         
@@ -1410,7 +1524,9 @@ static int curveValues[] = {
         }
         NSString *totalStr = [NSString stringWithFormat:@"%@",pendingOrderObj.TotalBill];
         int p = [totalStr intValue];
-        self.pendingOrderTotalLbl.text = [NSString stringWithFormat:@"$ %d",tempPrice];
+        AppDelegate*appdelegate=[[UIApplication sharedApplication]delegate];
+
+        self.pendingOrderTotalLbl.text = [NSString stringWithFormat:@"%@ %d",[[NSUserDefaults standardUserDefaults] valueForKey:@"Currency Value"],tempPrice];
         [self.pendingOrderTotalLbl setFont:[UIFont fontWithName:@"Poor Richard" size:18]];
         [self processingOrders:indexPath.row];
         
@@ -1584,29 +1700,6 @@ static int curveValues[] = {
 
 
 
-- (void)launchDialog
-{
-    // Here we need to pass a full frame
-    alertViewCustom = [[CustomIOS7AlertView alloc] init];
-    
-    // Add some custom content to the alert view
-    [alertViewCustom setContainerView:[self createDemoView]];
-    
-    // Modify the parameters
-    [alertViewCustom setButtonTitles:[NSMutableArray arrayWithObjects:@"DONE",nil]];
-    [alertViewCustom setDelegate:self];
-    
-    // You may use a Block, rather than a delegate.
-    [alertViewCustom setOnButtonTouchUpInside:^(CustomIOS7AlertView *alertView, int buttonIndex) {
-        NSLog(@"Block: Button at position %d is clicked on alertView %d.", buttonIndex, (int)[alertView tag]);
-        [alertViewCustom close];
-    }];
-    
-    [alertViewCustom setUseMotionEffects:true];
-    
-    // And launch the dialog
-    [alertViewCustom show];
-}
 
 
 - (UIView *)createDemoView
@@ -1615,19 +1708,6 @@ static int curveValues[] = {
     [demoView addSubview:self.quantityPopUp];
     return demoView;
 }
-
-
-
-
-
-- (void)customIOS7dialogButtonTouchUpInside: (CustomIOS7AlertView *)alertView clickedButtonAtIndex: (NSInteger)buttonIndex
-{
-    
-    
-    NSLog(@"Delegate: Button at position %d is clicked on alertView %d.", (int)buttonIndex, (int)[alertView tag]);
-    [alertView close];
-}
-
 
 
 #pragma mark - Delete Button Action
@@ -1725,7 +1805,7 @@ static int curveValues[] = {
     [self.noteTextView resignFirstResponder];
     NSIndexPath *indexPath = [NSIndexPath indexPathForRow:0 inSection:gestureRecognizer.view.tag];
     if (indexPath.section == 3) {
-        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"GOGO EVENTS" message:@"ARE YOU SURE YOU WANT TO EXIT?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES",nil];
+        UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"OPHEMY" message:@"ARE YOU SURE YOU WANT TO EXIT?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES",nil];
         alert.tag = 1000;
         [alert show];
         
@@ -1735,11 +1815,10 @@ static int curveValues[] = {
             {
                 [self.view bringSubviewToFront:self.chatView];
                 self.chatView.hidden=NO;
-                [self fetchHelpMessage];
                 
             }
         }else{
-            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"GOGO EVENTS" message:@"YOUR ASSISTANCE HAS BEEN DELIVERED." delegate:nil cancelButtonTitle:@"NO" otherButtonTitles:@"YES",nil];
+            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"OPHEMY" message:@"YOUR ASSISTANCE HAS BEEN DELIVERED." delegate:nil cancelButtonTitle:@"NO" otherButtonTitles:@"YES",nil];
             [alert show];
         }
     }else{
@@ -1835,17 +1914,21 @@ static int curveValues[] = {
 }
 -(void) showSlider
 {
+    
     CGPoint pt;
     CGRect rc = [self.sideScroller bounds];
     rc = [self.sideScroller convertRect:rc toView:self.sideScroller];
     pt = rc.origin;
     if (pt.x == 0) {
-        pt.x -= 265;
+        if (IS_IPAD_Pro) {
+            pt.x -= 356;
+        }else{
+            pt.x -= 265;
+        }
     }else{
         pt.x = 0;
     }
     
-    pt.y =0;
     [self.sideScroller setContentOffset:pt animated:YES];
     
 }
@@ -1858,7 +1941,7 @@ static int curveValues[] = {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSDateFormatter *dateformate=[[NSDateFormatter alloc]init];
     
-    [dateformate setDateFormat:@"YYYYMMddHHmmss"];
+    [dateformate setDateFormat:@"yyyyMMddHHmmss"];
     
     NSString *date_String=[dateformate stringFromDate:[NSDate date]];
     
@@ -2018,66 +2101,7 @@ static int curveValues[] = {
     return [NSIndexPath indexPathForRow:lastRowIndex inSection:lastSectionIndex];
 }
 
-#pragma mark - Fetch Help Message
--(void) fetchHelpMessage
-{
-    [self disabled];
-    [activityIndicator startAnimating];
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
-    
-    NSString *timestamp= [NSString stringWithFormat:@"(null)"];
-    if ([timestamp isEqualToString:@"(null)"]) {
-        timestamp = [NSString stringWithFormat:@"-1"];
-    }
-    NSString *ids = [NSString stringWithFormat:@"%@",[defaults valueForKey:@"Table ID"]];
-    NSString *user = [NSString stringWithFormat:@"table"];
-    NSString *assignedTableList= [NSString stringWithFormat:@""];;
-    NSString *timeStampList= [NSString stringWithFormat:@""];;
-    
-    NSDictionary *jsonDict=[[NSDictionary alloc]initWithObjectsAndKeys:timestamp,@"timestamp",ids, @"id",user, @"user",assignedTableList, @"assignedtablelist",timeStampList, @"timestamplist", nil];
-    
-    NSString *jsonRequest = [jsonDict JSONRepresentation];
-    
-    NSLog(@"jsonRequest is %@", jsonRequest);
-    NSURL *urlString=[NSURL URLWithString:[NSString stringWithFormat:@"%@/FetchHelpMessages",Kwebservices]];
-    
-    NSMutableURLRequest *request = [NSMutableURLRequest requestWithURL:urlString cachePolicy:NSURLRequestReloadIgnoringLocalCacheData timeoutInterval:10.0];
-    
-    NSLog(@"Request:%@",urlString);
-    
-    [request setHTTPMethod:@"POST"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Content-Type"];
-    [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
-    
-    [request setHTTPBody: [jsonRequest dataUsingEncoding:NSUTF8StringEncoding]];
-    
-    NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
-    webServiceCode =1;
-    if(connection)
-    {
-        if(webData==nil)
-        {
-            webData = [NSMutableData data] ;
-            NSLog(@"data");
-        }
-        else
-        {
-            webData=nil;
-            webData = [NSMutableData data] ;
-        }
-        
-        NSLog(@"server connection made");
-    }
-    
-    else
-    {
-        NSLog(@"connection is NULL");
-    }
-    
-}
 
-#pragma mark - Send Help Message
 -(void) changeStatus:(NSString *)pendingOrdersIDS
 {
     [self disabled];
@@ -2258,7 +2282,7 @@ static int curveValues[] = {
         NSString *resultStr = [NSString stringWithFormat:@"%@",[userDetailDict valueForKey:@"result"]];
         if([resultStr isEqualToString:@"0"])
         {
-            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"GOGO EVENTS" message:@"Your order is placed successfully." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
+            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"OPHEMY" message:@"Your order is placed successfully." delegate:self cancelButtonTitle:@"OK" otherButtonTitles:nil];
             alert.tag = 999;
             [defaults setValue:@"" forKey:@"Note"];
             [alert show];
@@ -2382,7 +2406,7 @@ static int curveValues[] = {
         
         totalPrice = totalPrice * orderItemQuantities;
         if ([tempOrder containsObject:[NSString stringWithFormat:@"%@",itemsID]]) {
-            NSString *updateSQL = [NSString stringWithFormat:@"UPDATE orderHistory SET orderItemName = \"%@\" , ordercuisine = \"%@\", orderType = \"%@\", orderQuantity = %d, orderPrice = \"%d\", orderItemImage = \"%@\"  where orderItemID = \"%@\"" ,[results stringForColumn:@"itemName"],[results stringForColumn:@"cuisine"],[results stringForColumn:@"typeID"],orderItemQuantities,totalPrice,[results stringForColumn:@"itemImage"], [NSString stringWithFormat:@"%d",itemID]];
+            NSString *updateSQL = [NSString stringWithFormat:@"UPDATE orderHistory SET orderItemName = \"%@\" , ordercuisine = \"%@\", orderType = \"%@\", orderQuantity = %d, orderPrice = \"%d\", orderItemImage = \"%@\"  where orderItemID = \"%@\"" ,[results stringForColumn:@"itemName"],[results stringForColumn:@"cuisine"],[results stringForColumn:@"typeID"],orderItemQuantities,totalPrice,[results stringForColumn:@"itemImage"], [NSString stringWithFormat:@"%@",itemsID]];
             [database executeUpdate:updateSQL];
         }else{
             NSString *insert = [NSString stringWithFormat:@"INSERT INTO orderHistory (orderItemID, orderItemName, ordercuisine, orderType, orderQuantity, orderPrice,orderItemImage) VALUES (%@, \"%@\",\"%@\",\"%@\", \"%d\",\"%d\",\"%@\")",[results stringForColumn:@"itemID"],[results stringForColumn:@"itemName"],[results stringForColumn:@"cuisine"],[results stringForColumn:@"typeID"],orderItemQuantities,totalPrice,[results stringForColumn:@"itemImage"]];
@@ -2491,7 +2515,9 @@ static int curveValues[] = {
         j=j+k;
         k= j;
     }
-    self.totalAmountLbl.text = [NSString stringWithFormat:@"$%d",k];
+    AppDelegate*appdelegate=[[UIApplication sharedApplication]delegate];
+
+    self.totalAmountLbl.text = [NSString stringWithFormat:@"%@ %d",[[NSUserDefaults standardUserDefaults] valueForKey:@"Currency Value"],k];
     NSLog(@"Notes %@",[defaults valueForKey:@"Note"]);
     if ([[NSString stringWithFormat:@"%@",[defaults valueForKey:@"Note"]] isEqualToString:@"(null)"]) {
         self.orderNoteLbl.text =[NSString stringWithFormat:@"Please add your note."];
@@ -2601,7 +2627,7 @@ static int curveValues[] = {
         [defaults removeObjectForKey:@"Table image"];
         [defaults removeObjectForKey:@"Role"];
         
-        [defaults setObject:[NSString stringWithFormat:@"YES"] forKey:@"isLogedOut"];
+        [defaults setObject:@"YES"forKey:@"isLogedOut"];
         loginViewController *loginVC = [[loginViewController alloc] initWithNibName:@"loginViewController" bundle:nil];
         [self.navigationController pushViewController:loginVC animated:YES];
     }
@@ -2807,38 +2833,74 @@ static int curveValues[] = {
 //}
 - (IBAction)dismissBack:(id)sender {
     self.itemView.hidden = YES;
+    [self.view sendSubviewToBack:self.itemView];
 }
 
 - (IBAction)viewOrderBtn:(id)sender {
 }
 
 - (IBAction)addToOrder:(id)sender {
+    
+    NSString *eventStatus = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults]valueForKey:@"evenStatus"]];
+    if ([eventStatus isEqualToString:@"not_started"] || [eventStatus isEqualToString:@"end"]) {
+        if (IS_IPAD_Pro) {
+            [self.viewPOPplaceOrder setFrame:CGRectMake(self.sideScroller.frame.size.width-self.viewPOPplaceOrder.frame.size.width-5, 810, self.viewPOPplaceOrder.frame.size.width, self.viewPOPplaceOrder.frame.size.height)];
+        }else{
+            [self.viewPOPplaceOrder setFrame:CGRectMake(self.sideScroller.frame.size.width-self.viewPOPplaceOrder.frame.size.width-5, 570, self.viewPOPplaceOrder.frame.size.width, self.viewPOPplaceOrder.frame.size.height)];
+        }
+        if([eventStatus isEqualToString:@"end"]){
+            lbleventStatus.text = @"Event ended. No order will be processed.";
+        }else{
+            lbleventStatus.text = @"Please wait. Event is yet to be started.";
+
+        }
+        [self.itemView addSubview:self.viewPOPplaceOrder];
+        [self.itemView bringSubviewToFront:self.viewPOPplaceOrder];
+        
+        self.viewPOPplaceOrder.alpha= 1.0;
+        hideTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(FadeViewforPlaceOrder) userInfo:nil repeats:NO];
+        self.viewPOPplaceOrder.hidden = NO;
+        return;
+    }
+
+    
     [self.itemView setBackgroundColor: [UIColor clearColor]];
     NSLog(@"ITEMID.. %d , %d",menuItemsObj.ItemId,[self.quantityLbl.text intValue]);
     [self orderList:[NSString stringWithFormat:@"%d",menuItemsObj.ItemId] :[self.quantityLbl.text intValue]];
-    
+    [self.view setUserInteractionEnabled:NO];
     self.headerView.hidden = YES;
     self.footerView.hidden = YES;
     self.itemImageView.hidden = YES;
     itemNamebg.hidden = YES;
     [UIView animateWithDuration:0.5f animations:^{
         CGRect theFrame = self.itemView.frame;
-        theFrame.size.height -= 750.0f;
-        theFrame.origin.x += 797.0f;
-        theFrame.origin.y += 495.0f;
-        theFrame.size.width -= 950.0f;
-        self.itemView.frame = theFrame;
+        if (IS_IPAD_Pro) {
+            theFrame.size.height -= 750.0f;
+            theFrame.origin.x += 1138.0f;
+            theFrame.origin.y += 669.0f;
+            theFrame.size.width -= 950.0f;
+        }else{
+            theFrame.size.height -= 750.0f;
+            theFrame.origin.x += 797.0f;
+            theFrame.origin.y += 495.0f;
+            theFrame.size.width -= 950.0f;
+        }
+        
+        //self.itemView.frame = theFrame;
     }];
-    
+
     [UIView animateWithDuration:0.5f animations:^{
         CGRect theFrame = itemImagePage.frame;
-        theFrame.size.height = 240.f;
-        theFrame.origin.x = 0.0f;
-        theFrame.origin.y = 20.0f;
-        theFrame.size.width = 225.0f;
+        theFrame.size.height -= 800.0;
+        theFrame.origin.x += 832.0f;
+        theFrame.origin.y += 628.0f;
+        theFrame.size.width -= 832.0f;
         
         itemImagePage.frame = theFrame;
+    }completion:^(BOOL finished){
+        
     }];
+    
     if (self.minimizeAnimatedView.frame.origin.y != 486) {
         CGRect theFrame = self.minimizeAnimatedView.frame;
         theFrame.origin.y -= 250;
@@ -2876,8 +2938,14 @@ static int curveValues[] = {
         theFrame.origin.y += 250;
         self.itemView.frame = theFrame;
         
+    } completion:^(BOOL finished){
+        [self.view bringSubviewToFront:self.sideScroller];
+        [self.view setUserInteractionEnabled:YES];
+        itemImagePage.image = nil;
     }];
+    
     [self.viewOrderBtn setUserInteractionEnabled:YES];
+    
     [self orderlist];
     
     
@@ -2907,7 +2975,14 @@ static int curveValues[] = {
 
 - (IBAction)exitAction:(id)sender {
     
-    [self.exitPopUpView setFrame:CGRectMake(0, 10, self.exitPopUpView.frame.size.width, self.exitPopUpView.frame.size.height)];
+    if (IS_IPAD_Pro) {
+        [self.exitPopUpView setFrame:CGRectMake(0, 0, 1366, 1024)];
+    }else{
+        [self.exitPopUpView setFrame:CGRectMake(0, 0, self.exitPopUpView.frame.size.width, self.exitPopUpView.frame.size.height)];
+    }
+    if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"bulb"] isEqualToString:@"ON"]) {
+        [[NSUserDefaults standardUserDefaults] setValue:@"OFF" forKey:@"bulb"];
+    }
     [self.view addSubview:self.exitPopUpView];
     
     
@@ -2926,7 +3001,9 @@ static int curveValues[] = {
     appHomeViewController *homeVC = [[appHomeViewController alloc] initWithNibName:@"appHomeViewController" bundle:nil];
     [self.navigationController pushViewController:homeVC animated:NO];
 }
-- (IBAction)ophemyAction:(id)sender {
+
+- (IBAction)Slideshow:(id)sender
+{
     eventImagesSlideViewViewController *homeVC = [[eventImagesSlideViewViewController alloc] initWithNibName:@"eventImagesSlideViewViewController" bundle:nil];
     [self.navigationController pushViewController:homeVC animated:NO];
 }
@@ -2951,9 +3028,15 @@ static int curveValues[] = {
         [self.pingBulbImg setImage:[UIImage imageNamed:@"bulb-select.png"]];
         [self.otherMenuPingBulbImg setImage:[UIImage imageNamed:@"bulb-select.png"]];
         self.pingMessageView.hidden = NO;
+        if (IS_IPAD_Pro) {
+            [self.pingMessageView setFrame:CGRectMake(88, 825, self.pingMessageView.frame.size.width, self.pingMessageView.frame.size.height)];
+        }else{
+            [self.pingMessageView setFrame:CGRectMake(52, 585, self.pingMessageView.frame.size.width, self.pingMessageView.frame.size.height)];
+        }
         self.pingMessageView.alpha= 1.0;
+        [self.sideScroller addSubview:self.pingMessageView];
+        [self.sideScroller bringSubviewToFront:self.pingMessageView];
         hideTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(FadeView) userInfo:nil repeats:NO];
-        
     }
     else{
         
@@ -2969,7 +3052,7 @@ static int curveValues[] = {
 {
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *tableID = [NSString stringWithFormat:@"%@",[defaults valueForKey:@"Table ID"]];
+    NSString *tableID = [NSString stringWithFormat:@"%@",[defaults valueForKey:@"Ipad ID"]];
     NSString *serviceProviderId = [NSString stringWithFormat:@"%@",[defaults valueForKey:@"AllotedServiceProviderId"]];
     serviceProviderId = [serviceProviderId stringByReplacingOccurrencesOfString:@"\n" withString:@""];
     serviceProviderId = [serviceProviderId stringByReplacingOccurrencesOfString:@"(" withString:@""];
@@ -2983,9 +3066,9 @@ static int curveValues[] = {
     NSString *chatMessage;
     NSString *chatTrigger;
     chatTrigger = [NSString stringWithFormat:@"ping"];
-    chatMessage = [NSString stringWithFormat:@"%@ is requesting for Assistance.",tableName];
+    chatMessage = [NSString stringWithFormat:@"%@ is requesting Assistance.",tableName];
     NSString *sender = [NSString stringWithFormat:@"table"];
-    NSDictionary *jsonDict=[[NSDictionary alloc]initWithObjectsAndKeys:tableID,@"tableId",serviceProviderId,@"serviceproviderId",chatMessage,@"message",sender, @"sender",[NSString stringWithFormat:@"1"],@"restaurantId",chatTrigger,@"trigger", nil];
+    NSDictionary *jsonDict=[[NSDictionary alloc]initWithObjectsAndKeys:tableID,@"tableId",serviceProviderId,@"serviceproviderId",chatMessage,@"message",sender, @"sender",[NSString stringWithFormat:@"1"],@"restaurantId",chatTrigger,@"trigger" ,[[NSUserDefaults standardUserDefaults] valueForKey:@"Table Name"],@"sendername", nil];
     
     NSString *jsonRequest = [jsonDict JSONRepresentation];
     
@@ -3032,33 +3115,223 @@ static int curveValues[] = {
                      animations:^{self.pingMessageView.alpha = 0.0;}
                      completion:^(BOOL finished){self.pingMessageView.hidden = YES;}];
 }
+-(void) FadeViewforPlaceOrder
+{
+    [UIView animateWithDuration:0.9
+                     animations:^{self.viewPOPplaceOrder.alpha = 0.0;}
+                     completion:^(BOOL finished){self.viewPOPplaceOrder.hidden = YES;}];
+}
 - (IBAction)exitYesAction:(id)sender {
-    docPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    documentsDir = [docPaths objectAtIndex:0];
-    dbPath = [documentsDir   stringByAppendingPathComponent:@"niniEvents.sqlite"];
-    database = [FMDatabase databaseWithPath:dbPath];
-    [database open];
-    
-    NSString *queryString1 = [NSString stringWithFormat:@"Delete FROM orderHistory"];
-    [database executeUpdate:queryString1];
-   
-    [database close];
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
-    [defaults removeObjectForKey:@"Table ID"];
-    [defaults removeObjectForKey:@"Table Name"];
-    [defaults removeObjectForKey:@"Table image"];
-    [defaults removeObjectForKey:@"Role"];
-    
-    
-    [defaults setObject:[NSString stringWithFormat:@"YES"] forKey:@"isLogedOut"];
-    loginViewController *loginVC = [[loginViewController alloc] initWithNibName:@"loginViewController" bundle:nil];
-    [self.navigationController pushViewController:loginVC animated:NO];
+    AppDelegate *appdelegate = [[UIApplication sharedApplication]delegate];
+    [appdelegate logout];
 }
 
 - (IBAction)exitNoAction:(id)sender {
     [self.exitPopUpView removeFromSuperview];
 }
 
+-(void)createMenu
+{
+    BOOL isEventDetailActive;
+    BOOL isPingActive;
+    BOOL isSlideShowActive;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *eventStatus =[NSString stringWithFormat:@"%@",[defaults valueForKey:@"Event Status"]];
+    NSString *pingAssistanceStatus = [NSString stringWithFormat:@"%@",[defaults valueForKey:@"PingAssistance"]];
+    NSString *slideShowStatus = [NSString stringWithFormat:@"%@",[defaults valueForKey:@"SlideShow"]];
+    
+    if ([eventStatus isEqualToString:@"1"]) {
+        isEventDetailActive = YES;
+    }else{
+        isEventDetailActive = NO;
+    }
+    
+    if ([pingAssistanceStatus isEqualToString:@"1"]) {
+        isPingActive = YES;
+    }else{
+        isPingActive = NO;
+    }
+    
+    if ([slideShowStatus isEqualToString:@"1"]) {
+        isSlideShowActive = YES;
+    }else{
+        isSlideShowActive = NO;
+    }
+    
+    
+    // Menu Bar...............
+    if (IS_IPAD_Pro) {
+        [self.bottomMenuView setFrame:CGRectMake(0, self.sideScroller.frame.size.height - self.bottomMenuView.frame.size.height-19, self.bottomMenuView.frame.size.width, self.bottomMenuView.frame.size.height)];
+    }else{
+        [self.bottomMenuView setFrame:CGRectMake(0, self.sideScroller.frame.size.height - self.bottomMenuView.frame.size.height-19, self.bottomMenuView.frame.size.width+5, self.bottomMenuView.frame.size.height)];
+    }
+    
+    [self.sideScroller addSubview:self.bottomMenuView];
+    
+    if (isPingActive) {
+        //Ping Button...............
+        [self.pingBtn setFrame:CGRectMake(self.slideMenuBtn.frame.size.width, 2, self.pingBtn.frame.size.width, self.pingBtn.frame.size.height)];
+        [self.bottomMenuView addSubview:self.pingBtn];
+        
+        //Ping Button Image...............
+        [self.otherMenuPingBulbImg setFrame:CGRectMake(self.pingBtn.frame.size.width/4, self.pingBtn.frame.size.height/4-4, self.otherMenuPingBulbImg.frame.size.width, self.otherMenuPingBulbImg.frame.size.height)];
+        [self.pingBtn addSubview:self.otherMenuPingBulbImg];
+        UIImageView *seperatorImg;
+        if (IS_IPAD_Pro) {
+            seperatorImg = [[UIImageView alloc] initWithFrame:CGRectMake(self.pingBtn.frame.origin.x+ 105 ,0,2,72)];
+        }else{
+            seperatorImg = [[UIImageView alloc] initWithFrame:CGRectMake(self.pingBtn.frame.origin.x+self.pingBtn.frame.size.width+1,0,2,self.bottomMenuView.frame.size.height)];
+        }
+        seperatorImg.image = [UIImage imageNamed:@"stroke_13.png"];
+        [self.bottomMenuView addSubview:seperatorImg];
+        
+        
+        //OphemyLogo View.....
+        [self.ophemyLogoView setFrame:CGRectMake(self.pingBtn.frame.origin.x + self.pingBtn.frame.size.width+1, 4, self.ophemyLogoView.frame.size.width, self.ophemyLogoView.frame.size.height)];
+        NSLog(@"Left Width = %f", self.slideMenuBtn.frame.size.width);
+        [self.bottomMenuView addSubview:self.ophemyLogoView];
+    }else{
+        self.pingBtn.hidden = YES;
+        self.otherMenuPingBulbImg.hidden = YES;
+        //OphemyLogo View.....
+        [self.ophemyLogoView setFrame:CGRectMake(self.slideMenuBtn.frame.size.width+1, 4, self.ophemyLogoView.frame.size.width, self.ophemyLogoView.frame.size.height)];
+        [self.bottomMenuView addSubview:self.ophemyLogoView];
+    }
+    int leftWidth;
+    if (isPingActive) {
+        if (IS_IPAD_Pro) {
+            leftWidth = 950;
+        }else{
+            leftWidth = self.bottomMenuView.frame.size.width - (self.ophemyLogoView.frame.origin.x + self.ophemyLogoView.frame.size.width);
+        }
+    }else{
+        if (IS_IPAD_Pro) {
+            leftWidth = 1005;
+        }else{
+            leftWidth = self.bottomMenuView.frame.size.width - (self.ophemyLogoView.frame.origin.x + self.ophemyLogoView.frame.size.width);
+        }
+    }
+    
+    NSLog(@"Left Width = %d",leftWidth);
+    
+    NSMutableArray *buttonsArray = [[NSMutableArray alloc] initWithObjects:@"Slide Show",@"Event Detail",@"Menu",@"View Order", nil];
+    if (!isSlideShowActive) {
+        [buttonsArray removeObject:@"Slide Show"];
+    }
+    
+    if (!isEventDetailActive) {
+        [buttonsArray removeObject:@"Event Detail"];
+    }
+    //    UIButton *bottomBarBtn;
+    for (int j = 0; j < buttonsArray.count; j++) {
+        
+        NSLog(@"Value of i ...... %d",j);
+        UIButton *bottomBarBtn;
+        if (isPingActive) {
+            if (IS_IPAD_Pro) {
+                bottomBarBtn = [[UIButton alloc] initWithFrame:CGRectMake(j *leftWidth/buttonsArray.count+420+2,2,leftWidth/buttonsArray.count, 72)];
+            }else{
+                bottomBarBtn = [[UIButton alloc] initWithFrame:CGRectMake(j *leftWidth/buttonsArray.count+(self.ophemyLogoView.frame.origin.x + self.ophemyLogoView.frame.size.width)+2,2,leftWidth/buttonsArray.count, self.bottomMenuView.frame.size.height)];
+            }
+        }else{
+            if (IS_IPAD_Pro) {
+                bottomBarBtn = [[UIButton alloc] initWithFrame:CGRectMake(j *leftWidth/buttonsArray.count+360+2,2,leftWidth/buttonsArray.count, 72)];
+            }else{
+                bottomBarBtn = [[UIButton alloc] initWithFrame:CGRectMake(j *leftWidth/buttonsArray.count+(self.ophemyLogoView.frame.origin.x + self.ophemyLogoView.frame.size.width)+2,2,leftWidth/buttonsArray.count, self.bottomMenuView.frame.size.height)];
+            }
+        }
+        
+        NSLog(@"%f,%f,%f,%f",bottomBarBtn.frame.origin.x,bottomBarBtn.frame.origin.y,bottomBarBtn.frame.size.width,bottomBarBtn.frame.size.height);
+        NSString * title = [NSString stringWithFormat:@"%@",[buttonsArray objectAtIndex:j]];
+        [bottomBarBtn setTitle:[title uppercaseString] forState:UIControlStateNormal];
+        [bottomBarBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal] ;
+        [bottomBarBtn setUserInteractionEnabled:YES];
+        [bottomBarBtn setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
+        bottomBarBtn.titleLabel.font =[UIFont fontWithName:@"Helvetica-Condensed" size:20];
+        [bottomBarBtn setImageEdgeInsets:UIEdgeInsetsMake(0, bottomBarBtn.titleLabel.bounds.size.width-10, 0, 0)];
+        if ([title isEqualToString:@"Menu"]) {
+            [bottomBarBtn setBackgroundColor:[UIColor colorWithRed:194/255.0f green:57/255.0f blue:11/255.0f alpha:1.0]];
+        }
+        if ([title isEqualToString:@"View Order"]) {
+            [bottomBarBtn setImage:[UIImage imageNamed:@"cart.png"] forState:UIControlStateNormal];
+            CGRect frameIcon = bottomBarBtn.imageView.frame;
+            NSLog(@"%f , %f , %f ,%f",frameIcon.origin.x,frameIcon.origin.y,frameIcon.size.width,frameIcon.size.height);
+            if (IS_IPAD_Pro) {
+                [self.otheMenuBatchImg setFrame:CGRectMake(frameIcon.origin.x + frameIcon.size.width/2.5,9, 20, 20)];
+            }else{
+                [self.otheMenuBatchImg setFrame:CGRectMake(frameIcon.origin.x + frameIcon.size.width/2.5,0, 20, 20)];
+            }
+            
+            [bottomBarBtn addSubview:self.otheMenuBatchImg];
+            [bottomBarBtn bringSubviewToFront:self.otheMenuBatchImg];
+            
+            if (IS_IPAD_Pro) {
+                [self.otherMenuBatchLbl setFrame:CGRectMake(frameIcon.origin.x + frameIcon.size.width/2.5,9, 20, 20)];
+            }else{
+                [self.otherMenuBatchLbl setFrame:CGRectMake(frameIcon.origin.x + frameIcon.size.width/2.5,0, 20, 20)];
+            }
+            
+            [bottomBarBtn addSubview:self.otherMenuBatchLbl];
+            [bottomBarBtn bringSubviewToFront:self.otherMenuBatchLbl];
+            
+        }
+        //        [bottomBarBtn setContentVerticalAlignment:UIControlContentVerticalAlignmentTop];
+        [bottomBarBtn addTarget:self action:@selector(bottomBarBtns:) forControlEvents:UIControlEventTouchUpInside];
+        [self.bottomMenuView addSubview:bottomBarBtn];
+        
+        UIImageView *seperatorImg;
+        if (isPingActive) {
+            if (IS_IPAD_Pro) {
+                seperatorImg = [[UIImageView alloc] initWithFrame:CGRectMake(j *leftWidth/buttonsArray.count+420,0,2,72)];
+            }else{
+                seperatorImg = [[UIImageView alloc] initWithFrame:CGRectMake(j *leftWidth/buttonsArray.count+(self.ophemyLogoView.frame.origin.x + self.ophemyLogoView.frame.size.width),0,2,self.bottomMenuView.frame.size.height)];
+            }
+        }else{
+            if (IS_IPAD_Pro) {
+                seperatorImg = [[UIImageView alloc] initWithFrame:CGRectMake(j *leftWidth/buttonsArray.count+360,0,2,72)];
+            }else{
+                seperatorImg = [[UIImageView alloc] initWithFrame:CGRectMake(j *leftWidth/buttonsArray.count+(self.ophemyLogoView.frame.origin.x + self.ophemyLogoView.frame.size.width),0,2,self.bottomMenuView.frame.size.height)];
+            }
+        }
+        seperatorImg.image = [UIImage imageNamed:@"stroke_13.png"];
+        [self.bottomMenuView addSubview:seperatorImg];
+        
+        
+    }
+    
+}
+
+-(IBAction)bottomBarBtns:(UIButton*)sender{
+    NSLog(@"%@",sender.titleLabel.text);
+    if ([sender.titleLabel.text isEqualToString:@"EVENT DETAIL"]){
+        appHomeViewController *homeVC = [[appHomeViewController alloc] initWithNibName:@"appHomeViewController" bundle:nil];
+        [self.navigationController pushViewController:homeVC animated:NO];
+    }else if ([sender.titleLabel.text isEqualToString:@"SLIDE SHOW"]){
+        eventImagesSlideViewViewController *homeVC = [[eventImagesSlideViewViewController alloc] initWithNibName:@"eventImagesSlideViewViewController" bundle:nil];
+        [self.navigationController pushViewController:homeVC animated:NO];
+    }else if ([sender.titleLabel.text isEqualToString:@"VIEW ORDER"]){
+        CheckOutViewController *homeVC = [[CheckOutViewController alloc] initWithNibName:@"CheckOutViewController" bundle:nil];
+        [self.navigationController pushViewController:homeVC animated:NO];
+    }
+    
+}
+
+- (void)removeData
+{
+    NSString *extension = @"png";
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,     NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    
+    NSArray *contents = [fileManager contentsOfDirectoryAtPath:documentsDirectory error:NULL];
+    NSEnumerator *e = [contents objectEnumerator];
+    NSString *filename;
+    while ((filename = [e nextObject])) {
+        
+        if ([[filename pathExtension] isEqualToString:extension]) {
+            
+            [fileManager removeItemAtPath:[documentsDirectory     stringByAppendingPathComponent:filename] error:NULL];
+        }
+    }
+}
 @end

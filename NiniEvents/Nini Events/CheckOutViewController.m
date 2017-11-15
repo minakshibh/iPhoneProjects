@@ -1,10 +1,3 @@
-//
-//  CheckOutViewController.m
-//  Nini Events
-//
-//  Created by Br@R on 29/01/15.
-//  Copyright (c) 2015 Krishna_Mac_1. All rights reserved.
-//
 
 #import "CheckOutViewController.h"
 #import "orderOC.h"
@@ -21,12 +14,30 @@
 #import "menuStateViewController.h"
 #import "NSData+Base64.h"
 @interface CheckOutViewController ()
-
+@property (strong, nonatomic) IBOutlet UIImageView *bottomMenuImg;
+@property (strong, nonatomic) IBOutlet UIView *bottomMenuView;
+@property (strong, nonatomic) IBOutlet UIView *ophemyLogoView;
+@property (strong, nonatomic) IBOutlet UIButton *slideMenuBtn;
+@property (strong, nonatomic) IBOutlet UIButton *pingBtn;
 @end
 
 @implementation CheckOutViewController
 
 - (void)viewDidLoad {
+    
+    [self createMenu];
+    NSArray *ver = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
+    if ([[ver objectAtIndex:0] intValue] >= 7) {
+        // iOS 7.0 or later
+        toolBar.barTintColor = [UIColor colorWithRed:178/255.0f green:38/255.0f blue:12/255.0f alpha:1.0f];
+        toolBar.translucent = NO;
+    }else {
+        // iOS 6.1 or earlier
+        toolBar.tintColor = [UIColor colorWithRed:178/255.0f green:38/255.0f blue:12/255.0f alpha:1.0f];
+    }
+    
+
+    
     if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"bulb"] isEqualToString:@"ON"]) {
         
         [self.pingBulbImg setImage:[UIImage imageNamed:@"bulb-select.png"]];
@@ -43,10 +54,16 @@
     [self.notesTextView setClipsToBounds:YES];
     orderList=[[NSMutableArray alloc]init];
     activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
-    activityIndicator.center = CGPointMake(512, 374);
+    if (IS_IPAD_Pro) {
+        activityIndicator.center = CGPointMake(1366/2, 1028/2);
+    }else{
+        activityIndicator.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2);
+    }
+   
     
     activityIndicator.color=[UIColor grayColor];
     [self.view addSubview:activityIndicator];
+    
     self.orderTableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     int chatCount = [[defaults valueForKey:@"Chat Count"] intValue];
@@ -60,8 +77,12 @@
     }
     NSString *eventStatus = [NSString stringWithFormat:@"%@",[defaults valueForKey:@"Event Status"]];
     NSString *eventChatSupport = [NSString stringWithFormat:@"%@",[defaults valueForKey:@"Event Chat Support"]];
+    NSString *PingAssistance = [NSString stringWithFormat:@"%@",[defaults valueForKey:@"PingAssistance"]];
     
-    if ([eventChatSupport isEqualToString:@"true"]) {
+    NSString *SlideShow = [NSString stringWithFormat:@"%@",[defaults valueForKey:@"SlideShow"]];
+
+    
+    if ([eventChatSupport isEqualToString:@"False"]) {
         [self.sideMenuWithoutReqAssistance setFrame:CGRectMake(-269, 19, self.sideMenuWithoutReqAssistance.frame.size.width, self.sideMenuWithoutReqAssistance.frame.size.height)];
         [self.sideScroller addSubview:self.sideMenuWithoutReqAssistance];
         
@@ -69,20 +90,66 @@
         [self.sideMenuWithoutReqAssistance removeFromSuperview];
         
     }
-    if ([eventStatus isEqualToString:@"0"]) {
-        [self.footerWithoutEventsDetail setFrame:CGRectMake(0, 704, self.footerWithoutEventsDetail.frame.size.width, self.footerWithoutEventsDetail.frame.size.height)];
-        [self.sideScroller addSubview:self.footerWithoutEventsDetail];
+    NSString *freeTag = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"Is Paid"]];
+    if ([freeTag isEqualToString:@"1"]) {
+        priceingView.hidden = YES;
+        [self.checkOutBtn setFrame:CGRectMake(self.checkOutBtn.frame.origin.x, self.checkOutBtn.frame.origin.y - 160, self.checkOutBtn.frame.size.width, self.checkOutBtn.frame.size.height)];
+        [checkoutPriceDetailView addSubview:self.checkOutBtn];
+        
     }else{
-        [self.footerWithoutEventsDetail removeFromSuperview];
+        priceingView.hidden = NO;
     }
-
-    
     [self fetchOrders];
     [super viewDidLoad];
     // Do any additional setup after loading the view from its nib.
+    
+    placeholderText = @"Please describe yourself for easy identification by your server example: lady in black dress & pearls. Also include any instructions for your order you’d like us to follow";
+    isPlaceholder = YES;
+    self.notesTextView.text = placeholderText;
+    self.notesTextView.textColor = [UIColor lightGrayColor];
+    [self.notesTextView setSelectedRange:NSMakeRange(0, 0)];
+    
+    // assign UITextViewDelegate
+    self.notesTextView.delegate = self;
 }
-
-
+//- (void) textViewDidChange:(UITextView *)textView{
+//    
+//    if (textView.text.length == 0){
+//        textView.textColor = [UIColor lightGrayColor];
+//        textView.text = placeholderText;
+//        [textView setSelectedRange:NSMakeRange(0, 0)];
+//        isPlaceholder = YES;
+//        
+//    } else if (isPlaceholder && ![textView.text isEqualToString:placeholderText]) {
+//        textView.text = [textView.text substringToIndex:1];
+//        textView.textColor = [UIColor blackColor];
+//        isPlaceholder = NO;
+//    }
+//    
+//}
+-(void)textViewDidBeginEditing:(UITextView *)textView{
+    textView.text = [textView.text substringToIndex:0];
+    textView.textColor = [UIColor blackColor];
+    isPlaceholder = NO;
+}
+-(void)textViewDidEndEditing:(UITextView *)textView{
+    
+    if(self.notesTextView.text.length==0){
+        textView.textColor = [UIColor lightGrayColor];
+        textView.text = placeholderText;
+        [textView setSelectedRange:NSMakeRange(0, 0)];
+        isPlaceholder = YES;
+    }
+}
+- (BOOL)textView:(UITextView *)textView shouldChangeTextInRange:(NSRange)range replacementText:(NSString *)text {
+    
+    if([text isEqualToString:@"\n"]) {
+        [self.notesTextView resignFirstResponder];
+        return NO;
+    }
+    
+    return YES;
+}
 -(void)fetchOrders
 {
     docPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
@@ -145,11 +212,13 @@
     self.batchLbl.text = [NSString stringWithFormat:@"%@",orderCount];
     float delievrycharg=0.00;
     float taxes=0.00;
-    taxesPriceLbl.text=[NSString stringWithFormat:@"$%.2f",taxes];
-    deliveryChargPriceLbl.text=[NSString stringWithFormat:@"$%.2f",delievrycharg];
-    foodDrinkPriceLbl.text = [NSString stringWithFormat:@"$%d.00",k];
+    
+    
+    taxesPriceLbl.text=[NSString stringWithFormat:@"%@ %.2f",[defaults valueForKey:@"Currency Value"],taxes];
+    deliveryChargPriceLbl.text=[NSString stringWithFormat:@"%@ %.2f",[defaults valueForKey:@"Currency Value"],delievrycharg];
+    foodDrinkPriceLbl.text = [NSString stringWithFormat:@"%@ %d.00",[defaults valueForKey:@"Currency Value"],k];
     totalPrice=k+taxes+delievrycharg;
-    orderTotalPriceLbl.text=[NSString stringWithFormat:@"$%.2f",k+taxes+delievrycharg];
+    orderTotalPriceLbl.text=[NSString stringWithFormat:@"%@ %.2f",[defaults valueForKey:@"Currency Value"],k+taxes+delievrycharg];
     [database close];
     
     [self.orderTableView reloadData];
@@ -246,17 +315,19 @@
         cell.backgroundColor = [UIColor clearColor];
     }
     orderOC *ordrobject = (orderOC *)[orderList objectAtIndex:indexPath.row];
-    NSData *data = [[NSData alloc] initWithData:[NSData
-                                                 dataFromBase64String:[NSString stringWithFormat:@"%@",ordrobject.orderImage]]];
-    
-    UIImage *itemsImage = [UIImage imageWithData:data];
     
     
-    [cell setLabelText:ordrobject.orderItemName :ordrobject.orderQuantity :[NSString stringWithFormat:@"%d",ordrobject.orderPrice] :itemsImage];
+    NSString *imageName = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@",ordrobject.orderImage]];
+    
+    [cell setLabelText:ordrobject.orderItemName :ordrobject.orderQuantity :[NSString stringWithFormat:@"%d",ordrobject.orderPrice] :imageName];
     
     UIButton *deleteBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    if (IS_IPAD_Pro) {
+        deleteBtn.frame = CGRectMake(205.0f, 97.50f, 35.0f, 35.0f);
+    }else{
+        deleteBtn.frame = CGRectMake(155.0f, 97.5f, 35.0f, 35.0f);
+    }
     
-    deleteBtn.frame = CGRectMake(170.0f, 80.0f, 50.0f, 50.0f);
     deleteBtn.tag = indexPath.row;
     
     [deleteBtn setTintColor:[UIColor colorWithRed:159.0f/255.0 green:14.0f/255.0 blue:14.0f/255.0 alpha:1.0]] ;
@@ -265,18 +336,23 @@
     [deleteBtn addTarget:self action:@selector(deleteBtnAction:) forControlEvents:UIControlEventTouchUpInside];
     
     increaseItemBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-    increaseItemBtn.frame = CGRectMake(681, 104.0f, 30.0f, 35.0f);
+    if (IS_IPAD_Pro) {
+        increaseItemBtn.frame = CGRectMake(886, 97.5f, 35.0f, 35.0f);
+    }else{
+        increaseItemBtn.frame = CGRectMake(665, 97.5f, 35.0f, 35.0f);
+    }
+    
     increaseItemBtn.tag = indexPath.row;
     [increaseItemBtn setTintColor:[UIColor colorWithRed:159.0f/255.0 green:14.0f/255.0 blue:14.0f/255.0 alpha:1.0]] ;
     [cell.contentView addSubview:increaseItemBtn];
     
-    //    [increaseItemBtn addTarget:self action:@selector(increaseItemBtnAction:) forControlEvents:UIControlEventTouchUpInside];
-    
-    
-    
     decreaseItemBtn = [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    if (IS_IPAD_Pro) {
+        decreaseItemBtn.frame = CGRectMake(788.0f, 97.5f, 35.0f, 35.0f);
+    }else{
+        decreaseItemBtn.frame = CGRectMake(581.0f, 97.5f, 35.0f, 35.0f);
+    }
     
-    decreaseItemBtn.frame = CGRectMake(600.0f, 104.0f, 30.0f, 35.0f);
     decreaseItemBtn.tag = indexPath.row;
     [decreaseItemBtn setTintColor:[UIColor colorWithRed:159.0f/255.0 green:14.0f/255.0 blue:14.0f/255.0 alpha:1.0]] ;
     [cell.contentView addSubview:decreaseItemBtn];
@@ -445,18 +521,30 @@
 
 - (IBAction)CheckOutBtn:(id)sender
 {
+    NSString *timerStatus = [[NSUserDefaults standardUserDefaults]valueForKey:@"evenStatus"];
+    if ([timerStatus isEqualToString:@"end"]) {
+        UIAlertView *alert=[[UIAlertView alloc] initWithTitle:@"Event Time Out" message:@"Sorry for the inconvenience. We are not able to accept any order now." delegate:nil cancelButtonTitle:@"Ok" otherButtonTitles:nil, nil];
+        [alert show];
+
+        return;
+    }
+    
+    if([self.notesTextView.text isEqualToString:placeholderText]){
+        self.notesTextView.text = @"";
+    }
+    
     [self disabled];
     [activityIndicator startAnimating];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSDateFormatter *dateformate=[[NSDateFormatter alloc]init];
     
-    [dateformate setDateFormat:@"YYYYMMddHHmmss"];
+    [dateformate setDateFormat:@"yyyyMMddHHmmss"];
     
     NSString *date_String=[dateformate stringFromDate:[NSDate date]];
     
     NSMutableArray *placeOrderArray = [[NSMutableArray alloc]init];
     
-    NSLog(@"ordrlist count ..%d  ",orderList.count);
+    NSLog(@"ordrlist count ..%lu  ",(unsigned long)orderList.count);
     for (int i= 0; i < [orderList count]; i ++) {
         
         orderOC* placeOrderObj= [[orderOC alloc]init];
@@ -602,6 +690,10 @@
             homeVC.isNewOrder = NO;
             homeVC.isOrderPlaced = YES;
             [self.navigationController pushViewController:homeVC animated:NO];
+        }else{
+            NSString *message = [NSString stringWithFormat:@"%@",[userDetailDict valueForKey:@"message"]];
+            UIAlertView *alert = [[UIAlertView alloc] initWithTitle:@"OPHEMY" message:message delegate:nil cancelButtonTitle:@"OK" otherButtonTitles: nil];
+            [alert show];
         }
         [self enable];
         [activityIndicator stopAnimating];
@@ -636,7 +728,14 @@
 }
 
 - (IBAction)exitAction:(id)sender {
-    [self.exitPopUpView setFrame:CGRectMake(0, 0, self.exitPopUpView.frame.size.width, self.exitPopUpView.frame.size.height)];
+    if (IS_IPAD_Pro) {
+        [self.exitPopUpView setFrame:CGRectMake(0, 0, 1366, 1024)];
+    }else{
+        [self.exitPopUpView setFrame:CGRectMake(0, 0, self.exitPopUpView.frame.size.width, self.exitPopUpView.frame.size.height)];
+    }
+    if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"bulb"] isEqualToString:@"ON"]) {
+        [[NSUserDefaults standardUserDefaults] setValue:@"OFF" forKey:@"bulb"];
+    }
     [self.view addSubview:self.exitPopUpView];
 }
 
@@ -652,7 +751,11 @@
     rc = [self.sideScroller convertRect:rc toView:self.sideScroller];
     pt = rc.origin;
     if (pt.x == 0) {
-        pt.x -= 265;
+        if (IS_IPAD_Pro) {
+            pt.x -= 356;
+        }else{
+            pt.x -= 265;
+        }
     }else{
         pt.x = 0;
     }
@@ -669,6 +772,10 @@
     [self.navigationController pushViewController:checkoutVc animated:NO];
 }
 - (IBAction)ophemyAction:(id)sender {
+    
+}
+- (IBAction)Slideshow:(id)sender {
+
     eventImagesSlideViewViewController *homeVC = [[eventImagesSlideViewViewController alloc] initWithNibName:@"eventImagesSlideViewViewController" bundle:nil];
     [self.navigationController pushViewController:homeVC animated:NO];
 }
@@ -696,7 +803,7 @@
         [defaults removeObjectForKey:@"Table image"];
         [defaults removeObjectForKey:@"Role"];
         
-        [defaults setObject:[NSString stringWithFormat:@"YES"] forKey:@"isLogedOut"];
+        [defaults setObject:@"YES"forKey:@"isLogedOut"];
         loginViewController *loginVC = [[loginViewController alloc] initWithNibName:@"loginViewController" bundle:nil];
         [self.navigationController pushViewController:loginVC animated:YES];
     }else if( alertView.tag == 999 && buttonIndex == 0){
@@ -726,7 +833,11 @@
         [self.pingBulbImg setImage:[UIImage imageNamed:@"bulb-select.png"]];
         [self.otherMenuPingBulbImg setImage:[UIImage imageNamed:@"bulb-select.png"]];
         self.pingMessageView.hidden = NO;
-        [self.pingMessageView setFrame:CGRectMake(52, 585, self.pingMessageView.frame.size.width, self.pingMessageView.frame.size.height)];
+        if (IS_IPAD_Pro) {
+            [self.pingMessageView setFrame:CGRectMake(88, 825, self.pingMessageView.frame.size.width, self.pingMessageView.frame.size.height)];
+        }else{
+            [self.pingMessageView setFrame:CGRectMake(52, 585, self.pingMessageView.frame.size.width, self.pingMessageView.frame.size.height)];
+        }
         self.pingMessageView.alpha= 1.0;
         [self.sideScroller addSubview:self.pingMessageView];
         [self.sideScroller bringSubviewToFront:self.pingMessageView];
@@ -746,7 +857,7 @@
 {
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *tableID = [NSString stringWithFormat:@"%@",[defaults valueForKey:@"Table ID"]];
+    NSString *tableID = [NSString stringWithFormat:@"%@",[defaults valueForKey:@"Ipad ID"]];
     NSString *serviceProviderId = [NSString stringWithFormat:@"%@",[defaults valueForKey:@"AllotedServiceProviderId"]];
     serviceProviderId = [serviceProviderId stringByReplacingOccurrencesOfString:@"\n" withString:@""];
     serviceProviderId = [serviceProviderId stringByReplacingOccurrencesOfString:@"(" withString:@""];
@@ -760,9 +871,9 @@
     NSString *chatMessage;
     NSString *chatTrigger;
     chatTrigger = [NSString stringWithFormat:@"ping"];
-    chatMessage = [NSString stringWithFormat:@"%@ is requesting for Assistance.",tableName];
+    chatMessage = [NSString stringWithFormat:@"%@ is requesting Assistance.",tableName];
     NSString *sender = [NSString stringWithFormat:@"table"];
-    NSDictionary *jsonDict=[[NSDictionary alloc]initWithObjectsAndKeys:tableID,@"tableId",serviceProviderId,@"serviceproviderId",chatMessage,@"message",sender, @"sender",[NSString stringWithFormat:@"1"],@"restaurantId",chatTrigger,@"trigger", nil];
+    NSDictionary *jsonDict=[[NSDictionary alloc]initWithObjectsAndKeys:tableID,@"tableId",serviceProviderId,@"serviceproviderId",chatMessage,@"message",sender, @"sender",[NSString stringWithFormat:@"1"],@"restaurantId",chatTrigger,@"trigger" ,[[NSUserDefaults standardUserDefaults] valueForKey:@"Table Name"],@"sendername", nil];
     
     NSString *jsonRequest = [jsonDict JSONRepresentation];
     
@@ -824,32 +935,216 @@
     self.disabledImgView.hidden = YES;
 }
 - (IBAction)exitYesAction:(id)sender {
-    docPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    documentsDir = [docPaths objectAtIndex:0];
-    dbPath = [documentsDir   stringByAppendingPathComponent:@"niniEvents.sqlite"];
-    database = [FMDatabase databaseWithPath:dbPath];
-    [database open];
-    
-    NSString *queryString1 = [NSString stringWithFormat:@"Delete FROM orderHistory"];
-    [database executeUpdate:queryString1];
-    
-    [database close];
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
-    [defaults removeObjectForKey:@"Table ID"];
-    [defaults removeObjectForKey:@"Table Name"];
-    [defaults removeObjectForKey:@"Table image"];
-    [defaults removeObjectForKey:@"Role"];
-    
-    
-    [defaults setObject:[NSString stringWithFormat:@"YES"] forKey:@"isLogedOut"];
-    loginViewController *loginVC = [[loginViewController alloc] initWithNibName:@"loginViewController" bundle:nil];
-    [self.navigationController pushViewController:loginVC animated:NO];
+    AppDelegate *appdelegate = [[UIApplication sharedApplication]delegate];
+    [appdelegate logout];
 }
 
 - (IBAction)exitNoAction:(id)sender {
     [self.exitPopUpView removeFromSuperview];
 }
 
+-(void)createMenu
+{
+    BOOL isEventDetailActive;
+    BOOL isPingActive;
+    BOOL isSlideShowActive;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *eventStatus =[NSString stringWithFormat:@"%@",[defaults valueForKey:@"Event Status"]];
+    NSString *pingAssistanceStatus = [NSString stringWithFormat:@"%@",[defaults valueForKey:@"PingAssistance"]];
+    NSString *slideShowStatus = [NSString stringWithFormat:@"%@",[defaults valueForKey:@"SlideShow"]];
+    
+    if ([eventStatus isEqualToString:@"1"]) {
+        isEventDetailActive = YES;
+    }else{
+        isEventDetailActive = NO;
+    }
+    
+    if ([pingAssistanceStatus isEqualToString:@"1"]) {
+        isPingActive = YES;
+    }else{
+        isPingActive = NO;
+    }
+    
+    if ([slideShowStatus isEqualToString:@"1"]) {
+        isSlideShowActive = YES;
+    }else{
+        isSlideShowActive = NO;
+    }
+    
+    
+    // Menu Bar...............
+    if (IS_IPAD_Pro) {
+        [self.bottomMenuView setFrame:CGRectMake(0, self.sideScroller.frame.size.height - self.bottomMenuView.frame.size.height-12, self.bottomMenuView.frame.size.width, self.bottomMenuView.frame.size.height)];
+    }else{
+        [self.bottomMenuView setFrame:CGRectMake(0, self.sideScroller.frame.size.height - self.bottomMenuView.frame.size.height-20, self.bottomMenuView.frame.size.width, self.bottomMenuView.frame.size.height)];
+    }
+    
+    [self.sideScroller addSubview:self.bottomMenuView];
+    
+    if (isPingActive) {
+        //Ping Button...............
+        [self.pingBtn setFrame:CGRectMake(self.slideMenuBtn.frame.size.width, 2, self.pingBtn.frame.size.width, self.pingBtn.frame.size.height)];
+        [self.bottomMenuView addSubview:self.pingBtn];
+        
+        //Ping Button Image...............
+        [self.otherMenuPingBulbImg setFrame:CGRectMake(self.pingBtn.frame.size.width/4, self.pingBtn.frame.size.height/4-4, self.otherMenuPingBulbImg.frame.size.width, self.otherMenuPingBulbImg.frame.size.height)];
+        [self.pingBtn addSubview:self.otherMenuPingBulbImg];
+        UIImageView *seperatorImg;
+        if (IS_IPAD_Pro) {
+            seperatorImg = [[UIImageView alloc] initWithFrame:CGRectMake(self.pingBtn.frame.origin.x+ 105 ,0,2,72)];
+        }else{
+            seperatorImg = [[UIImageView alloc] initWithFrame:CGRectMake(self.pingBtn.frame.origin.x+self.pingBtn.frame.size.width+1,0,2,self.bottomMenuView.frame.size.height)];
+        }
+        seperatorImg.image = [UIImage imageNamed:@"stroke_13.png"];
+        [self.bottomMenuView addSubview:seperatorImg];
+        
+        
+        //OphemyLogo View.....
+        [self.ophemyLogoView setFrame:CGRectMake(self.pingBtn.frame.origin.x + self.pingBtn.frame.size.width+1, 4, self.ophemyLogoView.frame.size.width, self.ophemyLogoView.frame.size.height)];
+        NSLog(@"Left Width = %f", self.slideMenuBtn.frame.size.width);
+        [self.bottomMenuView addSubview:self.ophemyLogoView];
+    }else{
+        self.pingBtn.hidden = YES;
+        self.otherMenuPingBulbImg.hidden = YES;
+        //OphemyLogo View.....
+        [self.ophemyLogoView setFrame:CGRectMake(self.slideMenuBtn.frame.size.width+1, 4, self.ophemyLogoView.frame.size.width, self.ophemyLogoView.frame.size.height)];
+        [self.bottomMenuView addSubview:self.ophemyLogoView];
+    }
+    int leftWidth;
+    if (isPingActive) {
+        if (IS_IPAD_Pro) {
+            leftWidth = 950;
+        }else{
+            leftWidth = self.bottomMenuView.frame.size.width - (self.ophemyLogoView.frame.origin.x + self.ophemyLogoView.frame.size.width);
+        }
+    }else{
+        if (IS_IPAD_Pro) {
+            leftWidth = 1005;
+        }else{
+            leftWidth = self.bottomMenuView.frame.size.width - (self.ophemyLogoView.frame.origin.x + self.ophemyLogoView.frame.size.width);
+        }
+    }
+    
+    NSLog(@"Left Width = %d",leftWidth);
+    
+    NSMutableArray *buttonsArray = [[NSMutableArray alloc] initWithObjects:@"Slide Show",@"Event Detail",@"Menu",@"View Order", nil];
+    if (!isSlideShowActive) {
+        [buttonsArray removeObject:@"Slide Show"];
+    }
+    
+    if (!isEventDetailActive) {
+        [buttonsArray removeObject:@"Event Detail"];
+    }
+    //    UIButton *bottomBarBtn;
+    for (int j = 0; j < buttonsArray.count; j++) {
+        
+        NSLog(@"Value of i ...... %d",j);
+        UIButton *bottomBarBtn;
+        if (isPingActive) {
+            if (IS_IPAD_Pro) {
+                bottomBarBtn = [[UIButton alloc] initWithFrame:CGRectMake(j *leftWidth/buttonsArray.count+420+2,2,leftWidth/buttonsArray.count, 72)];
+            }else{
+                bottomBarBtn = [[UIButton alloc] initWithFrame:CGRectMake(j *leftWidth/buttonsArray.count+(self.ophemyLogoView.frame.origin.x + self.ophemyLogoView.frame.size.width)+2,2,leftWidth/buttonsArray.count, self.bottomMenuView.frame.size.height)];
+            }
+        }else{
+            if (IS_IPAD_Pro) {
+                bottomBarBtn = [[UIButton alloc] initWithFrame:CGRectMake(j *leftWidth/buttonsArray.count+360+2,2,leftWidth/buttonsArray.count, 72)];
+            }else{
+                bottomBarBtn = [[UIButton alloc] initWithFrame:CGRectMake(j *leftWidth/buttonsArray.count+(self.ophemyLogoView.frame.origin.x + self.ophemyLogoView.frame.size.width)+2,2,leftWidth/buttonsArray.count, self.bottomMenuView.frame.size.height)];
+            }
+        }
+        
+        NSLog(@"%f,%f,%f,%f",bottomBarBtn.frame.origin.x,bottomBarBtn.frame.origin.y,bottomBarBtn.frame.size.width,bottomBarBtn.frame.size.height);
+        NSString * title = [NSString stringWithFormat:@"%@",[buttonsArray objectAtIndex:j]];
+        [bottomBarBtn setTitle:[title uppercaseString] forState:UIControlStateNormal];
+        [bottomBarBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal] ;
+        [bottomBarBtn setUserInteractionEnabled:YES];
+        [bottomBarBtn setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
+        bottomBarBtn.titleLabel.font =[UIFont fontWithName:@"Helvetica-Condensed" size:20];
+        [bottomBarBtn setImageEdgeInsets:UIEdgeInsetsMake(0, bottomBarBtn.titleLabel.bounds.size.width-10, 0, 0)];
+        if ([title isEqualToString:@"View Order"]) {
+            [bottomBarBtn setBackgroundColor:[UIColor colorWithRed:194/255.0f green:57/255.0f blue:11/255.0f alpha:1.0]];
+        }
+        if ([title isEqualToString:@"View Order"]) {
+            [bottomBarBtn setImage:[UIImage imageNamed:@"cart.png"] forState:UIControlStateNormal];
+            CGRect frameIcon = bottomBarBtn.imageView.frame;
+            NSLog(@"%f , %f , %f ,%f",frameIcon.origin.x,frameIcon.origin.y,frameIcon.size.width,frameIcon.size.height);
+            if (IS_IPAD_Pro) {
+                [self.otheMenuBatchImg setFrame:CGRectMake(frameIcon.origin.x + frameIcon.size.width/2.5,9, 20, 20)];
+            }else{
+                [self.otheMenuBatchImg setFrame:CGRectMake(frameIcon.origin.x + frameIcon.size.width/2.5,0, 20, 20)];
+            }
+            
+            [bottomBarBtn addSubview:self.otheMenuBatchImg];
+            [bottomBarBtn bringSubviewToFront:self.otheMenuBatchImg];
+            
+            if (IS_IPAD_Pro) {
+                [self.otherMenuBatchLbl setFrame:CGRectMake(frameIcon.origin.x + frameIcon.size.width/2.5,9, 20, 20)];
+            }else{
+                [self.otherMenuBatchLbl setFrame:CGRectMake(frameIcon.origin.x + frameIcon.size.width/2.5,0, 20, 20)];
+            }
+            
+            [bottomBarBtn addSubview:self.otherMenuBatchLbl];
+            [bottomBarBtn bringSubviewToFront:self.otherMenuBatchLbl];
+            
+        }
+        //        [bottomBarBtn setContentVerticalAlignment:UIControlContentVerticalAlignmentTop];
+        [bottomBarBtn addTarget:self action:@selector(bottomBarBtns:) forControlEvents:UIControlEventTouchUpInside];
+        [self.bottomMenuView addSubview:bottomBarBtn];
+        
+        UIImageView *seperatorImg;
+        if (isPingActive) {
+            if (IS_IPAD_Pro) {
+                seperatorImg = [[UIImageView alloc] initWithFrame:CGRectMake(j *leftWidth/buttonsArray.count+420,0,2,72)];
+            }else{
+                seperatorImg = [[UIImageView alloc] initWithFrame:CGRectMake(j *leftWidth/buttonsArray.count+(self.ophemyLogoView.frame.origin.x + self.ophemyLogoView.frame.size.width),0,2,self.bottomMenuView.frame.size.height)];
+            }
+        }else{
+            if (IS_IPAD_Pro) {
+                seperatorImg = [[UIImageView alloc] initWithFrame:CGRectMake(j *leftWidth/buttonsArray.count+360,0,2,72)];
+            }else{
+                seperatorImg = [[UIImageView alloc] initWithFrame:CGRectMake(j *leftWidth/buttonsArray.count+(self.ophemyLogoView.frame.origin.x + self.ophemyLogoView.frame.size.width),0,2,self.bottomMenuView.frame.size.height)];
+            }
+        }
+        seperatorImg.image = [UIImage imageNamed:@"stroke_13.png"];
+        [self.bottomMenuView addSubview:seperatorImg];
+        
+        
+    }
+    
+}
+-(IBAction)bottomBarBtns:(UIButton*)sender{
+    NSLog(@"%@",sender.titleLabel.text);
+    if ([sender.titleLabel.text isEqualToString:@"EVENT DETAIL"]){
+        appHomeViewController *homeVC = [[appHomeViewController alloc] initWithNibName:@"appHomeViewController" bundle:nil];
+        [self.navigationController pushViewController:homeVC animated:NO];
+    }else if ([sender.titleLabel.text isEqualToString:@"SLIDE SHOW"]){
+        eventImagesSlideViewViewController *homeVC = [[eventImagesSlideViewViewController alloc] initWithNibName:@"eventImagesSlideViewViewController" bundle:nil];
+        [self.navigationController pushViewController:homeVC animated:NO];
+    }else if([sender.titleLabel.text isEqualToString:@"MENU"]){
+        menuStateViewController *homeVC = [[menuStateViewController alloc] initWithNibName:@"menuStateViewController" bundle:nil];
+        homeVC.isNewOrder = NO;
+        [self.navigationController pushViewController:homeVC animated:NO];
+    }
+    
+}
+
+- (void)removeData
+{
+    NSString *extension = @"png";
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,     NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    
+    NSArray *contents = [fileManager contentsOfDirectoryAtPath:documentsDirectory error:NULL];
+    NSEnumerator *e = [contents objectEnumerator];
+    NSString *filename;
+    while ((filename = [e nextObject])) {
+        
+        if ([[filename pathExtension] isEqualToString:extension]) {
+            
+            [fileManager removeItemAtPath:[documentsDirectory     stringByAppendingPathComponent:filename] error:NULL];
+        }
+    }
+}
 @end

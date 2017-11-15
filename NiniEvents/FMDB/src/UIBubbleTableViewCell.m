@@ -1,12 +1,3 @@
-//
-//  UIBubbleTableViewCell.m
-//
-//  Created by Alex Barinov
-//  Project home page: http://alexbarinov.github.com/UIBubbleTableView/
-//
-//  This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported License.
-//  To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/
-//
 
 #import <QuartzCore/QuartzCore.h>
 #import "UIBubbleTableViewCell.h"
@@ -74,7 +65,6 @@
 
     CGFloat x = (type == BubbleTypeSomeoneElse) ? 0 : self.frame.size.width - width - self.data.insets.left - self.data.insets.right;
     CGFloat y = 0;
-    
     // Adjusting the x coordinate for avatar
     if (self.showAvatar)
     {
@@ -89,7 +79,7 @@
         self.avatarImage.layer.borderColor = [UIColor colorWithWhite:0.0 alpha:0.2].CGColor;
         self.avatarImage.layer.borderWidth = 1.0;
         
-        CGFloat avatarX = (type == BubbleTypeSomeoneElse) ? 2 : self.frame.size.width - 52;
+        CGFloat avatarX = (type == BubbleTypeSomeoneElse) ? 2 : self.frame.size.width - 54;
         CGFloat avatarY = self.frame.size.height - 50;
         
         self.avatarImage.frame = CGRectMake(avatarX, avatarY, 50, 50);
@@ -104,7 +94,7 @@
 
     [self.customView removeFromSuperview];
     self.customView = self.data.view;
-    self.customView.frame = CGRectMake(x + self.data.insets.left, y + self.data.insets.top, width, height);
+    self.customView.frame = CGRectMake(x + self.data.insets.left, y + self.data.insets.top-3, width, height);
     [self.contentView addSubview:self.customView];
 
     if (type == BubbleTypeSomeoneElse)
@@ -113,10 +103,12 @@
 
     }
     else {
+      
+
         self.bubbleImage.image = [[UIImage imageNamed:@"bubbleMine.png"] stretchableImageWithLeftCapWidth:21 topCapHeight:14];
     }
 
-    self.bubbleImage.frame = CGRectMake(x, y-5, width + self.data.insets.left + self.data.insets.right+5, height + self.data.insets.top + self.data.insets.bottom+10);
+    self.bubbleImage.frame = CGRectMake(x, y-10, width + self.data.insets.left + self.data.insets.right+5, height + self.data.insets.top + self.data.insets.bottom+15);
 }
 
 @end

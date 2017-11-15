@@ -1,10 +1,3 @@
-//
-//  requestAssistanceViewController.h
-//  Nini Events
-//
-//  Created by Krishna_Mac_1 on 2/9/15.
-//  Copyright (c) 2015 Krishna_Mac_1. All rights reserved.
-//
 
 #import <UIKit/UIKit.h>
 #import "fetchChatOC.h"
@@ -25,7 +18,31 @@
     FMDatabase *database;
     int bulbFlag;
     NSString *chatTrigger;
-    NSTimer *hideTimer;
+    NSTimer *hideTimer, *fetchMsgTimer;
+    UIActivityIndicatorView *objactivityindicator;
+    IBOutlet UIView *viewNOChat;
+    IBOutlet UIView *disableView;
+    
+    
+    IBOutlet UIToolbar *toolBar;
+    
+    IBOutlet UIButton *btnmenufooter;
+    IBOutlet UIButton *btnpingfooter;
+    
+    IBOutlet UIButton *btnlogofooter;
+    
+    IBOutlet UIButton *btnslideshowfooter;
+    IBOutlet UIButton *btneventdetailfooter;
+    IBOutlet UIButton *btnmenu1footer;
+    IBOutlet UIButton *btnVieworderfooter;
+    IBOutlet UIView *viewmenufooter;
+    IBOutlet UIView *viewpingfooter;
+    IBOutlet UIView *viewlogofooter;
+    IBOutlet UIView *viewslideshowfooter;
+    IBOutlet UIView *vieweventdetailfooter;
+    IBOutlet UIView *viewmenu1footer;
+    IBOutlet UIView *viewvieworderfooter;
+    
 }
 @property (weak, nonatomic) IBOutlet UIBubbleTableView *chatTableView;
 @property (strong, nonatomic) IBOutlet UITextField *chatMessageTxtView;
@@ -43,6 +60,8 @@
 - (IBAction)appHomeAction:(id)sender;
 - (IBAction)checkOutView:(id)sender;
 - (IBAction)ophemyAction:(id)sender;
+- (IBAction)Slideshow:(id)sender;
+-(void) fetchHelpMessage;
 @property (strong, nonatomic) IBOutlet UILabel *batchLbl;
 @property (strong, nonatomic) IBOutlet UIView *sideMenuWithoutReqAssistance;
 @property (strong, nonatomic) IBOutlet UIView *footerWithoutEventsDetail;

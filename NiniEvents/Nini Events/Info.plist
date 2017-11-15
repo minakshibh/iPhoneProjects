@@ -3,15 +3,15 @@
 <plist version="1.0">
 <dict>
 	<key>CFBundleDevelopmentRegion</key>
-	<string>en</string>
+	<string>en_US</string>
 	<key>CFBundleExecutable</key>
 	<string>$(EXECUTABLE_NAME)</string>
 	<key>CFBundleIdentifier</key>
-	<string>com.krishnais.NiniEvents</string>
+	<string>$(PRODUCT_BUNDLE_IDENTIFIER)</string>
 	<key>CFBundleInfoDictionaryVersion</key>
 	<string>6.0</string>
 	<key>CFBundleName</key>
-	<string>GoGo Events</string>
+	<string>Ophemy</string>
 	<key>CFBundlePackageType</key>
 	<string>APPL</string>
 	<key>CFBundleShortVersionString</key>
@@ -22,6 +22,11 @@
 	<string>1</string>
 	<key>LSRequiresIPhoneOS</key>
 	<true/>
+	<key>NSAppTransportSecurity</key>
+	<dict>
+		<key>NSAllowsArbitraryLoads</key>
+		<true/>
+	</dict>
 	<key>UIAppFonts</key>
 	<array>
 		<string>helvetica-condensed-bold.ttf</string>
@@ -30,7 +35,7 @@
 		<string>SCRIPTIN.ttf</string>
 		<string>ahronbd.ttf</string>
 		<string>browa_0.ttf</string>
-		<string>david.ttf</string>
+		<string>David.ttf</string>
 		<string>Mrs Saint-Delafield.ttf</string>
 		<string>palacescriptmtstd-semibold.ttf</string>
 		<string>Vivaldi.ttf</string>

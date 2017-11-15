@@ -1,10 +1,3 @@
-//
-//  menuStateViewController.m
-//  Nini Events
-//
-//  Created by Krishna_Mac_1 on 2/16/15.
-//  Copyright (c) 2015 Krishna_Mac_1. All rights reserved.
-//
 
 #import "menuStateViewController.h"
 #import "AsyncImageView.h"
@@ -22,13 +15,33 @@
 #import "eventImagesSlideViewViewController.h"
 #import "Base64.h"
 #import "NSData+Base64.h"
+#import "appHomeViewController.h"
 @interface menuStateViewController ()
-
+@property (strong, nonatomic) IBOutlet UIImageView *bottomMenuImg;
+@property (strong, nonatomic) IBOutlet UIView *bottomMenuView;
+@property (strong, nonatomic) IBOutlet UIView *ophemyLogoView;
+@property (strong, nonatomic) IBOutlet UIButton *slideMenuBtn;
+@property (strong, nonatomic) IBOutlet UIButton *pingBtn;
 @end
 
 @implementation menuStateViewController
 
 - (void)viewDidLoad {
+    
+     [self createMenu];
+    
+    NSArray *ver = [[UIDevice currentDevice].systemVersion componentsSeparatedByString:@"."];
+    if ([[ver objectAtIndex:0] intValue] >= 7) {
+        // iOS 7.0 or later
+        toolBar.barTintColor = [UIColor colorWithRed:178/255.0f green:38/255.0f blue:12/255.0f alpha:1.0f];
+        toolBar.translucent = NO;
+    }else {
+        // iOS 6.1 or earlier
+        toolBar.tintColor = [UIColor colorWithRed:178/255.0f green:38/255.0f blue:12/255.0f alpha:1.0f];
+    }
+
+    
+    
     [super viewDidLoad];
     if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"bulb"] isEqualToString:@"ON"]) {
         
@@ -88,10 +101,9 @@
     //self.batchLbl.text = [NSString stringWithFormat:@"%@",[defaults valueForKey:@"Order Item Count"]];
     [self placeItems];
     
-    NSString *eventStatus = [NSString stringWithFormat:@"%@",[defaults valueForKey:@"Event Status"]];
     NSString *eventChatSupport = [NSString stringWithFormat:@"%@",[defaults valueForKey:@"Event Chat Support"]];
     
-    if ([eventChatSupport isEqualToString:@"true"]) {
+    if ([eventChatSupport isEqualToString:@"False"]) {
         [self.sideMenuWithoutReqAssistance setFrame:CGRectMake(-269, 19, self.sideMenuWithoutReqAssistance.frame.size.width, self.sideMenuWithoutReqAssistance.frame.size.height)];
         [self.sideScroller addSubview:self.sideMenuWithoutReqAssistance];
         
@@ -99,13 +111,6 @@
         [self.sideMenuWithoutReqAssistance removeFromSuperview];
         
     }
-    if ([eventStatus isEqualToString:@"0"]) {
-        [self.footerWithoutEventsDetail setFrame:CGRectMake(0, 704, self.footerWithoutEventsDetail.frame.size.width, self.footerWithoutEventsDetail.frame.size.height)];
-        [self.sideScroller addSubview:self.footerWithoutEventsDetail];
-    }else{
-        [self.footerWithoutEventsDetail removeFromSuperview];
-    }
-    // Do any additional setup after loading the view from its nib.
 }
 
 - (void)didReceiveMemoryWarning {
@@ -127,7 +132,13 @@
     FMResultSet *queryResults = [database executeQuery:queryString];
     while([queryResults next]) {
         itemName = [queryResults stringForColumn:@"categoryName"];
-        itemImageUrl = [queryResults stringForColumn:@"imageUrl"];
+        NSString *categoryId = [queryResults stringForColumn:@"categoryID"];
+        NSString *queryString = [NSString stringWithFormat:@"Select * FROM categoryItems where categoryID = \"%@\"",categoryId];
+        FMResultSet *queryResults1 = [database executeQuery:queryString];
+        while([queryResults1 next]) {
+            itemImageUrl = [queryResults1 stringForColumn:@"itemImage"];
+            
+        }
         NSString *categoryType = [queryResults stringForColumn:@"type"];
         [itemNameArray addObject:itemName];
         [itemImageUrlArray addObject:itemImageUrl];
@@ -148,12 +159,22 @@
     //    NSLog(@"Image Name %@",img);
     //    itemImage.image = img;
     [self.view bringSubviewToFront:self.scrollerimage];
-    self.scrollerimage.contentSize = CGSizeMake(150,[itemNameArray count] *  233);
+    int count = [itemNameArray count];
+    if (count%2 != 0) {
+        count = (count+ 1)/2;
+    }else{
+        count = count/2;
+    }
+    if (IS_IPAD_Pro) {
+        self.scrollerimage.contentSize = CGSizeMake(150,(count *  430)+3);
+    }else{
+        self.scrollerimage.contentSize = CGSizeMake(150,(count *  350)+3);
+    }
+    
     _scrollerimage.showsHorizontalScrollIndicator = NO;
     _scrollerimage.showsVerticalScrollIndicator = NO;
     
     
-    int x = 5;
     int y= 0;
     
     for (NSUInteger i = 0; i < [itemImageUrlArray count]; ++i) {
@@ -161,20 +182,25 @@
         imageTapRecognizer.numberOfTapsRequired = 1;
         if (i %2 == 0 || i == 0) {
             UIImageView *page = [[UIImageView alloc] init];
-            NSData *data = [[NSData alloc] initWithData:[NSData
-                                                         dataFromBase64String:[NSString stringWithFormat:@"%@",[itemImageUrlArray objectAtIndex:i]]]];
+
+            NSString *imageName = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@",[itemImageUrlArray objectAtIndex:i]]];
+            page.image = [UIImage imageNamed:imageName];
             
-            UIImage *itemImage = [UIImage imageWithData:data];
+            UILabel *pageName = [[UILabel alloc] init];
+            if (IS_IPAD_Pro) {
+                page.frame = CGRectMake(0, y, 679, 430);
+                pageName.frame = CGRectMake(0,380 ,679, 50);
+            }else{
+                page.frame = CGRectMake(0, y, 510, 350);
+                pageName.frame = CGRectMake(0,300 ,510, 50);
+            }
             
-            
-            page.image = itemImage;
-            page.frame = CGRectMake(0, y, 506, 350);
             //page.contentMode = UIViewContentModeScaleAspectFill;
             page.tag = i;
             page.userInteractionEnabled = YES;
             page.multipleTouchEnabled = YES;
             [_scrollerimage addSubview:page];
-            UILabel *pageName = [[UILabel alloc] initWithFrame:CGRectMake(0,300 ,506, 50)];
+            
             NSString *pageNameString = [NSString stringWithFormat:@"%@",[itemNameArray objectAtIndex:i]];
             pageNameString = [pageNameString uppercaseString];
             pageName.text = pageNameString;
@@ -187,22 +213,28 @@
             
         }else{
             UIImageView *page = [[UIImageView alloc] init];
-            NSData *data = [[NSData alloc] initWithData:[NSData
-                                                         dataFromBase64String:[NSString stringWithFormat:@"%@",[itemImageUrlArray objectAtIndex:i]]]];
-            
-            UIImage *itemImage = [UIImage imageWithData:data];
-            
-            
-            page.image = itemImage;
-            page.frame = CGRectMake(508, y, 506, 350);
-            //page.contentMode = UIViewContentModeScaleAspectFill;
+            NSString *imageName = [[NSHomeDirectory() stringByAppendingPathComponent:@"Documents"] stringByAppendingPathComponent:[NSString stringWithFormat:@"%@",[itemImageUrlArray objectAtIndex:i]]];
+            page.image = [UIImage imageNamed:imageName];
+
+            UILabel *pageName = [[UILabel alloc] init];
+            if (IS_IPAD_Pro) {
+                page.frame = CGRectMake(681, y, 679, 430);
+                pageName.frame = CGRectMake(0,380 ,679, 50);
+                y=y+431;
+            }else{
+                page.frame = CGRectMake(511, y, 511, 350);
+                pageName.frame = CGRectMake(0,300 ,511, 50);
+                y=y+351;
+            }
+
+           
             page.tag = i;
             page.userInteractionEnabled = YES;
             page.multipleTouchEnabled = YES;
             [_scrollerimage addSubview:page];
-            y=y+353;
-        //    NSLog(@"%@",[itemNameArray objectAtIndex:2]);
-            UILabel *pageName = [[UILabel alloc] initWithFrame:CGRectMake(0, 300, 506,50)];
+            
+        
+        
             NSString *pageNameString = [NSString stringWithFormat:@"%@",[itemNameArray objectAtIndex:i]];
             pageNameString = [pageNameString uppercaseString];
             pageName.text = pageNameString;
@@ -220,11 +252,26 @@
     
     UIView *view = sender.view; //cast pointer to the derived class if needed
     NSLog(@"%ld", (long)view.tag);
+    int tagValue = view.tag;
+    NSString *itemNamestr = [NSString stringWithFormat:@"%@",[itemNameArray objectAtIndex:tagValue]];
+    docPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+    documentsDir = [docPaths objectAtIndex:0];
+    dbPath = [documentsDir   stringByAppendingPathComponent:@"niniEvents.sqlite"];
+    database = [FMDatabase databaseWithPath:dbPath];
+    [database open];
+    NSString *categorytype;
+    NSString *queryString = [NSString stringWithFormat:@"Select * FROM menu where categoryName = \'%@\'",itemNamestr];
+    FMResultSet *queryResults = [database executeQuery:queryString];
+    while([queryResults next]) {
+        categorytype = [queryResults stringForColumn:@"type"];
+    }
+    [database close];
     homeViewController *homeVC = [[homeViewController alloc] initWithNibName:@"homeViewController_1" bundle:nil];
-    if (view.tag > [menuCategoryArray count]-1) {
-        homeVC.menuTagValue = 2;
-    }else{
+    homeVC.itemNameStr = itemNamestr;
+    if ([categorytype isEqualToString:@"Food"]) {
         homeVC.menuTagValue = 1;
+    }else{
+        homeVC.menuTagValue = 2;
     }
     homeVC.itemTag = view.tag;
     [self.navigationController pushViewController:homeVC animated:NO];
@@ -281,7 +328,14 @@
 }
 
 - (IBAction)exitAction:(id)sender {
-    [self.exitPopUpView setFrame:CGRectMake(0, 0, self.startUpPopUp.frame.size.width, self.startUpPopUp.frame.size.height)];
+    if (IS_IPAD_Pro) {
+        [self.exitPopUpView setFrame:CGRectMake(0, 0, 1366, 1024)];
+    }else{
+        [self.exitPopUpView setFrame:CGRectMake(0, 0, self.exitPopUpView.frame.size.width, self.exitPopUpView.frame.size.height)];
+    }
+    if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"bulb"] isEqualToString:@"ON"]) {
+        [[NSUserDefaults standardUserDefaults] setValue:@"OFF" forKey:@"bulb"];
+    }
     [self.view addSubview:self.exitPopUpView];
 }
 
@@ -297,7 +351,11 @@
     rc = [self.sideScroller convertRect:rc toView:self.sideScroller];
     pt = rc.origin;
     if (pt.x == 0) {
-        pt.x -= 265;
+        if (IS_IPAD_Pro) {
+            pt.x -= 356;
+        }else{
+            pt.x -= 265;
+        }
     }else{
         pt.x = 0;
     }
@@ -320,10 +378,13 @@
 }
 
 - (IBAction)ophemyAction:(id)sender {
+    
+}
+- (IBAction)Slideshow:(id)sender
+{
     eventImagesSlideViewViewController *homeVC = [[eventImagesSlideViewViewController alloc] initWithNibName:@"eventImagesSlideViewViewController" bundle:nil];
     [self.navigationController pushViewController:homeVC animated:NO];
 }
-
 - (IBAction)appHomeAction:(id)sender {
     appHomeViewController *homeVC = [[appHomeViewController alloc] initWithNibName:@"appHomeViewController" bundle:nil];
     [self.navigationController pushViewController:homeVC animated:NO];
@@ -352,7 +413,7 @@
         [defaults removeObjectForKey:@"Table image"];
         [defaults removeObjectForKey:@"Role"];
         
-        [defaults setObject:[NSString stringWithFormat:@"YES"] forKey:@"isLogedOut"];
+        [defaults setObject:@"YES"forKey:@"isLogedOut"];
         loginViewController *loginVC = [[loginViewController alloc] initWithNibName:@"loginViewController" bundle:nil];
         [self.navigationController pushViewController:loginVC animated:YES];
     }
@@ -421,8 +482,15 @@
         [self.pingBulbImg setImage:[UIImage imageNamed:@"bulb-select.png"]];
         [self.otherMenuPingBulbImg setImage:[UIImage imageNamed:@"bulb-select.png"]];
         self.pingMessageView.hidden = NO;
+        if (IS_IPAD_Pro) {
+            [self.pingMessageView setFrame:CGRectMake(88, 825, self.pingMessageView.frame.size.width, self.pingMessageView.frame.size.height)];
+        }else{
+            [self.pingMessageView setFrame:CGRectMake(52, 585, self.pingMessageView.frame.size.width, self.pingMessageView.frame.size.height)];
+        }
         self.pingMessageView.alpha= 1.0;
-       hideTimer  = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(FadeView) userInfo:nil repeats:NO];
+        [self.sideScroller addSubview:self.pingMessageView];
+        [self.sideScroller bringSubviewToFront:self.pingMessageView];
+        hideTimer = [NSTimer scheduledTimerWithTimeInterval:5 target:self selector:@selector(FadeView) userInfo:nil repeats:NO];
     }
     else{
         
@@ -438,7 +506,7 @@
 {
     
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    NSString *tableID = [NSString stringWithFormat:@"%@",[defaults valueForKey:@"Table ID"]];
+    NSString *tableID = [NSString stringWithFormat:@"%@",[defaults valueForKey:@"Ipad ID"]];
     NSString *serviceProviderId = [NSString stringWithFormat:@"%@",[defaults valueForKey:@"AllotedServiceProviderId"]];
     serviceProviderId = [serviceProviderId stringByReplacingOccurrencesOfString:@"\n" withString:@""];
     serviceProviderId = [serviceProviderId stringByReplacingOccurrencesOfString:@"(" withString:@""];
@@ -452,9 +520,9 @@
     NSString *chatMessage;
     NSString *chatTrigger;
     chatTrigger = [NSString stringWithFormat:@"ping"];
-    chatMessage = [NSString stringWithFormat:@"%@ is requesting for Assistance.",tableName];
+    chatMessage = [NSString stringWithFormat:@"%@ is requesting Assistance.",tableName];
     NSString *sender = [NSString stringWithFormat:@"table"];
-    NSDictionary *jsonDict=[[NSDictionary alloc]initWithObjectsAndKeys:tableID,@"tableId",serviceProviderId,@"serviceproviderId",chatMessage,@"message",sender, @"sender",[NSString stringWithFormat:@"1"],@"restaurantId",chatTrigger,@"trigger", nil];
+    NSDictionary *jsonDict=[[NSDictionary alloc]initWithObjectsAndKeys:tableID,@"tableId",serviceProviderId,@"serviceproviderId",chatMessage,@"message",sender, @"sender",[NSString stringWithFormat:@"1"],@"restaurantId",chatTrigger,@"trigger" ,[[NSUserDefaults standardUserDefaults] valueForKey:@"Table Name"],@"sendername", nil];
     
     NSString *jsonRequest = [jsonDict JSONRepresentation];
     
@@ -527,35 +595,219 @@
     
     NSMutableArray *userDetailDict=[json objectWithString:responseString error:&error];
     NSLog(@"Dictionary %@",userDetailDict);
-    NSString *messageStr = [NSString stringWithFormat:@"%@",[userDetailDict valueForKey:@"message"]];
-   }
+    }
 
 - (IBAction)exitYesAction:(id)sender {
-    docPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
-    documentsDir = [docPaths objectAtIndex:0];
-    dbPath = [documentsDir   stringByAppendingPathComponent:@"niniEvents.sqlite"];
-    database = [FMDatabase databaseWithPath:dbPath];
-    [database open];
-    
-    NSString *queryString1 = [NSString stringWithFormat:@"Delete FROM orderHistory"];
-    [database executeUpdate:queryString1];
-    
-    [database close];
-    
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    
-    [defaults removeObjectForKey:@"Table ID"];
-    [defaults removeObjectForKey:@"Table Name"];
-    [defaults removeObjectForKey:@"Table image"];
-    [defaults removeObjectForKey:@"Role"];
-    
-    
-    [defaults setObject:[NSString stringWithFormat:@"YES"] forKey:@"isLogedOut"];
-    loginViewController *loginVC = [[loginViewController alloc] initWithNibName:@"loginViewController" bundle:nil];
-    [self.navigationController pushViewController:loginVC animated:NO];
+    AppDelegate *appdelegate = [[UIApplication sharedApplication]delegate];
+    [appdelegate logout];
 }
 
 - (IBAction)exitNoAction:(id)sender {
     [self.exitPopUpView removeFromSuperview];
+}
+
+-(void)createMenu
+{
+    BOOL isEventDetailActive;
+    BOOL isPingActive;
+    BOOL isSlideShowActive;
+    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    NSString *eventStatus =[NSString stringWithFormat:@"%@",[defaults valueForKey:@"Event Status"]];
+    NSString *pingAssistanceStatus = [NSString stringWithFormat:@"%@",[defaults valueForKey:@"PingAssistance"]];
+    NSString *slideShowStatus = [NSString stringWithFormat:@"%@",[defaults valueForKey:@"SlideShow"]];
+    
+    if ([eventStatus isEqualToString:@"1"]) {
+        isEventDetailActive = YES;
+    }else{
+        isEventDetailActive = NO;
+    }
+    
+    if ([pingAssistanceStatus isEqualToString:@"1"]) {
+        isPingActive = YES;
+    }else{
+        isPingActive = NO;
+    }
+    
+    if ([slideShowStatus isEqualToString:@"1"]) {
+        isSlideShowActive = YES;
+    }else{
+        isSlideShowActive = NO;
+    }
+    
+    
+    // Menu Bar...............
+    if (IS_IPAD_Pro) {
+        [self.bottomMenuView setFrame:CGRectMake(0, self.sideScroller.frame.size.height - self.bottomMenuView.frame.size.height-12, self.bottomMenuView.frame.size.width, self.bottomMenuView.frame.size.height)];
+    }else{
+        [self.bottomMenuView setFrame:CGRectMake(0, self.sideScroller.frame.size.height - self.bottomMenuView.frame.size.height-20, self.bottomMenuView.frame.size.width, self.bottomMenuView.frame.size.height)];
+    }
+    
+    [self.sideScroller addSubview:self.bottomMenuView];
+    
+    if (isPingActive) {
+        //Ping Button...............
+        [self.pingBtn setFrame:CGRectMake(self.slideMenuBtn.frame.size.width, 2, self.pingBtn.frame.size.width, self.pingBtn.frame.size.height)];
+        [self.bottomMenuView addSubview:self.pingBtn];
+        
+        //Ping Button Image...............
+        [self.otherMenuPingBulbImg setFrame:CGRectMake(self.pingBtn.frame.size.width/4, self.pingBtn.frame.size.height/4-4, self.otherMenuPingBulbImg.frame.size.width, self.otherMenuPingBulbImg.frame.size.height)];
+        [self.pingBtn addSubview:self.otherMenuPingBulbImg];
+        UIImageView *seperatorImg;
+        if (IS_IPAD_Pro) {
+            seperatorImg = [[UIImageView alloc] initWithFrame:CGRectMake(self.pingBtn.frame.origin.x+ 105 ,0,2,72)];
+        }else{
+            seperatorImg = [[UIImageView alloc] initWithFrame:CGRectMake(self.pingBtn.frame.origin.x+self.pingBtn.frame.size.width+1,0,2,self.bottomMenuView.frame.size.height)];
+        }
+        seperatorImg.image = [UIImage imageNamed:@"stroke_13.png"];
+        [self.bottomMenuView addSubview:seperatorImg];
+        
+        
+        //OphemyLogo View.....
+        [self.ophemyLogoView setFrame:CGRectMake(self.pingBtn.frame.origin.x + self.pingBtn.frame.size.width+1, 4, self.ophemyLogoView.frame.size.width, self.ophemyLogoView.frame.size.height)];
+        NSLog(@"Left Width = %f", self.slideMenuBtn.frame.size.width);
+        [self.bottomMenuView addSubview:self.ophemyLogoView];
+    }else{
+        self.pingBtn.hidden = YES;
+        self.otherMenuPingBulbImg.hidden = YES;
+        //OphemyLogo View.....
+        [self.ophemyLogoView setFrame:CGRectMake(self.slideMenuBtn.frame.size.width+1, 4, self.ophemyLogoView.frame.size.width, self.ophemyLogoView.frame.size.height)];
+        [self.bottomMenuView addSubview:self.ophemyLogoView];
+    }
+    int leftWidth;
+    if (isPingActive) {
+        if (IS_IPAD_Pro) {
+            leftWidth = 950;
+        }else{
+            leftWidth = self.bottomMenuView.frame.size.width - (self.ophemyLogoView.frame.origin.x + self.ophemyLogoView.frame.size.width);
+        }
+    }else{
+        if (IS_IPAD_Pro) {
+            leftWidth = 1005;
+        }else{
+            leftWidth = self.bottomMenuView.frame.size.width - (self.ophemyLogoView.frame.origin.x + self.ophemyLogoView.frame.size.width);
+        }
+    }
+    
+    NSLog(@"Left Width = %d",leftWidth);
+    
+    NSMutableArray *buttonsArray = [[NSMutableArray alloc] initWithObjects:@"Slide Show",@"Event Detail",@"Menu",@"View Order", nil];
+    if (!isSlideShowActive) {
+        [buttonsArray removeObject:@"Slide Show"];
+    }
+    
+    if (!isEventDetailActive) {
+        [buttonsArray removeObject:@"Event Detail"];
+    }
+    //    UIButton *bottomBarBtn;
+    for (int j = 0; j < buttonsArray.count; j++) {
+        
+        NSLog(@"Value of i ...... %d",j);
+        UIButton *bottomBarBtn;
+        if (isPingActive) {
+            if (IS_IPAD_Pro) {
+                bottomBarBtn = [[UIButton alloc] initWithFrame:CGRectMake(j *leftWidth/buttonsArray.count+420+2,2,leftWidth/buttonsArray.count, 72)];
+            }else{
+                bottomBarBtn = [[UIButton alloc] initWithFrame:CGRectMake(j *leftWidth/buttonsArray.count+(self.ophemyLogoView.frame.origin.x + self.ophemyLogoView.frame.size.width)+2,2,leftWidth/buttonsArray.count, self.bottomMenuView.frame.size.height)];
+            }
+        }else{
+            if (IS_IPAD_Pro) {
+                bottomBarBtn = [[UIButton alloc] initWithFrame:CGRectMake(j *leftWidth/buttonsArray.count+360+2,2,leftWidth/buttonsArray.count, 72)];
+            }else{
+                bottomBarBtn = [[UIButton alloc] initWithFrame:CGRectMake(j *leftWidth/buttonsArray.count+(self.ophemyLogoView.frame.origin.x + self.ophemyLogoView.frame.size.width)+2,2,leftWidth/buttonsArray.count, self.bottomMenuView.frame.size.height)];
+            }
+        }
+        
+        NSLog(@"%f,%f,%f,%f",bottomBarBtn.frame.origin.x,bottomBarBtn.frame.origin.y,bottomBarBtn.frame.size.width,bottomBarBtn.frame.size.height);
+        NSString * title = [NSString stringWithFormat:@"%@",[buttonsArray objectAtIndex:j]];
+        [bottomBarBtn setTitle:[title uppercaseString] forState:UIControlStateNormal];
+        [bottomBarBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal] ;
+        [bottomBarBtn setUserInteractionEnabled:YES];
+        [bottomBarBtn setContentVerticalAlignment:UIControlContentVerticalAlignmentCenter];
+        bottomBarBtn.titleLabel.font =[UIFont fontWithName:@"Helvetica-Condensed" size:20];
+        [bottomBarBtn setImageEdgeInsets:UIEdgeInsetsMake(0, bottomBarBtn.titleLabel.bounds.size.width-10, 0, 0)];
+        if ([title isEqualToString:@"Menu"]) {
+            [bottomBarBtn setBackgroundColor:[UIColor colorWithRed:194/255.0f green:57/255.0f blue:11/255.0f alpha:1.0]];
+        }
+        if ([title isEqualToString:@"View Order"]) {
+            [bottomBarBtn setImage:[UIImage imageNamed:@"cart.png"] forState:UIControlStateNormal];
+            CGRect frameIcon = bottomBarBtn.imageView.frame;
+            NSLog(@"%f , %f , %f ,%f",frameIcon.origin.x,frameIcon.origin.y,frameIcon.size.width,frameIcon.size.height);
+            if (IS_IPAD_Pro) {
+                [self.otheMenuBatchImg setFrame:CGRectMake(frameIcon.origin.x + frameIcon.size.width/2.5,9, 20, 20)];
+            }else{
+                [self.otheMenuBatchImg setFrame:CGRectMake(frameIcon.origin.x + frameIcon.size.width/2.5,0, 20, 20)];
+            }
+            
+            [bottomBarBtn addSubview:self.otheMenuBatchImg];
+            [bottomBarBtn bringSubviewToFront:self.otheMenuBatchImg];
+            
+            if (IS_IPAD_Pro) {
+                [self.otherMenuBatchLbl setFrame:CGRectMake(frameIcon.origin.x + frameIcon.size.width/2.5,9, 20, 20)];
+            }else{
+                [self.otherMenuBatchLbl setFrame:CGRectMake(frameIcon.origin.x + frameIcon.size.width/2.5,0, 20, 20)];
+            }
+            
+            [bottomBarBtn addSubview:self.otherMenuBatchLbl];
+            [bottomBarBtn bringSubviewToFront:self.otherMenuBatchLbl];
+            
+        }
+        //        [bottomBarBtn setContentVerticalAlignment:UIControlContentVerticalAlignmentTop];
+        [bottomBarBtn addTarget:self action:@selector(bottomBarBtns:) forControlEvents:UIControlEventTouchUpInside];
+        [self.bottomMenuView addSubview:bottomBarBtn];
+        
+        UIImageView *seperatorImg;
+        if (isPingActive) {
+            if (IS_IPAD_Pro) {
+                seperatorImg = [[UIImageView alloc] initWithFrame:CGRectMake(j *leftWidth/buttonsArray.count+420,0,2,72)];
+            }else{
+                seperatorImg = [[UIImageView alloc] initWithFrame:CGRectMake(j *leftWidth/buttonsArray.count+(self.ophemyLogoView.frame.origin.x + self.ophemyLogoView.frame.size.width),0,2,self.bottomMenuView.frame.size.height)];
+            }
+        }else{
+            if (IS_IPAD_Pro) {
+                seperatorImg = [[UIImageView alloc] initWithFrame:CGRectMake(j *leftWidth/buttonsArray.count+360,0,2,72)];
+            }else{
+                seperatorImg = [[UIImageView alloc] initWithFrame:CGRectMake(j *leftWidth/buttonsArray.count+(self.ophemyLogoView.frame.origin.x + self.ophemyLogoView.frame.size.width),0,2,self.bottomMenuView.frame.size.height)];
+            }
+        }
+        seperatorImg.image = [UIImage imageNamed:@"stroke_13.png"];
+        [self.bottomMenuView addSubview:seperatorImg];
+        
+        
+    }
+    
+}
+
+-(IBAction)bottomBarBtns:(UIButton*)sender{
+    NSLog(@"%@",sender.titleLabel.text);
+    if ([sender.titleLabel.text isEqualToString:@"EVENT DETAIL"]){
+        appHomeViewController *homeVC = [[appHomeViewController alloc] initWithNibName:@"appHomeViewController" bundle:nil];
+        [self.navigationController pushViewController:homeVC animated:NO];
+    }else if ([sender.titleLabel.text isEqualToString:@"SLIDE SHOW"]){
+        eventImagesSlideViewViewController *homeVC = [[eventImagesSlideViewViewController alloc] initWithNibName:@"eventImagesSlideViewViewController" bundle:nil];
+        [self.navigationController pushViewController:homeVC animated:NO];
+    }else if ([sender.titleLabel.text isEqualToString:@"VIEW ORDER"]){
+        CheckOutViewController *homeVC = [[CheckOutViewController alloc] initWithNibName:@"CheckOutViewController" bundle:nil];
+        [self.navigationController pushViewController:homeVC animated:NO];
+    }
+    
+}
+
+- (void)removeData
+{
+    NSString *extension = @"png";
+    NSFileManager *fileManager = [NSFileManager defaultManager];
+    NSArray *paths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory,     NSUserDomainMask, YES);
+    NSString *documentsDirectory = [paths objectAtIndex:0];
+    
+    NSArray *contents = [fileManager contentsOfDirectoryAtPath:documentsDirectory error:NULL];
+    NSEnumerator *e = [contents objectEnumerator];
+    NSString *filename;
+    while ((filename = [e nextObject])) {
+        
+        if ([[filename pathExtension] isEqualToString:extension]) {
+            
+            [fileManager removeItemAtPath:[documentsDirectory     stringByAppendingPathComponent:filename] error:NULL];
+        }
+    }
 }
 @end

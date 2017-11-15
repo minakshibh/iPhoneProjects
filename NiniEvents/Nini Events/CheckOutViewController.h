@@ -1,10 +1,3 @@
-//
-//  CheckOutViewController.h
-//  Nini Events
-//
-//  Created by Br@R on 29/01/15.
-//  Copyright (c) 2015 Krishna_Mac_1. All rights reserved.
-//
 
 #import <UIKit/UIKit.h>
 #import "FMDatabase.h"
@@ -12,10 +5,14 @@
 #import "orderOC.h"
 #import "OrderTableViewCell.h"
 #import "PlaceOrderData.h"
-@interface CheckOutViewController : UIViewController
+@interface CheckOutViewController : UIViewController<UITextViewDelegate>
 {
     NSMutableData *webData;
     UIActivityIndicatorView *activityIndicator;
+    
+    
+    NSString * placeholderText;
+    BOOL isPlaceholder;
     
     UILabel*emptyCartLabel;
     
@@ -35,6 +32,28 @@
     UIButton *increaseItemBtn;
     IBOutlet UIView *checkoutPriceDetailView;
     NSTimer *hideTimer;
+    IBOutlet UIView *priceingView;
+    
+    
+    
+    IBOutlet UIToolbar *toolBar;
+    
+    IBOutlet UIButton *btnmenufooter;
+    IBOutlet UIButton *btnpingfooter;
+    
+    IBOutlet UIButton *btnlogofooter;
+    
+    IBOutlet UIButton *btnslideshowfooter;
+    IBOutlet UIButton *btneventdetailfooter;
+    IBOutlet UIButton *btnmenu1footer;
+    IBOutlet UIButton *btnVieworderfooter;
+    IBOutlet UIView *viewmenufooter;
+    IBOutlet UIView *viewpingfooter;
+    IBOutlet UIView *viewlogofooter;
+    IBOutlet UIView *viewslideshowfooter;
+    IBOutlet UIView *vieweventdetailfooter;
+    IBOutlet UIView *viewmenu1footer;
+    IBOutlet UIView *viewvieworderfooter;
 }
 @property (weak, nonatomic) IBOutlet UIImageView *disabledImgView;
 @property (strong, nonatomic) IBOutlet UILabel *headerLbl;
@@ -54,6 +73,8 @@
 - (IBAction)sideMenuAction:(id)sender;
 - (IBAction)checkOutView:(id)sender;
 - (IBAction)ophemyAction:(id)sender;
+- (IBAction)Slideshow:(id)sender;
+@property (strong, nonatomic) IBOutlet UIButton *checkOutBtn;
 @property (strong, nonatomic) IBOutlet UITextView *notesTextView;
 @property (strong, nonatomic) IBOutlet UILabel *batchLbl;
 @property (strong, nonatomic) IBOutlet UIView *sideMenuWithoutReqAssistance;

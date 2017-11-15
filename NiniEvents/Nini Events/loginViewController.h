@@ -1,10 +1,3 @@
-//
-//  loginViewController.h
-//  Nini Events
-//
-//  Created by Krishna_Mac_1 on 11/17/14.
-//  Copyright (c) 2014 Krishna_Mac_1. All rights reserved.
-//
 
 #import <UIKit/UIKit.h>
 #import "AppDelegate.h"
@@ -17,7 +10,6 @@
     AppDelegate *appdelegate;
     CGPoint svos;
     NSMutableData *webData;
-    UIActivityIndicatorView *activityIndicator;
     NSString *result, *message, *lastUpdatedCities, *supportEmail, *categoryType;
     NSArray *docPaths;
     NSString *documentsDir, *dbPath;
@@ -25,9 +17,15 @@
     menuOC * menuObj;
     menuItemsOC *menuItemsObj;
     FMDatabase *database;
-    NSMutableArray *menuDetails, *menuCategoryIdsArray, *menuItemsDetail, *itemsIdsArray, *tablesArray,*imagesUrlArray;
-    
+    NSMutableArray *menuDetails, *menuCategoryIdsArray, *menuItemsDetail, *itemsIdsArray, *tablesArray,*imagesUrlArray,*iPadIdsArray;
+    IBOutlet UILabel *lblbackground;
+    IBOutlet UIActivityIndicatorView *activityIndicator;
+    BOOL checkbox_Value;
+    IBOutlet UIButton *btnRememberMe;
+    UIImage *btnImage;
+    appHomeViewController *appHomeView;
 }
+- (IBAction)btnRememberMe:(id)sender;
 @property (weak, nonatomic) IBOutlet UITextField *userNameTxt;
 @property (weak, nonatomic) IBOutlet UITextField *userPasswordTxt;
 @property (weak, nonatomic) IBOutlet UIButton *loginBtn;
@@ -35,6 +33,7 @@
 @property (weak, nonatomic) IBOutlet UIImageView *logoImg;
 @property (weak, nonatomic) IBOutlet UIScrollView *loginScroller;
 - (IBAction)ForgotPassword:(id)sender;
-@property (weak, nonatomic) IBOutlet UIImageView *disabledImgView;
+- (IBAction)Register:(id)sender;
+@property (weak, nonatomic) IBOutlet UIView *disabledImgView;
 -(void)menuItems;
 @end

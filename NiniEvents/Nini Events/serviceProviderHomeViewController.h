@@ -1,10 +1,3 @@
-//
-//  serviceProviderHomeViewController.h
-//  Nini Events
-//
-//  Created by Krishna_Mac_1 on 11/26/14.
-//  Copyright (c) 2014 Krishna_Mac_1. All rights reserved.
-//
 
 #import <UIKit/UIKit.h>
 #import "pendingOrdersOC.h"
@@ -12,8 +5,12 @@
 #import "UIBubbleTableViewDataSource.h"
 #import "tableAllotedOC.h"
 #import "fetchChatOC.h"
-@interface serviceProviderHomeViewController : UIViewController<UIBubbleTableViewDataSource, UITextViewDelegate>
+#import "NIDropDown.h"
+#import "FMDatabase.h"
+@interface serviceProviderHomeViewController : UIViewController<UIBubbleTableViewDataSource, UITextViewDelegate, NIDropDownDelegate>
 {
+    FMDatabase *database;
+     NIDropDown *dropDown;
     NSMutableData *webData;
     tableAllotedOC *tableAllotedObj;
     fetchChatOC *fetchChatObj;
@@ -42,14 +39,30 @@
     IBOutlet UILabel *nameLbl;
     IBOutlet UIImageView *providerImageView;
     int isCoutFetched;
+    IBOutlet UIButton *pingAssistance;
     IBOutlet UITextField *searchOrdrTxt;
     //FMDatabase *database;
+    IBOutlet UILabel *lblPingAssistance;
+    IBOutlet UILabel *requestLbl;
+    
+    IBOutlet UIImageView *bulb;
+    IBOutlet UIButton *requestAssistance;
+    
+    IBOutlet UIButton *modificationRequestCloseBtn;
+    IBOutlet UIImageView *editOrderImage;
+    IBOutlet UIButton *btnRequest;
+    int flag;
+    IBOutlet UILabel *emptyOrderLbl;
+    IBOutlet UILabel *lblliveAssistance;
+    IBOutlet UIImageView *imageliveAssistance;
+    IBOutlet UIView *viewliveAssistance;
+    IBOutlet UIView *viewexit;
+    IBOutlet UIView *vieworders;
+    IBOutlet UIView *viewRequestAssistance;
 }
-- (IBAction)chatCloseBtn:(id)sender;
+- (IBAction)btnRequest:(id)sender;
 - (IBAction)menuOrdersBtn:(id)sender;
 - (IBAction)menuPings:(id)sender;
-- (IBAction)menuMyStatus:(id)sender;
-- (IBAction)menuSearch:(id)sender;
 - (IBAction)menuExit:(id)sender;
 - (IBAction)menuBtn:(id)sender;
 @property (weak, nonatomic) IBOutlet UIScrollView *sideScroller;
@@ -74,11 +87,9 @@
 - (IBAction)sendChatMessage:(id)sender;
 - (IBAction)cancelationBtn:(id)sender;
 @property (strong, nonatomic) IBOutlet UIButton *requestCancellation;
-- (IBAction)modificationBtn:(id)sender;
 @property (strong, nonatomic) IBOutlet UIButton *requestModification;
 @property (strong, nonatomic) IBOutlet UILabel *orderTime;
 @property (strong, nonatomic) IBOutlet UIButton *orderStatus;
-- (IBAction)statusChangeBtn:(id)sender;
 @property (strong, nonatomic) IBOutlet UIImageView *arrow1;
 @property (strong, nonatomic) IBOutlet UIImageView *arrow2;
 @property (strong, nonatomic) IBOutlet UIImageView *arrow3;
@@ -128,5 +139,6 @@
 @property (strong, nonatomic) IBOutlet UILabel *enterReasonLbl;
 @property (strong, nonatomic) IBOutlet UIImageView *chatNotificationBadgeImg;
 @property (strong, nonatomic) IBOutlet UILabel *chatNotificationBageLbl;
-
+@property (weak, nonatomic) IBOutlet UIView *gestureView;
+-(void)pendingPlacedOrder: (NSString *)ordertype;
 @end

@@ -1,10 +1,3 @@
-//
-//  spPingAssistanceViewController.h
-//  Nini Events
-//
-//  Created by Krishna_Mac_1 on 2/24/15.
-//  Copyright (c) 2015 Krishna_Mac_1. All rights reserved.
-//
 
 #import <UIKit/UIKit.h>
 #import "tableAllotedOC.h"
@@ -15,6 +8,19 @@
 @interface spPingAssistanceViewController : UIViewController
 {
     NSMutableArray *pingsList, *tableNameArray, *allChatMessages,*orderIdsArray, *tableAllotedIdsArray, *assignedTablesArray, *assignedTableTimestampsArray,*fetchedChatData, *fetchTableIdsArray,*tablesList,*fetchingChat;
+    UIActivityIndicatorView *activityIndicator;
+    IBOutlet UIButton *orders;
+    IBOutlet UIButton *requestAssistance;
+    IBOutlet UIButton *pingAssistance;
+    IBOutlet UIButton *exit;
+    IBOutlet UILabel *lblliveAssistance;
+    IBOutlet UIImageView *imageliveAssistance;
+    IBOutlet UIView *vieworders;
+    IBOutlet UIView *viewexit;
+    IBOutlet UIView *viewliveAssistance;
+    IBOutlet UIImageView *disabledImgView;
+    IBOutlet UIView *viewNoMessages;
+    IBOutlet UIView *viewRequestAssistance;
     tableAllotedOC *tableAllotedObj;
     NSMutableData *webData;
     NSString *documentsDir, *dbPath,* timeStampKey, *selectedTable;
@@ -47,7 +53,7 @@
 - (IBAction)requestAssistanceAction:(id)sender;
 - (IBAction)seeOrderAction:(id)sender;
 - (IBAction)pingForAssisteance:(id)sender;
-
+-(void)chatTable;
 -(void) fetchCounts;
 @property (strong, nonatomic) IBOutlet UIImageView *orderNotificationBadgeImg;
 @property (strong, nonatomic) IBOutlet UILabel *orderNotificationBadgeLbl;

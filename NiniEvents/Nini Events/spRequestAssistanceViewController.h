@@ -1,10 +1,3 @@
-//
-//  spRequestAssistanceViewController.h
-//  Nini Events
-//
-//  Created by Krishna_Mac_1 on 2/19/15.
-//  Copyright (c) 2015 Krishna_Mac_1. All rights reserved.
-//
 
 #import <UIKit/UIKit.h>
 #import "tableAllotedOC.h"
@@ -14,6 +7,17 @@
 #import "FMDatabase.h"
 @interface spRequestAssistanceViewController : UIViewController<UIBubbleTableViewDataSource, UITextViewDelegate>
 {
+    IBOutlet UIButton *requestAssistance;
+    IBOutlet UIButton *pingAssistance;
+    IBOutlet UIButton *exit;
+    IBOutlet UIButton *orders;
+    IBOutlet UILabel *lblliveAssistance;
+    IBOutlet UIImageView *imageliveAssistance;
+    IBOutlet UIView * viewliveAssistance;
+    IBOutlet UIView * viewexit;
+    IBOutlet UIView *vieworders;
+    IBOutlet UIView *viewRequestAssistance;
+    
     NSMutableArray *orderList, *chatArray, *allChatMessages,*orderIdsArray, *tableAllotedIdsArray, *assignedTablesArray, *assignedTableTimestampsArray,*fetchedChatData, *fetchTableIdsArray,*tablesList,*fetchingChat;
     tableAllotedOC *tableAllotedObj;
     NSMutableData *webData;
@@ -31,6 +35,10 @@
     NSIndexPath *selectedIndex,*orderNumberIndex;
     NSArray *chatCountArray;
      CGPoint svos;
+    UIActivityIndicatorView *objactivityindicator;
+    IBOutlet UIView *disableView;
+
+    NSTimer  *fetchMsgTimer;
 }
 - (IBAction)myStatsAction:(id)sender;
 @property (strong, nonatomic) NSMutableArray *tablesAllotedArray;
@@ -61,6 +69,7 @@
 @property (strong, nonatomic) IBOutlet UIView *exitPopUpView;
 - (IBAction)exitYesAction:(id)sender;
 - (IBAction)exitNoAction:(id)sender;
+-(void)chatTable;
 @property (strong, nonatomic) IBOutlet UIImageView *chatNotificationBadgeImg;
 @property (strong, nonatomic) IBOutlet UILabel *chatNotificationBageLbl;
 @end

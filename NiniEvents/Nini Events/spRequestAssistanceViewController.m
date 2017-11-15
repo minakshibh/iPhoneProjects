@@ -1,10 +1,3 @@
-//
-//  spRequestAssistanceViewController.m
-//  Nini Events
-//
-//  Created by Krishna_Mac_1 on 2/19/15.
-//  Copyright (c) 2015 Krishna_Mac_1. All rights reserved.
-//
 
 #import "spRequestAssistanceViewController.h"
 #import "JSON.h"
@@ -15,6 +8,7 @@
 #import "NSBubbleData.h"
 #import "serviceProviderHomeViewController.h"
 #import "loginViewController.h"
+#import "Base64.h"
 #import "spPingAssistanceViewController.h"
 @interface spRequestAssistanceViewController ()
 
@@ -23,6 +17,7 @@
 @implementation spRequestAssistanceViewController
 
 - (void)viewDidLoad {
+    [[self navigationController] setNavigationBarHidden:YES animated:YES];
     self.chatMessageTxtView.layer.borderColor = [UIColor grayColor].CGColor;
     self.chatMessageTxtView.layer.borderWidth = 1;
     originalPt.x = self.chatView.frame.origin.x;
@@ -30,7 +25,7 @@
     
     self.sendBtn.layer.borderColor = [UIColor grayColor].CGColor;
     self.sendBtn.layer.borderWidth = 1;
-    NSString *chatCountStr = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults ]valueForKey:@"SPChat Count"]];
+    NSString *chatCountStr = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults]valueForKey:@"SPChat Count"]];
     NSLog(@"%@",[[NSUserDefaults standardUserDefaults ]valueForKey:@"SPChat Count"]);
     NSLog(@"%@",chatCountStr);
     chatCountArray = [chatCountStr componentsSeparatedByString:@","];
@@ -65,13 +60,94 @@
     self.chatTableView.layer.borderColor = [UIColor grayColor].CGColor;
     self.chatTableView.layer.borderWidth = 1;
     tableSelected = [NSString stringWithFormat:@"1"];
-    
-    [self chatTable];
-    //[self showChat:tableSelected];
-    [super viewDidLoad];
-    // Do any additional setup after loading the view from its nib.
-}
+    [self showChat:tableSelected];
 
+    [self chatTable];
+    
+    
+    
+    [super viewDidLoad];
+}
+-(void)viewWillAppear:(BOOL)animated{
+    
+    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    NSString *eventChatSupport = [NSString stringWithFormat:@"%@",[defaults valueForKey:@"Event Chat Support"]];
+    NSString *PingAssistance = [NSString stringWithFormat:@"%@",[defaults valueForKey:@"PingAssistance"]];
+    
+    
+    if ([eventChatSupport isEqualToString:@"False"]) {
+        requestAssistance.hidden = YES;
+        float viewHeight = self.view.frame.size.height;
+        
+        orders.frame = CGRectMake(orders.frame.origin.x, 0, orders.frame.size.width, viewHeight/3-2);
+        pingAssistance.frame = CGRectMake(pingAssistance.frame.origin.x,viewHeight/3, pingAssistance.frame.size.width, viewHeight/3-2);
+        exit.frame = CGRectMake(exit.frame.origin.x, pingAssistance.frame.origin.y+pingAssistance.frame.size.height+2, exit.frame.size.width,viewHeight/3);
+        
+        lblliveAssistance.hidden = YES;
+        imageliveAssistance.hidden = YES;
+        
+        self.chatNotificationBadgeImg.hidden = YES;
+        self.chatNotificationBageLbl.hidden = YES;
+        
+        [pingAssistance addSubview:viewliveAssistance];
+        [viewliveAssistance setFrame:CGRectMake(25,pingAssistance.frame.size.height/2-viewliveAssistance.frame.size.height/2,viewliveAssistance.frame.size.width,viewliveAssistance.frame.size.height)];
+        
+        [exit addSubview:viewexit];
+        [viewexit setFrame:CGRectMake(25,exit.frame.size.height/2-viewexit.frame.size.height/2,viewexit.frame.size.width,viewexit.frame.size.height)];
+        [orders addSubview:vieworders];
+        [vieworders setFrame:CGRectMake(25,orders.frame.size.height/2-vieworders.frame.size.height/2,vieworders.frame.size.width,vieworders.frame.size.height)];
+        
+    }
+    if ([PingAssistance isEqualToString:@"0"]) {
+        float viewHeight = self.view.frame.size.height;
+        
+        orders.frame = CGRectMake(orders.frame.origin.x, 0, orders.frame.size.width, viewHeight/3-2);
+        requestAssistance.frame = CGRectMake(requestAssistance.frame.origin.x,viewHeight/3, requestAssistance.frame.size.width, viewHeight/3-2);
+        exit.frame = CGRectMake(exit.frame.origin.x, requestAssistance.frame.origin.y+requestAssistance.frame.size.height+2, exit.frame.size.width,viewHeight/3);
+        
+        pingAssistance.hidden = YES;
+        viewliveAssistance.hidden = YES;
+        
+        self.pingNotificationBadgeImg.hidden = YES;
+        self.pingNotificationBadgeLbl.hidden = YES;
+        
+        [requestAssistance addSubview:viewRequestAssistance];
+        [viewRequestAssistance setFrame:CGRectMake(25,requestAssistance.frame.size.height/2-viewRequestAssistance.frame.size.height/2,viewRequestAssistance.frame.size.width,viewRequestAssistance.frame.size.height)];
+        
+        [exit addSubview:viewexit];
+        [viewexit setFrame:CGRectMake(25,exit.frame.size.height/2-viewexit.frame.size.height/2,viewexit.frame.size.width,viewexit.frame.size.height)];
+        
+        [orders addSubview:vieworders];
+        [vieworders setFrame:CGRectMake(25,orders.frame.size.height/2-vieworders.frame.size.height/2,vieworders.frame.size.width,vieworders.frame.size.height)];
+    }
+    if ([eventChatSupport isEqualToString:@"False"] && [PingAssistance isEqualToString:@"0"]){
+        pingAssistance.hidden = YES;
+        viewliveAssistance.hidden = YES;
+        
+        requestAssistance.hidden = YES;
+        lblliveAssistance.hidden = YES;
+        imageliveAssistance.hidden = YES;
+        
+        float viewHeight = self.view.frame.size.height;
+        
+        orders.frame = CGRectMake(orders.frame.origin.x, 0, orders.frame.size.width, viewHeight/2-2);
+        exit.frame = CGRectMake(exit.frame.origin.x, orders.frame.origin.y+orders.frame.size.height+2, exit.frame.size.width,viewHeight/2);
+        
+        [exit addSubview:viewexit];
+        [viewexit setFrame:CGRectMake(25,exit.frame.size.height/2-viewexit.frame.size.height/2,viewexit.frame.size.width,viewexit.frame.size.height)];
+        
+        [orders addSubview:vieworders];
+        [vieworders setFrame:CGRectMake(25,orders.frame.size.height/2-vieworders.frame.size.height/2,vieworders.frame.size.width,vieworders.frame.size.height)];
+    }
+    
+    
+}
+- (void)viewWillDisappear:(BOOL)animated
+{
+    [fetchMsgTimer invalidate];
+    
+    [super viewWillDisappear:animated];
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
@@ -80,16 +156,29 @@
 -(void)chatTable
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    self.tablesAllotedArray = [[NSMutableArray alloc]initWithObjects:[defaults valueForKey:@"Alloted Tables"], nil];
-    NSMutableArray *tempArray = [self.tablesAllotedArray objectAtIndex:0];
-    NSLog(@"Tables... %@",tempArray);
+    self.tablesAllotedArray = [[[[NSMutableArray alloc]initWithObjects:[defaults valueForKey:@"Alloted Tables"], nil]objectAtIndex:0] mutableCopy];
     tableAllotedIdsArray = [[NSMutableArray alloc] init];
     assignedTablesArray = [[NSMutableArray alloc] init];
-    for (int i =0 ; i <[tempArray count] ; i++) {
+
+    for (int i =0 ; i <[self.tablesAllotedArray count] ; i++) {
         tableAllotedObj = [[tableAllotedOC alloc]init];
-        tableAllotedObj.tableId = [[[tempArray valueForKey:@"id"] objectAtIndex:i] integerValue];
-        tableAllotedObj.tableName = [[tempArray valueForKey:@"name"] objectAtIndex:i];
-        tableAllotedObj.tableType = [[tempArray valueForKey:@"type"] objectAtIndex:i];
+        NSString *tableIdStr = [NSString stringWithFormat:@"%@",[[self.tablesAllotedArray valueForKey:@"id"] objectAtIndex:i]];
+        tableIdStr = [tableIdStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+        tableIdStr = [tableIdStr stringByReplacingOccurrencesOfString:@"(" withString:@""];
+        tableIdStr = [tableIdStr stringByReplacingOccurrencesOfString:@")" withString:@""];
+        tableIdStr = [tableIdStr stringByReplacingOccurrencesOfString:@" " withString:@""];
+        tableIdStr = [tableIdStr stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+        NSLog(@"Table ID %@",tableIdStr);
+        tableAllotedObj.tableId = [tableIdStr intValue];
+        NSLog(@"Table ID %d",tableAllotedObj.tableId);
+        NSString *tableNameStr = [NSString stringWithFormat:@"%@",[[self.tablesAllotedArray valueForKey:@"name"] objectAtIndex:i]];
+        
+        tableNameStr = [tableNameStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+        tableNameStr = [tableNameStr stringByReplacingOccurrencesOfString:@" " withString:@""];
+        tableNameStr = [tableNameStr stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+        NSLog(@"Table ID %@",tableIdStr);
+        NSLog(@"Table Name %@",tableNameStr);
+        tableAllotedObj.tableName = [NSString stringWithFormat:@"%@",tableNameStr];
         [tableAllotedIdsArray addObject:tableAllotedObj];
         [assignedTablesArray addObject:[NSString stringWithFormat:@"%d",tableAllotedObj.tableId]];
     }
@@ -113,24 +202,19 @@
 #pragma mark - Fetch Help Message
 -(void) fetchHelpMessage: (NSString *)assignedTableListStr
 {
-    //    [self disabled];
-    //    [activityIndicator startAnimating];
+    [fetchMsgTimer invalidate];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    //    NSString *maxTimestamp= [NSString stringWithFormat:@"%@",[defaults valueForKey:@"Service Provider Incoming Chat Timestamp"]];
-    //    if ([maxTimestamp isEqualToString:@"(null)"]) {
-    //        maxTimestamp = [NSString stringWithFormat:@"-1"];
-    //    }
     NSString *timeStamp;
     assignedTableTimestampsArray = [[NSMutableArray alloc] init];
     for(int i = 0; i < [assignedTablesArray count]; i++){
         timeStampKey = [NSString stringWithFormat:@"%@_TimeStamp",[assignedTablesArray objectAtIndex:i]];
         timeStamp = [NSString stringWithFormat:@"%@",[defaults objectForKey:timeStampKey]];
         if ([timeStamp isEqualToString:@"(null)"]) {
-            timeStamp = [NSString stringWithFormat:@"-1"];
+            timeStamp = [NSString stringWithFormat:@""];
         }
         [assignedTableTimestampsArray addObject:timeStamp];
     }
-    
+ 
     NSString *ids = [NSString stringWithFormat:@"%@",[defaults valueForKey:@"Service Provider ID"]];
     NSString *user =[NSString stringWithFormat:@"serviceprovider"];
     NSString *assignedTableList = [NSString stringWithFormat:@"%@",assignedTableListStr];
@@ -139,12 +223,12 @@
     assignedTableList = [assignedTableList stringByReplacingOccurrencesOfString:@"(" withString:@""];
     assignedTableList = [assignedTableList stringByReplacingOccurrencesOfString:@")" withString:@""];
     NSString *timeStampList = [NSString stringWithFormat:@"%@",assignedTableTimestampsArray];
-    timeStampList = [timeStampList stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-    timeStampList = [timeStampList stringByReplacingOccurrencesOfString:@"\"" withString:@""];
-    timeStampList = [timeStampList stringByReplacingOccurrencesOfString:@" " withString:@""];
-    timeStampList = [timeStampList stringByReplacingOccurrencesOfString:@"(" withString:@""];
-    timeStampList = [timeStampList stringByReplacingOccurrencesOfString:@")" withString:@""];
-    
+    timeStampList = [timeStampList stringByReplacingOccurrencesOfString:@"\n"withString:@""];
+    timeStampList = [timeStampList stringByReplacingOccurrencesOfString:@"\\"withString:@""];
+    timeStampList = [timeStampList stringByReplacingOccurrencesOfString:@"\""withString:@""];
+    timeStampList = [timeStampList stringByReplacingOccurrencesOfString:@")"withString:@""];
+    timeStampList = [timeStampList stringByReplacingOccurrencesOfString:@"("withString:@""];
+    timeStampList = [timeStampList stringByTrimmingCharactersInSet:[NSCharacterSet whitespaceCharacterSet]];
     NSDictionary *jsonDict=[[NSDictionary alloc]initWithObjectsAndKeys:@"",@"timestamp",ids, @"id",user, @"user",assignedTableList, @"assignedtablelist",timeStampList, @"timestamplist",@"chat",@"trigger", nil];
     
     NSString *jsonRequest = [jsonDict JSONRepresentation];
@@ -161,16 +245,7 @@
     [request setValue:@"application/json" forHTTPHeaderField:@"Accept"];
     
     [request setHTTPBody: [jsonRequest dataUsingEncoding:NSUTF8StringEncoding]];
-//    patrol_id - 90
-//    officer_id- 2
-//    shift_id-9
-//    event_name-MME
-//    latitude-30.76
-//    longitude-76.31
-//    checkpoint_id-7
-//    text-sdfsdf
-//    img-""
-//    video- file
+
     NSURLConnection *connection = [[NSURLConnection alloc] initWithRequest:request delegate:self];
     webServiceCode =13;
     if(connection)
@@ -205,6 +280,10 @@
 }
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
+    [objactivityindicator stopAnimating];
+    [self.sendBtn setUserInteractionEnabled:YES];
+    disableView.hidden=YES;
+    
     //    [activityIndicator stopAnimating];
     [self.view setUserInteractionEnabled:YES];
     UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Connection Error" message:@"Please Check the Internet Connection" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
@@ -220,6 +299,10 @@
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
     if (webServiceCode == 4){
+        [objactivityindicator stopAnimating];
+        disableView.hidden=YES;
+        [self.sendBtn setUserInteractionEnabled:YES];
+
         NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
         NSString *responseString = [[NSString alloc] initWithData:webData encoding:NSUTF8StringEncoding];
         NSLog(@"responseString:%@",responseString);
@@ -232,7 +315,6 @@
         NSMutableArray *userDetailDict=[json objectWithString:responseString error:&error];
         NSLog(@"Dictionary %@",userDetailDict);
         self.chatMessageTxtView.text =@"";
-        [self.sendBtn setUserInteractionEnabled:YES];
         
         [self chatTable];
         
@@ -250,10 +332,7 @@
         SBJsonParser *json = [[SBJsonParser alloc] init];
         
         NSMutableArray *userDetailDict=[json objectWithString:responseString error:&error];
-        NSLog(@"Dictionary %@",userDetailDict);
-        //        NSString *orderTypeStr =[NSString stringWithFormat:@"%@",StatusTag];
-        //        [self pendingPlacedOrder:orderTypeStr];
-        
+        NSLog(@"Dictionary %@",userDetailDict);        
         
         NSMutableArray *tablesOfSP = [NSMutableArray arrayWithArray:[userDetailDict valueForKey:@"TableList"]];
        
@@ -294,6 +373,7 @@
                 NSArray *tempList =[[fetchingChat valueForKey:@"listMessage"] objectAtIndex:i];
                 NSMutableArray *fetchMessages = [[NSMutableArray alloc] init];
                 fetchMessages = [tempList mutableCopy];
+                
                 for (int i = 0; i < [fetchMessages count]; i++)
                 {
                     
@@ -302,99 +382,38 @@
                     dbPath = [documentsDir   stringByAppendingPathComponent:@"niniEvents.sqlite"];
                     database = [FMDatabase databaseWithPath:dbPath];
                     [database open];
-                    NSString *compairStr = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"CompareDate"]];
-                    NSString *compairTableIDStr = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"CompareTableID"]];
-                    NSString *tableIdStr = [NSString stringWithFormat:@"%@",[fetchMessages valueForKey:@"tableid"]];
-                    NSString *dateStr = [NSString stringWithFormat:@"%@",[[fetchMessages valueForKey:@"time"]objectAtIndex:i]];
-                    NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-                    [formatter setDateFormat:@"yyyyMMddHHmmss"];
-                    NSDate *dateFromStr = [formatter dateFromString:dateStr];
-                    NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
-                    [formatter1 setDateFormat:@"dd-MM-yyyy"];
-                    dateStr = [formatter1 stringFromDate:dateFromStr];
-                    NSString *dateChangedString;
-                    if (![dateStr isEqualToString:compairStr]) {
-                         dateChangedString =[NSString stringWithFormat:@"YES"];
-                        
-                    }else{
-                        dateChangedString =[NSString stringWithFormat:@"NO"];
-                       
-                    }
-                    if (![tableIdStr isEqualToString:compairTableIDStr]) {
-                        dateChangedString =[NSString stringWithFormat:@"YES"];
-                        
-                    }
-        
-                    [[NSUserDefaults standardUserDefaults] setValue:dateStr forKey:@"CompareDate"];
-                    [[NSUserDefaults standardUserDefaults] setValue:tableIdStr forKey:@"CompareTableID"];
-                    NSString *insert = [NSString stringWithFormat:@"INSERT INTO serviceProviderChat (tableid, serviceProviderId, message, time,sender,isDateChanged) VALUES (\"%@\",\"%@\", \"%@\", \"%@\", \"%@\", \"%@\")",[[fetchMessages valueForKey:@"tableid"] objectAtIndex:i],[[fetchMessages valueForKey:@"serviceproviderid"]objectAtIndex:i],[[fetchMessages valueForKey:@"message"]objectAtIndex:i],[[fetchMessages valueForKey:@"time"]objectAtIndex:i],[[fetchMessages valueForKey:@"sender"]objectAtIndex:i],dateChangedString];
+
+                    NSString *dateChangedString = @"";
+                    
+                    NSString *senderImageStr = [[fetchMessages valueForKey:@"image"]objectAtIndex:i];
+                    
+                    NSURL *url = [NSURL URLWithString:[NSString stringWithFormat:@"%@", senderImageStr]];
+                    NSData *data = [NSData dataWithContentsOfURL:url];
+                    UIImage *img = [UIImage imageWithData:data];
+                    
+                    NSData* imgdata = UIImageJPEGRepresentation(img, 0.3f);
+                    NSString *strEncoded = [Base64 encode:imgdata];
+                    
+                    senderImageStr = [NSString stringWithString:strEncoded];
+                    
+                    
+                    NSString*deleteQuery=[NSString stringWithFormat:@"Delete from serviceProviderChat where tableid =\"%@\"",[[fetchMessages valueForKey:@"tableid"]objectAtIndex:i]];
+                   // [database executeUpdate:deleteQuery];
+                    
+                    NSString *insert = [NSString stringWithFormat:@"INSERT INTO serviceProviderChat (tableid, serviceProviderId, message, time,sender,isDateChanged,senderName,senderImage) VALUES (\"%@\",\"%@\", \"%@\", \"%@\", \"%@\", \"%@\", \"%@\",\"%@\")",[[fetchMessages valueForKey:@"tableid"] objectAtIndex:i],[[fetchMessages valueForKey:@"serviceproviderid"]objectAtIndex:i],[[fetchMessages valueForKey:@"message"]objectAtIndex:i],[[fetchMessages valueForKey:@"time"]objectAtIndex:i],[[fetchMessages valueForKey:@"sender"]objectAtIndex:i],dateChangedString,[[fetchMessages valueForKey:@"sendername"]objectAtIndex:i],senderImageStr];
                     [database executeUpdate:insert];
+                    [self showChat:tableSelected];
                 }
             }
+
         }
-        [self showChat:tableSelected];
+        fetchMsgTimer=[NSTimer scheduledTimerWithTimeInterval:15.0f target:self selector:@selector(chatTable) userInfo:nil repeats:NO];
     }
     
-    //    else if (webServiceCode == 5){
-    //        NSString *responseString = [[NSString alloc] initWithData:webData encoding:NSUTF8StringEncoding];
-    //        NSLog(@"responseString:%@",responseString);
-    //        NSError *error;
-    //
-    //        responseString= [responseString stringByReplacingOccurrencesOfString:@"{\"d\":null}" withString:@""];
-    //
-    //        SBJsonParser *json = [[SBJsonParser alloc] init];
-    //
-    //        NSMutableArray *userDetailDict=[json objectWithString:responseString error:&error];
-    //        NSLog(@"Dictionary %@",userDetailDict);
-    //        if (self.statsPopUpView.hidden == YES) {
-    //            self.statsPopUpView.hidden = NO;
-    //        }else{
-    //            self.statsPopUpView.hidden = YES;
-    //        }
-    //        self.deliveredStatLbl.text = [NSString stringWithFormat:@"%@",[userDetailDict valueForKey:@"orderdeliverd"]];
-    //        self.inProcessStatLbl.text = [NSString stringWithFormat:@"%@", [ userDetailDict valueForKey:@"orderinprocess"]];
-    //        self.pendingStatLbl.text = [NSString stringWithFormat:@"%@", [ userDetailDict valueForKey:@"orderpending"]];
-    //        self.deliveredStatLbl.font = [UIFont fontWithName:@"Poor Richard" size:25];
-    //        self.inProcessStatLbl.font = [UIFont fontWithName:@"Poor Richard" size:25];
-    //        self.pendingStatLbl.font = [UIFont fontWithName:@"Poor Richard" size:25];
-    //        self.orderDeliveryTitleLbl.font = [UIFont fontWithName:@"Poor Richard" size:25];
-    //        self.orderInProcessTitleLbl.font = [UIFont fontWithName:@"Poor Richard" size:25];
-    //        self.orderPendingTitleLbl.font = [UIFont fontWithName:@"Poor Richard" size:25];
-    //    }else if (webServiceCode == 6){
-    //        NSString *responseString = [[NSString alloc] initWithData:webData encoding:NSUTF8StringEncoding];
-    //        NSLog(@"responseString:%@",responseString);
-    //        NSError *error;
-    //
-    //        responseString= [responseString stringByReplacingOccurrencesOfString:@"{\"d\":null}" withString:@""];
-    //
-    //        SBJsonParser *json = [[SBJsonParser alloc] init];
-    //
-    //        NSMutableArray *userDetailDict=[json objectWithString:responseString error:&error];
-    //        NSLog(@"Dictionary %@",userDetailDict);
-    //        NSString *successResult = [NSString stringWithFormat:@"%@",[userDetailDict valueForKey:@"result"]];
-    //        if ([successResult isEqualToString:@"0"]) {
-    //            NSString *alertMessage;
-    //            if (isCancellation) {
-    //                alertMessage = [NSString stringWithFormat:@"Your Request has been cancelled"];
-    //            }else if (isModification){
-    //                alertMessage = [NSString stringWithFormat:@"Your request has been modified"];
-    //            }
-    //
-    //            UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"GoGo Events" message:[NSString stringWithFormat:@"%@",alertMessage] delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
-    //
-    //            [alert show];
-    //        }
-    //        isCancellation = NO;
-    //        isModification = NO;
-    //
-    //    }
-    if (tableSelected != nil) {
+        if (tableSelected != nil) {
         [self showChat:tableSelected];
+        [self tableView:self.allotedTablesTableView didSelectRowAtIndexPath:0];
     }
-    //
-    //    [self enable];
-    //    [activityIndicator stopAnimating];
-    
     
 }
 #pragma mark - Table View
@@ -457,8 +476,13 @@
     if (tableView == self.allotedTablesTableView)
     {
         tableAllotedObj = [tableAllotedIdsArray objectAtIndex:indexPath.row];
+        UILabel * TablesID;
+        if (IS_IPAD_Pro) {
+            TablesID= [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 405, 79)];
+        }else{
+            TablesID= [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 305, 79)];
+        }
         
-        UILabel * TablesID= [[UILabel alloc]initWithFrame:CGRectMake(0, 0, 305, 79)];
         TablesID.textColor= [UIColor whiteColor];
         TablesID.font = [UIFont fontWithName:@"Bebas Neue" size:20];
         TablesID.lineBreakMode = NSLineBreakByCharWrapping;
@@ -476,15 +500,23 @@
         badgeImg.image = [UIImage imageNamed:@"notificationcircle.png"];
         
         
-        UILabel * CountsLbl= [[UILabel alloc]initWithFrame:CGRectMake(177, 20, 27,25)];
+        UILabel * CountsLbl= [[UILabel alloc]initWithFrame:CGRectMake(180, 20, 27,25)];
         CountsLbl.textColor= [UIColor colorWithRed:194/255.0f green:57/255.0f blue:9/255.0f alpha:1.0];
         CountsLbl.font = [UIFont fontWithName:@"Bebas Neue" size:12];
         CountsLbl.lineBreakMode = NSLineBreakByCharWrapping;
         CountsLbl.numberOfLines = 14;
         CountsLbl.textAlignment = NSTextAlignmentCenter;
         
-        NSString*countValue = [NSString stringWithFormat:@"%d_Table",tableAllotedObj.tableId];
-        countValue = [NSString stringWithFormat:@"%@",[chatCountArray objectAtIndex:indexPath.row]];
+        NSString*countValues = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults ]valueForKey:@"SPChat Count"]];
+       
+        NSArray *countArray = [countValues componentsSeparatedByString:@","];
+            
+            NSLog(@"%ld",(long)indexPath.row);
+            NSLog(@"chatCountArray%@",chatCountArray);
+
+        NSString *countValue = [NSString stringWithFormat:@"%@",[countArray objectAtIndex:indexPath.row]];
+
+        
         if ([countValue isEqualToString:@"(null)"]) {
             countValue = [NSString stringWithFormat:@"0"];
         }
@@ -531,10 +563,6 @@
             }
             
         }
-        
-        
-        
-            
         if ([tableAllotedObj.tableType isEqualToString:@"VIP"]) {
             UIImageView *vipImg = [[UIImageView alloc] initWithFrame:CGRectMake(self.allotedTablesTableView.frame.size.width-49, 0, 48, 48)];
             vipImg.image = [UIImage imageNamed:@"VIP.png"];
@@ -585,64 +613,78 @@
 
 - (NSBubbleData *)bubbleTableView:(UIBubbleTableView *)tableView dataForRow:(NSInteger)row
 {
-    NSLog(@"All Mesages %@",allChatMessages);
+   // NSLog(@"All Mesages %@",allChatMessages);
     return [allChatMessages objectAtIndex:row];
 }
 
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
     UITableViewCell *cell = [tableView cellForRowAtIndexPath:indexPath];
-    selectedIndex = indexPath;
+    if (indexPath!=nil) {
+        selectedIndex = indexPath;
+
+    }
+    [[NSUserDefaults standardUserDefaults ]removeObjectForKey:@"CompareDate"];
+    
+    
     if (tableView == self.allotedTablesTableView)
     {
-        tableAllotedObj = [tableAllotedIdsArray objectAtIndex:indexPath.row];
-        self.tableNumberChatLbl.text = [NSString stringWithFormat:@"%@",tableAllotedObj.tableName];
-        NSLog(@"Tables Alloted.... %d",tableAllotedObj.tableId);
-        if ([assignedTablesArray containsObject:[NSString stringWithFormat:@"%d",tableAllotedObj.tableId]]) {
-            tableSelected = [NSString stringWithFormat:@"%d", tableAllotedObj.tableId];
-            int tableCount = [[chatCountArray objectAtIndex:indexPath.row] intValue];
-            int updatedChatCount = [[[NSUserDefaults standardUserDefaults ]valueForKey:@"UpdatedChat Count"]intValue];
-            if (updatedChatCount > 0) {
-                updatedChatCount = updatedChatCount - tableCount;
-            }
-            
-            
-            [[NSUserDefaults standardUserDefaults ] setValue:[NSString stringWithFormat:@"%d",updatedChatCount] forKey:@"UpdatedChat Count"];
-            
-            int latestUpdatedChatCount = [[[NSUserDefaults standardUserDefaults ]valueForKey:@"UpdatedChat Count"]intValue];
-            if (latestUpdatedChatCount > 0) {
-                self.chatNotificationBadgeImg.hidden = NO;
-                self.chatNotificationBageLbl.hidden = NO;
-                self.chatNotificationBageLbl.text = [NSString stringWithFormat:@"%d",latestUpdatedChatCount];
-            }else{
-                self.chatNotificationBadgeImg.hidden = YES;
-                self.chatNotificationBageLbl.hidden = YES;
-            }
-            NSMutableArray*tagarray=[[NSMutableArray alloc]initWithArray:chatCountArray];
-            
-            [tagarray replaceObjectAtIndex:indexPath.row withObject:@"0"];
-            chatCountArray= [tagarray mutableCopy];
-            NSString *chatCountStr = [NSString stringWithFormat:@"%@",chatCountArray];
-            chatCountStr = [chatCountStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
-            chatCountStr = [chatCountStr stringByReplacingOccurrencesOfString:@" " withString:@""];
-            chatCountStr = [chatCountStr stringByReplacingOccurrencesOfString:@"(" withString:@""];
-            chatCountStr = [chatCountStr stringByReplacingOccurrencesOfString:@")" withString:@""];
-            [[NSUserDefaults standardUserDefaults] setValue:chatCountStr forKey:@"SPChat Count"];
-            [self.allotedTablesTableView reloadData];
-            [self showChat:tableSelected];
+        if (tableAllotedIdsArray.count>0)
+        {
+            tableAllotedObj = [tableAllotedIdsArray objectAtIndex:selectedIndex.row];
+            self.tableNumberChatLbl.text = [NSString stringWithFormat:@"%@",tableAllotedObj.tableName];
+            NSLog(@"Tables Alloted.... %d",tableAllotedObj.tableId);
+            if ([assignedTablesArray containsObject:[NSString stringWithFormat:@"%d",tableAllotedObj.tableId]]) {
+                
+                tableSelected = [NSString stringWithFormat:@"%d", tableAllotedObj.tableId];
+                
+                int tableCount = [[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults ]valueForKey:@"SPChat Count"] ] intValue];
+                
+                int updatedChatCount = [[[NSUserDefaults standardUserDefaults ]valueForKey:@"UpdatedChat Count"]intValue];
+                if (updatedChatCount > 0) {
+                    updatedChatCount = updatedChatCount - tableCount;
+                }
+                
+                
+                [[NSUserDefaults standardUserDefaults ] setValue:[NSString stringWithFormat:@"%d",updatedChatCount] forKey:@"UpdatedChat Count"];
+                
+                int latestUpdatedChatCount = [[[NSUserDefaults standardUserDefaults ]valueForKey:@"UpdatedChat Count"]intValue];
+                if (latestUpdatedChatCount > 0) {
+                    self.chatNotificationBadgeImg.hidden = NO;
+                    self.chatNotificationBageLbl.hidden = NO;
+                    self.chatNotificationBageLbl.text = [NSString stringWithFormat:@"%d",latestUpdatedChatCount];
+                }else{
+                    self.chatNotificationBadgeImg.hidden = YES;
+                    self.chatNotificationBageLbl.hidden = YES;
+                }
+                //            NSMutableArray*tagarray=[[NSMutableArray alloc]initWithArray:chatCountArray];
+                //
+                //            [tagarray replaceObjectAtIndex:indexPath.row withObject:@"0"];
+                //
+                //            chatCountArray= [tagarray mutableCopy];
+                NSString *chatCountStr = [NSString stringWithFormat:@"%@",[NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults ]valueForKey:@"SPChat Count"]]];
+                chatCountStr = [chatCountStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+                chatCountStr = [chatCountStr stringByReplacingOccurrencesOfString:@" " withString:@""];
+                chatCountStr = [chatCountStr stringByReplacingOccurrencesOfString:@"(" withString:@""];
+                chatCountStr = [chatCountStr stringByReplacingOccurrencesOfString:@")" withString:@""];
+                [[NSUserDefaults standardUserDefaults] setValue:chatCountStr forKey:@"SPChat Count"];
+                [self.allotedTablesTableView reloadData];
+                [self showChat:tableSelected];
+        }
          
         }
     }
-    
-    
-    
-    
 }
+
+
 -(void) showChat:(NSString *)tableIds {
     NSMutableArray *chatMessages = [[NSMutableArray alloc]init];
     NSMutableArray *chatTime = [[NSMutableArray alloc]init];
     NSMutableArray *chatSender = [[NSMutableArray alloc]init];
     NSMutableArray *chatdateChanged = [[NSMutableArray alloc]init];
+    NSMutableArray *senderName = [[NSMutableArray alloc]init];
+    NSMutableArray *senderImageArray = [[NSMutableArray alloc]init];
+
     NSLog(@"Table IDs ... %@",assignedTablesArray);
     
     tableIds = [tableIds stringByReplacingOccurrencesOfString:@"@" withString:@""];
@@ -657,9 +699,10 @@
         database = [FMDatabase databaseWithPath:dbPath];
          NSString *serviceProviderIds = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"Service Provider ID"]];
         [database open];
-        NSString *queryString = [NSString stringWithFormat:@"Select * FROM serviceProviderChat where tableid= %@ ",tableIds];
-        FMResultSet *results = [database executeQuery:queryString];
         
+        NSString *queryString = [NSString stringWithFormat:@"Select * FROM serviceProviderChat where tableid= %@ ORDER BY time ASC",tableIds];
+        FMResultSet *results = [database executeQuery:queryString];
+        fetchedChatData = [[NSMutableArray alloc]init];
         while([results next]) {
             fetchChatObj = [[fetchChatOC alloc]init];
             
@@ -667,21 +710,54 @@
             fetchChatObj.chatTime = [results stringForColumn:@"time"];
             fetchChatObj.chatSender =[results stringForColumn:@"sender"];
             fetchChatObj.TableId = [results stringForColumn:@"tableid"];
-            fetchChatObj.isDateChanged = [results stringForColumn:@"isDateChanged"];
+            fetchChatObj.senderIamge=[results stringForColumn:@"senderImage"];
+            
+            NSString *compairStr = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"CompareDate"]];
+            NSString *dateStr = [NSString stringWithFormat:@"%@",fetchChatObj.chatTime];
+            NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
+            [formatter setDateFormat:@"yyyyMMddHHmmss"];
+            NSDate *dateFromStr = [formatter dateFromString:dateStr];
+            NSDateFormatter *formatter1 = [[NSDateFormatter alloc] init];
+            [formatter1 setDateFormat:@"dd-MM-yyyy"];
+            dateStr = [formatter1 stringFromDate:dateFromStr];
+            NSString *dateChangedString;
+            
+            if ([dateStr isEqualToString:compairStr]) {
+                    dateChangedString =[NSString stringWithFormat:@"NO"];
+                }else{
+                    dateChangedString =[NSString stringWithFormat:@"YES"];
+                    [[NSUserDefaults standardUserDefaults ]setValue:dateStr forKey:@"CompareDate"];
+                }
+            
+            
+            
+            fetchChatObj.isDateChanged = dateChangedString;
+            
+            //fetchChatObj.isDateChanged = [results stringForColumn:@"isDateChanged"];
+            
+            fetchChatObj.senderName=[results stringForColumn:@"senderName"];
+            
+            
             [chatMessages addObject:fetchChatObj.chatMessage];
             [chatTime addObject:fetchChatObj.chatTime];
             [chatSender addObject:fetchChatObj.chatSender];
             [chatdateChanged addObject:fetchChatObj.isDateChanged];
+            [senderName addObject:fetchChatObj.senderName];
+            [senderImageArray addObject:fetchChatObj.senderIamge];
+            
             [fetchedChatData addObject:fetchChatObj];
         }
         
-        chatDictionary = [[NSMutableDictionary alloc]initWithObjectsAndKeys:chatMessages,@"messages",chatTime,@"time",chatSender,@"sender",chatdateChanged,@"isDateChanged",nil];
+        chatDictionary = [[NSMutableDictionary alloc]initWithObjectsAndKeys:chatMessages,@"messages",chatTime,@"time",chatSender,@"sender",chatdateChanged,@"isDateChanged",senderName,@"senderName",senderImageArray,@"senderImages",nil];
         for (int i = 0; i < [chatMessages count]; i++) {
             chatObj = [[chatOC alloc]init];
             chatObj.chatMessage = [[chatDictionary valueForKey:@"messages"] objectAtIndex:i];
             chatObj.chatTime = [[chatDictionary valueForKey:@"time"] objectAtIndex:i];
             chatObj.chatSender = [[chatDictionary valueForKey:@"sender"] objectAtIndex:i];
             chatObj.isDateChanged = [[chatDictionary valueForKey:@"isDateChanged"] objectAtIndex:i];
+            chatObj.senderName = [[chatDictionary valueForKey:@"senderName"] objectAtIndex:i];
+            chatObj.senderImage = [[chatDictionary valueForKey:@"senderImages"] objectAtIndex:i];
+
             [chatArray addObject:chatObj];
             NSDateFormatter *dateFormatter = [[NSDateFormatter alloc] init];
             
@@ -696,11 +772,36 @@
             NSBubbleData *Bubble;
             
             if([chatObj.chatSender isEqualToString:@"serviceprovider"]){
-                Bubble = [NSBubbleData dataWithText:chatObj.chatMessage date:messageDate type:BubbleTypeMine isDateChanged:chatObj.isDateChanged isCorner:@"Service Provider"];
-                Bubble.avatar = [UIImage imageNamed:@"avatar1.png"];
-            }else{
-                Bubble = [NSBubbleData dataWithText:chatObj.chatMessage date:messageDate type:BubbleTypeSomeoneElse isDateChanged:chatObj.isDateChanged isCorner:@"Service Provider"];
-                Bubble.avatar = nil;
+                Bubble = [NSBubbleData dataWithText:[NSString stringWithFormat:@"Me: %@",chatObj.chatMessage] date:messageDate type:BubbleTypeMine isDateChanged:chatObj.isDateChanged isCorner:@"Service Provider"];
+                Bubble.avatar = [UIImage imageWithData:[[NSUserDefaults standardUserDefaults]valueForKey:@"userImage"]] ;
+
+              //  Bubble.avatar = [UIImage imageNamed:@"avatar1.png"];
+            }
+            else
+            {
+                if ([chatObj.chatSender isEqualToString:@"table"] || [chatObj.chatSender isEqualToString:@"coordinator"])
+                {
+                     Bubble = [NSBubbleData dataWithText:[NSString stringWithFormat:@"%@: %@",chatObj.senderName,chatObj.chatMessage] date:messageDate type:BubbleTypeSomeoneElse isDateChanged:chatObj.isDateChanged isCorner:@"Service Provider"];
+                }
+                else{
+                    Bubble = [NSBubbleData dataWithText:[NSString stringWithFormat:@"%@: %@",chatObj.chatSender,chatObj.chatMessage] date:messageDate type:BubbleTypeSomeoneElse isDateChanged:chatObj.isDateChanged isCorner:@"Service Provider"];
+
+                }
+               // Bubble.avatar = nil;
+                if ([chatObj.chatSender isEqualToString:@"table"])
+                {
+                    Bubble.avatar=[UIImage imageNamed:@"avatar1.png"];
+ 
+                }
+                else if (chatObj.senderImage.length==0) {
+                    Bubble.avatar=[UIImage imageNamed:@"dummy_user.png"];
+                }
+                else{
+                    NSData* data = [[NSData alloc] initWithBase64EncodedString:chatObj.senderImage options:0];
+                   // UIImage* img1 = [UIImage imageWithData:data];
+                    Bubble.avatar = [UIImage imageWithData:data];
+                }
+
             }
             
             [allChatMessages addObject:Bubble];
@@ -731,6 +832,7 @@
         [self.allotedTablesTableView reloadData];
     }
     
+    
 }
 -(void)goToBottom
 {
@@ -755,14 +857,25 @@
 }
 -(void) sendHelpMessage
 {
+    
+    objactivityindicator=[[UIActivityIndicatorView alloc]initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    objactivityindicator.center = CGPointMake((disableView.frame.size.width/2),(disableView.frame.size.height/2));
+    [disableView addSubview:objactivityindicator];
+    [objactivityindicator startAnimating];
+    disableView.hidden=NO;
+
+    
+    [fetchMsgTimer invalidate];
     //    [self disabled];
     //    [activityIndicator startAnimating];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     NSString *tableID = [NSString stringWithFormat:@"%@",tableSelected];
     NSString *serviceProviderId = [NSString stringWithFormat:@"%@",[defaults valueForKey:@"Service Provider ID"]];
     // NSString *message;
+    NSString*Sendername= [[NSUserDefaults standardUserDefaults] valueForKey:@"Service Provider Name"];
     NSString *sender = [NSString stringWithFormat:@"serviceprovider"];
-    NSDictionary *jsonDict=[[NSDictionary alloc]initWithObjectsAndKeys:tableID,@"tableId",serviceProviderId,@"serviceproviderId",self.chatMessageTxtView.text,@"message",sender, @"sender",[NSString stringWithFormat:@"1"],@"restaurantId",@"chat",@"trigger", nil];
+    
+    NSDictionary *jsonDict=[[NSDictionary alloc]initWithObjectsAndKeys:tableID,@"tableId",serviceProviderId,@"serviceproviderId",self.chatMessageTxtView.text,@"message",sender, @"sender",[NSString stringWithFormat:@"1"],@"restaurantId",@"chat",@"trigger",Sendername,@"sendername", nil];
     
     NSString *jsonRequest = [jsonDict JSONRepresentation];
     
@@ -805,6 +918,15 @@
 }
 - (BOOL) textViewShouldBeginEditing:(UITextView *)textView
 {
+    CGRect rc1 = [self.sideScroller bounds];
+    rc1 = [self.sideScroller convertRect:rc1 toView:self.sideScroller];
+    CGPoint pt1 = rc1.origin;
+    if (pt1.x != 0) {
+        [self menuBtn:nil];
+    }
+    
+    
+     [fetchMsgTimer invalidate];
     if (textView == self.chatMessageTxtView) {
         svos = self.chatView.contentOffset;
         
@@ -846,12 +968,22 @@
     return YES;
 }
 - (IBAction)menuBtn:(id)sender {
+    if (self.statsPopUpView.hidden ==NO)
+    {
+        self.statsPopUpView.hidden = YES;
+        [self.view sendSubviewToBack:letterTapRecognizer];
+    }
+    
     CGPoint pt;
     CGRect rc = [self.sideScroller bounds];
     rc = [self.sideScroller convertRect:rc toView:self.sideScroller];
     pt = rc.origin;
     if (pt.x == 0) {
-        pt.x -= 268;
+        if (IS_IPAD_Pro) {
+            pt.x -= 356;
+        }else{
+            pt.x -= 267;
+        }
         
     }else{
         pt.x = 0;
@@ -868,12 +1000,17 @@
     self.pingNotificationBadgeImg.hidden = YES;
     self.pingNotificationBadgeImg.hidden = YES;
     serviceProviderHomeViewController *spRequestVC = [[serviceProviderHomeViewController alloc] initWithNibName:@"serviceProviderHomeViewController" bundle:nil];
-    
+    [fetchMsgTimer invalidate];
+
     [self.navigationController pushViewController:spRequestVC animated:NO];
 }
 
 - (IBAction)exitAction:(id)sender {
+    if (IS_IPAD_Pro) {
+        [self.exitPopUpView setFrame:CGRectMake(0, 0, 1366, 1024)];
+    }else{
     [self.exitPopUpView setFrame:CGRectMake(0, 0, self.exitPopUpView.frame.size.width, self.exitPopUpView.frame.size.height)];
+    }
     [self.view addSubview:self.exitPopUpView];
     
 }
@@ -884,7 +1021,8 @@
     self.pingNotificationBadgeImg.hidden = YES;
     self.pingNotificationBadgeImg.hidden = YES;
     spPingAssistanceViewController *spRequestVC = [[spPingAssistanceViewController alloc] initWithNibName:@"spPingAssistanceViewController" bundle:nil];
-    
+    [fetchMsgTimer invalidate];
+
     [self.navigationController pushViewController:spRequestVC animated:NO];
 }
 
@@ -900,8 +1038,10 @@
         [defaults removeObjectForKey:@"Service Provider image"];
         [defaults removeObjectForKey:@"Role"];
         
-        [defaults setObject:[NSString stringWithFormat:@"YES"] forKey:@"isLogedOut"];
+        [defaults setObject:@"YES"forKey:@"isLogedOut"];
         loginViewController *loginVC = [[loginViewController alloc] initWithNibName:@"loginViewController" bundle:nil];
+        [fetchMsgTimer invalidate];
+
         [self.navigationController pushViewController:loginVC animated:YES];
     }
 }
@@ -924,6 +1064,10 @@
 //    self.orderPendingTitleLbl.font = [UIFont fontWithName:@"Bebas Neue" size:18];
     
     self.statsPopUpView.hidden = NO;
+    if (IS_IPAD_Pro) {
+        [self.statsPopUpView setFrame:CGRectMake(180, 800, self.statsPopUpView.frame.size.width, self.statsPopUpView.frame.size.height)];
+    }
+
     letterTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(highlightLetter:)];
     letterTapRecognizer.numberOfTapsRequired = 1;
     [self.view addGestureRecognizer:letterTapRecognizer];
@@ -935,15 +1079,8 @@
     
 }
 - (IBAction)exitYesAction:(id)sender {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults removeObjectForKey:@"Service Provider ID"];
-    [defaults removeObjectForKey:@"Service Provider Name"];
-    [defaults removeObjectForKey:@"Service Provider image"];
-    [defaults removeObjectForKey:@"Role"];
-    
-    [defaults setObject:[NSString stringWithFormat:@"YES"] forKey:@"isLogedOut"];
-    loginViewController *loginVC = [[loginViewController alloc] initWithNibName:@"loginViewController" bundle:nil];
-    [self.navigationController pushViewController:loginVC animated:YES];
+    AppDelegate *appdelegate = [[UIApplication sharedApplication]delegate];
+    [appdelegate logout];
     
 }
 

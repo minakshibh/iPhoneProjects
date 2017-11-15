@@ -1,10 +1,3 @@
-//
-//  spPingAssistanceViewController.m
-//  Nini Events
-//
-//  Created by Krishna_Mac_1 on 2/24/15.
-//  Copyright (c) 2015 Krishna_Mac_1. All rights reserved.
-//
 
 #import "spPingAssistanceViewController.h"
 #import "pingsAssistanceTableViewCell.h"
@@ -20,6 +13,7 @@
 @implementation spPingAssistanceViewController
 
 - (void)viewDidLoad {
+    [[self navigationController] setNavigationBarHidden:YES animated:YES];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     int updatedChatCount = [[[NSUserDefaults standardUserDefaults ]valueForKey:@"UpdatedChat Count"]intValue];
     if (updatedChatCount != 0) {
@@ -51,29 +45,127 @@
     }
 
     
+    activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    if (IS_IPAD_Pro) {
+        activityIndicator.center = CGPointMake(1366/2, 1028/2);
+    }else{
+        activityIndicator.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2);
+    }
+    activityIndicator.hidden = YES;
+    activityIndicator.color=[UIColor whiteColor];
+    [self.view addSubview:activityIndicator];
+    
     [super viewDidLoad];
     [self chatTable];
     // Do any additional setup after loading the view from its nib.
 }
+-(void)viewWillAppear:(BOOL)animated{
+    
+    NSUserDefaults * defaults = [NSUserDefaults standardUserDefaults];
+    NSString *eventChatSupport = [NSString stringWithFormat:@"%@",[defaults valueForKey:@"Event Chat Support"]];
+    NSString *PingAssistance = [NSString stringWithFormat:@"%@",[defaults valueForKey:@"PingAssistance"]];
 
+    
+    if ([eventChatSupport isEqualToString:@"False"]) {
+        requestAssistance.hidden = YES;
+        float viewHeight = self.view.frame.size.height;
+        
+        orders.frame = CGRectMake(orders.frame.origin.x, 0, orders.frame.size.width, viewHeight/3-2);
+        pingAssistance.frame = CGRectMake(pingAssistance.frame.origin.x,viewHeight/3, pingAssistance.frame.size.width, viewHeight/3-2);
+        exit.frame = CGRectMake(exit.frame.origin.x, pingAssistance.frame.origin.y+pingAssistance.frame.size.height+2, exit.frame.size.width,viewHeight/3);
+        
+        lblliveAssistance.hidden = YES;
+        imageliveAssistance.hidden = YES;
+        
+        self.chatNotificationBadgeImg.hidden = YES;
+        self.chatNotificationBageLbl.hidden = YES;
+        
+        [pingAssistance addSubview:viewliveAssistance];
+        [viewliveAssistance setFrame:CGRectMake(25,pingAssistance.frame.size.height/2-viewliveAssistance.frame.size.height/2,viewliveAssistance.frame.size.width,viewliveAssistance.frame.size.height)];
+    
+        [exit addSubview:viewexit];
+        [viewexit setFrame:CGRectMake(25,exit.frame.size.height/2-viewexit.frame.size.height/2,viewexit.frame.size.width,viewexit.frame.size.height)];
+        [orders addSubview:vieworders];
+        [vieworders setFrame:CGRectMake(25,orders.frame.size.height/2-vieworders.frame.size.height/2,vieworders.frame.size.width,vieworders.frame.size.height)];
+    
+    }
+    if ([PingAssistance isEqualToString:@"0"]) {
+        float viewHeight = self.view.frame.size.height;
+        
+        orders.frame = CGRectMake(orders.frame.origin.x, 0, orders.frame.size.width, viewHeight/3-2);
+        requestAssistance.frame = CGRectMake(requestAssistance.frame.origin.x,viewHeight/3, requestAssistance.frame.size.width, viewHeight/3-2);
+        exit.frame = CGRectMake(exit.frame.origin.x, requestAssistance.frame.origin.y+requestAssistance.frame.size.height+2, exit.frame.size.width,viewHeight/3);
+        
+        pingAssistance.hidden = YES;
+        viewliveAssistance.hidden = YES;
+        
+        self.pingNotificationBadgeImg.hidden = YES;
+        self.pingNotificationBadgeLbl.hidden = YES;
+        
+        [requestAssistance addSubview:viewRequestAssistance];
+        [viewRequestAssistance setFrame:CGRectMake(25,requestAssistance.frame.size.height/2-viewRequestAssistance.frame.size.height/2,viewRequestAssistance.frame.size.width,viewRequestAssistance.frame.size.height)];
+        
+        [exit addSubview:viewexit];
+        [viewexit setFrame:CGRectMake(25,exit.frame.size.height/2-viewexit.frame.size.height/2,viewexit.frame.size.width,viewexit.frame.size.height)];
+        
+        [orders addSubview:vieworders];
+        [vieworders setFrame:CGRectMake(25,orders.frame.size.height/2-vieworders.frame.size.height/2,vieworders.frame.size.width,vieworders.frame.size.height)];
+    }
+    if ([eventChatSupport isEqualToString:@"False"] && [PingAssistance isEqualToString:@"0"]){
+        pingAssistance.hidden = YES;
+        viewliveAssistance.hidden = YES;
+        
+        requestAssistance.hidden = YES;
+        lblliveAssistance.hidden = YES;
+        imageliveAssistance.hidden = YES;
+        
+        float viewHeight = self.view.frame.size.height;
+        
+        orders.frame = CGRectMake(orders.frame.origin.x, 0, orders.frame.size.width, viewHeight/2-2);
+        exit.frame = CGRectMake(exit.frame.origin.x, orders.frame.origin.y+orders.frame.size.height+2, exit.frame.size.width,viewHeight/2);
+        
+        [exit addSubview:viewexit];
+        [viewexit setFrame:CGRectMake(25,exit.frame.size.height/2-viewexit.frame.size.height/2,viewexit.frame.size.width,viewexit.frame.size.height)];
+        
+        [orders addSubview:vieworders];
+        [vieworders setFrame:CGRectMake(25,orders.frame.size.height/2-vieworders.frame.size.height/2,vieworders.frame.size.width,vieworders.frame.size.height)];
+    }
+    
+
+}
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
 }
+
+
 -(void)chatTable
 {
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     self.tablesAllotedArray = [[NSMutableArray alloc]initWithObjects:[defaults valueForKey:@"Alloted Tables"], nil];
-    NSMutableArray *tempArray = [self.tablesAllotedArray objectAtIndex:0];
-    NSLog(@"Tables... %@",tempArray);
     tableAllotedIdsArray = [[NSMutableArray alloc] init];
     assignedTablesArray = [[NSMutableArray alloc] init];
     tableNameArray = [[NSMutableArray alloc] init];
+    NSMutableArray *tempArray = [[NSMutableArray alloc]initWithArray:[self.tablesAllotedArray objectAtIndex:0]];
     for (int i =0 ; i <[tempArray count] ; i++) {
         tableAllotedObj = [[tableAllotedOC alloc]init];
-        tableAllotedObj.tableId = [[[tempArray valueForKey:@"id"] objectAtIndex:i] intValue];
-        tableAllotedObj.tableName = [[tempArray valueForKey:@"name"] objectAtIndex:i];
-        tableAllotedObj.tableType = [[tempArray valueForKey:@"type"] objectAtIndex:i];
+        NSString *tableIdStr = [NSString stringWithFormat:@"%@",[[tempArray valueForKey:@"id"] objectAtIndex:i]];
+        tableIdStr = [tableIdStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+        tableIdStr = [tableIdStr stringByReplacingOccurrencesOfString:@"(" withString:@""];
+        tableIdStr = [tableIdStr stringByReplacingOccurrencesOfString:@")" withString:@""];
+        tableIdStr = [tableIdStr stringByReplacingOccurrencesOfString:@" " withString:@""];
+        tableIdStr = [tableIdStr stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+        NSLog(@"Table ID %@",tableIdStr);
+        tableAllotedObj.tableId = [tableIdStr intValue];
+        NSLog(@"Table ID %d",tableAllotedObj.tableId);
+        NSString *tableNameStr = [NSString stringWithFormat:@"%@",[[tempArray valueForKey:@"name"] objectAtIndex:i]];
+        
+        tableNameStr = [tableNameStr stringByReplacingOccurrencesOfString:@"\n" withString:@""];
+        tableNameStr = [tableNameStr stringByReplacingOccurrencesOfString:@" " withString:@""];
+        tableNameStr = [tableNameStr stringByReplacingOccurrencesOfString:@"\"" withString:@""];
+        NSLog(@"Table ID %@",tableIdStr);
+        NSLog(@"Table Name %@",tableNameStr);
+        tableAllotedObj.tableName = [NSString stringWithFormat:@"%@",tableNameStr];
         [tableAllotedIdsArray addObject:tableAllotedObj];
         [assignedTablesArray addObject:[NSString stringWithFormat:@"%d",tableAllotedObj.tableId]];
         [tableNameArray addObject:[NSString stringWithFormat:@"%@",tableAllotedObj.tableName]];
@@ -85,8 +177,9 @@
 -(void) fetchHelpMessage: (NSString *)assignedTableListStr
 {
     //    [self disabled];
-    //    [activityIndicator startAnimating];
+        [activityIndicator startAnimating];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
+    [self disabled];
     
     NSString *timeStamp;
     assignedTableTimestampsArray = [[NSMutableArray alloc] init];
@@ -94,7 +187,7 @@
         timeStampKey = [NSString stringWithFormat:@"%@_pingTimeStamp",[assignedTablesArray objectAtIndex:i]];
         timeStamp = [NSString stringWithFormat:@"%@",[defaults objectForKey:timeStampKey]];
         if ([timeStamp isEqualToString:@"(null)"]) {
-            timeStamp = [NSString stringWithFormat:@"-1"];
+            timeStamp = [NSString stringWithFormat:@""];
         }
         [assignedTableTimestampsArray addObject:timeStamp];
     }
@@ -164,7 +257,8 @@
 }
 -(void)connection:(NSURLConnection *)connection didFailWithError:(NSError *)error
 {
-    //    [activityIndicator stopAnimating];
+    [activityIndicator stopAnimating];
+    [self enable];
     [self.view setUserInteractionEnabled:YES];
     UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"Connection Error" message:@"Please Check the Internet Connection" delegate:nil cancelButtonTitle:@"OK" otherButtonTitles:nil];
     [alert show];
@@ -178,8 +272,7 @@
 }
 -(void)connectionDidFinishLoading:(NSURLConnection *)connection
 {
-    
-    
+  
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     fetchedChatData = [[NSMutableArray alloc]init];
    
@@ -200,7 +293,7 @@
     
     for (int i = 0; i < [tablesOfSP count]; i ++) {
         tableAllotedObj = [[tableAllotedOC alloc]init];
-        tableAllotedObj.tableId = [[[tablesOfSP valueForKey:@"TableList"] objectAtIndex:i] intValue];
+        tableAllotedObj.tableId = [[tablesOfSP valueForKey:@"TableList"] objectAtIndex:i];
         [tablesList addObject:[NSString stringWithFormat:@"%d",tableAllotedObj.tableId]];
     }
     
@@ -220,23 +313,23 @@
     NSMutableArray *tableTimeStampArray =[[NSMutableArray alloc] init];
     tableTimeStampArray=[tableTempArray mutableCopy];
     
+    
     int pingTimeStamp=[[defaults valueForKey:@"pingTimeStamp"] intValue];
     if (pingTimeStamp == nil) {
         pingTimeStamp = -1;
     }
     
-    int tempTimeStamp = -1;
+    NSString *tempTimeStamp;
     
     for (int i= 0; i < [tableTimeStampArray count]; i++) {
 //        tableTimeStamps = [NSString stringWithFormat:@"%@_pingTimeStamp",[assignedTablesArray objectAtIndex:i]];
 //        tableTimeStamps = [NSString stringWithFormat:@"\"%@\"",tableTimeStamps];
 //        tableTimeStamps = [tableTimeStamps stringByReplacingOccurrencesOfString:@"\"" withString:@""];
         
-        tempTimeStamp = [[[tableTimeStampArray valueForKey:@"Maxtimestamp"]  objectAtIndex:i] intValue];
-        if(tempTimeStamp > pingTimeStamp){
-            pingTimeStamp = tempTimeStamp;
-            [defaults setValue:[NSString stringWithFormat:@"%d",pingTimeStamp] forKey:@"pingTimeStamp"];
-        }
+        tempTimeStamp = [[tableTimeStampArray valueForKey:@"Maxtimestamp"]  objectAtIndex:i];
+        
+            [defaults setValue:tempTimeStamp forKey:@"pingTimeStamp"];
+        
     }
     
     fetchingChat = [NSMutableArray arrayWithArray:[userDetailDict valueForKey:@"MessageList"]];
@@ -247,6 +340,22 @@
             NSArray *tempList =[[fetchingChat valueForKey:@"listMessage"] objectAtIndex:i];
             NSMutableArray *fetchMessages = [[NSMutableArray alloc] init];
             fetchMessages = [tempList mutableCopy];
+            
+            docPaths = NSSearchPathForDirectoriesInDomains(NSDocumentDirectory, NSUserDomainMask, YES);
+            documentsDir = [docPaths objectAtIndex:0];
+            dbPath = [documentsDir   stringByAppendingPathComponent:@"niniEvents.sqlite"];
+            database = [FMDatabase databaseWithPath:dbPath];
+            [database open];
+            NSString*deleteQuery=[NSString stringWithFormat:@"DELETE FROM spPings"];
+            [database executeUpdate:deleteQuery];
+            [database close];
+
+            if (fetchMessages.count == 0){
+                viewNoMessages.hidden = NO;
+                
+            }else{
+                viewNoMessages.hidden = YES;
+            }
             for (int i = 0; i < [fetchMessages count]; i++)
             {
                 
@@ -256,9 +365,7 @@
                 database = [FMDatabase databaseWithPath:dbPath];
                 [database open];
                 
-//                NSString*deleteQuery=[NSString stringWithFormat:@"DELETE FROM spPings"];
-//                [database executeUpdate:deleteQuery];
-
+              
                 NSString *insert = [NSString stringWithFormat:@"INSERT INTO spPings (tableid, serviceProviderId, message, time,sender) VALUES (\"%@\",\"%@\", \"%@\", \"%@\", \"%@\")",[[fetchMessages valueForKey:@"tableid"] objectAtIndex:i],[[fetchMessages valueForKey:@"serviceproviderid"]objectAtIndex:i],[[fetchMessages valueForKey:@"message"]objectAtIndex:i],[[fetchMessages valueForKey:@"time"]objectAtIndex:i],[[fetchMessages valueForKey:@"sender"]objectAtIndex:i]];
                 [database executeUpdate:insert];
             }
@@ -266,7 +373,7 @@
         
     }
     [self fetchPingDataFromDB];
-    
+    [self enable];
 }
 
 -(void) fetchPingDataFromDB
@@ -315,7 +422,7 @@
 
 
 - (CGFloat)tableView:(UITableView *)tableView heightForRowAtIndexPath:(NSIndexPath *)indexPath{
-    return 160;
+    return 100;
 }
 
 // Customize the appearance of table view cells.
@@ -337,47 +444,76 @@
     
     
     NSDate *startTime;
+    NSString *timeZone = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"DaylightName"]];
+    NSString *timeZoneOffset = [NSString stringWithFormat:@"%@",[[NSUserDefaults standardUserDefaults] valueForKey:@"BaseUTcOffset"]];
+    NSArray *timeZoneOffsetStr = [timeZoneOffset componentsSeparatedByString:@":"];
     
     startTime = [NSDate date];
     NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+    [dateFormat setTimeZone:[NSTimeZone timeZoneWithName:timeZone]];
     [dateFormat setDateFormat:@"yyyyMMddHHmmss"];
     NSString *curruntTime = [ dateFormat stringFromDate:startTime];
-    
     NSDate *convertedTime = [dateFormat dateFromString:curruntTime];
+    NSDateComponents *offset = [[NSDateComponents alloc] init];
+    [offset setHour:[[timeZoneOffsetStr objectAtIndex:0] integerValue]];
+    [offset setMinute:[[timeZoneOffsetStr objectAtIndex:1] integerValue]];
+    NSDate *newDate = [[NSCalendar currentCalendar] dateByAddingComponents:offset toDate:convertedTime options:0];
+    
     NSString *time = [NSString stringWithFormat:@"%@",pingsObj.pingTime];
+    NSDateFormatter *dateFormat1 = [[NSDateFormatter alloc] init];
+    [dateFormat1 setTimeZone:[NSTimeZone timeZoneWithName:@"UTC"]];
+    [dateFormat1 setDateFormat:@"yyyyMMddHHmmss"];
+    NSDate *date = [dateFormat1 dateFromString:time];
+    NSString *dateStr = [dateFormat1 stringFromDate:date];
+    NSDate *date1=[dateFormat1 dateFromString:dateStr];
+    NSDateComponents *offset1 = [[NSDateComponents alloc] init];
+    [offset1 setHour:0];
+    [offset1 setMinute:0];
+    NSDate *newOrderDate = [[NSCalendar currentCalendar] dateByAddingComponents:offset1 toDate:date1 options:0];
     
-    [dateFormat setDateFormat:@"yyyyMMddHHmmss"];
-    NSDate *date = [dateFormat dateFromString:time];
+    NSDateComponents *components = [[NSCalendar currentCalendar] components: NSDayCalendarUnit|NSHourCalendarUnit|NSMinuteCalendarUnit|NSSecondCalendarUnit fromDate: newOrderDate toDate: newDate options: 0];
+    NSInteger hours, minutes, seconds, days;
     
-    // Convert date object to desired output format
-    //    [dateFormat setDateFormat:@"HH:mm"];
-    NSString *dateStr = [dateFormat stringFromDate:date];
-    NSDate *date1=[dateFormat dateFromString:dateStr];
-    NSCalendar *calendar = [NSCalendar currentCalendar];
-    NSTimeInterval secs = [date1 timeIntervalSinceDate:convertedTime];
-    NSString *timeDelay = [NSString stringWithFormat:@"%f",secs];
-    timeDelay = [timeDelay
-                 stringByReplacingOccurrencesOfString:@"-" withString:@""];
-    int timeINteger = [timeDelay integerValue];
-    int minutes = timeINteger / 60;
-    int hours = timeINteger / 3600;
-    int days = timeINteger / 86400;
-    NSLog(@"interval %d",minutes);
-    NSLog(@"interval %d",hours);
-    NSLog(@"interval %d",days);
+    days = [components day];
+    hours = [components hour];
+    minutes = [components minute];
+    seconds = [components second];
     
     NSString *timeStr;
     if (days > 0) {
-        timeStr =[NSString stringWithFormat:@"%d DAYS AGO",days];
+        timeStr =[NSString stringWithFormat:@"%ld DAYS AGO",(long)days];
     }else if (hours > 0){
-        timeStr =[NSString stringWithFormat:@"%d HOUR AGO",hours];
+        timeStr =[NSString stringWithFormat:@"%ld HOUR AGO",(long)hours];
     }else{
-        timeStr =[NSString stringWithFormat:@"%d MINS AGO",minutes];
+        timeStr =[NSString stringWithFormat:@"%ld MINS AGO",(long)minutes];
     }
     int index = [assignedTablesArray indexOfObject:[NSString stringWithFormat:@"%d",pingsObj.tableId]] ;
     
-    NSString *tableIDStr = [NSString stringWithFormat:@"%@",[tableNameArray objectAtIndex:index]];
-    tableIDStr = [tableIDStr uppercaseString];
+    
+    NSString *tableIDStr;
+    
+    if (self.tablesAllotedArray.count>0)
+    {
+        NSArray*tempAllotedArray=[self.tablesAllotedArray objectAtIndex:0];
+        for (int j=0; j<tempAllotedArray.count; j++)
+        {
+            NSLog(@"array:%@",[[tempAllotedArray objectAtIndex:j] valueForKey:@"id"]);
+            NSLog(@"contain value:%@",[NSString stringWithFormat:@"%d",pingsObj.tableId]);
+
+            
+            if ([[[tempAllotedArray objectAtIndex:j] valueForKey:@"id"] isEqualToString:[NSString stringWithFormat:@"%d",pingsObj.tableId]])
+            {
+                tableIDStr = [NSString stringWithFormat:@"%@",[[tempAllotedArray objectAtIndex:j ] valueForKey:@"name"]];
+            }
+        }
+
+    }
+     tableIDStr = [tableIDStr uppercaseString];
+    
+    
+    
+//    NSString *tableIDStr = [NSString stringWithFormat:@"%@",[tableNameArray objectAtIndex:index]];
+//    tableIDStr = [tableIDStr uppercaseString];
     
     
     NSString *pingMessageStr = [[NSString stringWithFormat:@"%@",pingsObj.pingMessage]uppercaseString];
@@ -416,6 +552,9 @@
 //    self.orderPendingTitleLbl.font = [UIFont fontWithName:@"Bebas Neue" size:18];
     
     self.statsPopUpView.hidden = NO;
+    if (IS_IPAD_Pro) {
+        [self.statsPopUpView setFrame:CGRectMake(180, 800, self.statsPopUpView.frame.size.width, self.statsPopUpView.frame.size.height)];
+    }
     letterTapRecognizer = [[UITapGestureRecognizer alloc] initWithTarget:self action:@selector(highlightLetter:)];
     letterTapRecognizer.numberOfTapsRequired = 1;
     [self.view addGestureRecognizer:letterTapRecognizer];
@@ -447,7 +586,11 @@
 }
 
 - (IBAction)exitAction:(id)sender {
+    if (IS_IPAD_Pro) {
+        [self.exitPopUpView setFrame:CGRectMake(0, 0, 1366, 1024)];
+    }else{
     [self.exitPopUpView setFrame:CGRectMake(0, 0, self.exitPopUpView.frame.size.width, self.exitPopUpView.frame.size.height)];
+    }
     [self.view addSubview:self.exitPopUpView];
 }
 
@@ -468,18 +611,26 @@
         [defaults removeObjectForKey:@"Service Provider image"];
         [defaults removeObjectForKey:@"Role"];
         
-        [defaults setObject:[NSString stringWithFormat:@"YES"] forKey:@"isLogedOut"];
+        [defaults setObject:@"YES"forKey:@"isLogedOut"];
         loginViewController *loginVC = [[loginViewController alloc] initWithNibName:@"loginViewController" bundle:nil];
         [self.navigationController pushViewController:loginVC animated:YES];
     }
 }
 - (IBAction)menuBtn:(id)sender {
+  
+    AppDelegate *appdelegate = [[UIApplication sharedApplication] delegate];
+    [appdelegate.navigator dismissViewControllerAnimated:NO completion:nil];
+
     CGPoint pt;
     CGRect rc = [self.sideScroller bounds];
     rc = [self.sideScroller convertRect:rc toView:self.sideScroller];
     pt = rc.origin;
     if (pt.x == 0) {
-        pt.x -= 268;
+        if (IS_IPAD_Pro) {
+            pt.x -= 356;
+        }else{
+            pt.x -= 267;
+        }
         int orderCount =[[[NSUserDefaults standardUserDefaults ]valueForKey:@"Order Count"]intValue];
         if (orderCount != 0) {
             self.orderNotificationBadgeImg.hidden = NO;
@@ -502,19 +653,24 @@
     NSLog(@"Fetch method called");
 }
 - (IBAction)exitYesAction:(id)sender {
-    NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
-    [defaults removeObjectForKey:@"Service Provider ID"];
-    [defaults removeObjectForKey:@"Service Provider Name"];
-    [defaults removeObjectForKey:@"Service Provider image"];
-    [defaults removeObjectForKey:@"Role"];
-    
-    [defaults setObject:[NSString stringWithFormat:@"YES"] forKey:@"isLogedOut"];
-    loginViewController *loginVC = [[loginViewController alloc] initWithNibName:@"loginViewController" bundle:nil];
-    [self.navigationController pushViewController:loginVC animated:YES];
+    AppDelegate *appdelegate = [[UIApplication sharedApplication]delegate];
+    [appdelegate logout];
     
 }
 
 - (IBAction)exitNoAction:(id)sender {
     [self.exitPopUpView removeFromSuperview];
+}
+- (void) disabled
+{
+    activityIndicator.hidden = NO;
+    self.view.userInteractionEnabled = NO;
+    disabledImgView.hidden = NO;
+}
+- (void) enable
+{
+    activityIndicator.hidden = YES;
+    self.view.userInteractionEnabled = YES;
+    disabledImgView.hidden = YES;
 }
 @end

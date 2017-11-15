@@ -1,13 +1,7 @@
-//
-//  appHomeViewController.h
-//  Nini Events
-//
-//  Created by Krishna_Mac_1 on 2/10/15.
-//  Copyright (c) 2015 Krishna_Mac_1. All rights reserved.
-//
 
 #import <UIKit/UIKit.h>
 #import "FMDatabase.h"
+
 @interface appHomeViewController : UIViewController
 {
     UInt32 col;
@@ -19,11 +13,68 @@
     int flag, bulbFlag,webServiceCode;
     UIScrollView *scr;
     UIPageControl *pgCtr;
-    NSMutableArray *eventNameArray,*eventDetailArray;
+    NSMutableArray *eventNameArray,*eventDetailArray,*EventDetailsStartTime,*EventDetailsEndTime,*EventDetailsBy,*EventDocumentUrlsArray,*eventArray,*EventDocumentTitleArray;
     IBOutlet UILabel *eventDescriptionLbl;
     IBOutlet UIImageView *eventImageView;
     NSTimer *hideTimer;
+    NSMutableArray *fontFamilyNames, *appFonts;
+    NSArray *sortedEventArray;
+    BOOL isAlreadyInserted;
+ 
+    IBOutlet UILabel *lbleventtimeout;
+    IBOutlet UILabel *lblTimerbackground;
+    IBOutlet UILabel *lblTimerheaderbackground;
+    IBOutlet UILabel *lblTimerHour;
+    IBOutlet UILabel *lblTimermin;
+    IBOutlet UILabel *lblTimerSec;
+    IBOutlet UILabel *lblTimerDays;
+    IBOutlet UILabel *dayCountDownHourLbl;
+    IBOutlet UILabel *dayCountDownMinLbl;
+    IBOutlet UILabel *dayCountDownSecLbl;
+    NSTimer *timer;
+     NSCalendar *cal;
+    NSDate *targetDate;
+    NSDateComponents *components;
+    NSString *isClicked;
+    NSString *selectedIndex;
+   
+    IBOutlet UITableView *tableView;
+    IBOutlet UITableView *tableviewpdf;
+    
+    IBOutlet UIView *lblEventBackground;
+    IBOutlet UIImageView *imageViewDropdownPDF;
+    BOOL value;
+    IBOutlet UIButton *btnselecteventdetail;
+    
+    
+    IBOutlet UIToolbar *toolBar;
+    
+    IBOutlet UIButton *btnmenufooter;
+    IBOutlet UIButton *btnpingfooter;
+    
+    IBOutlet UIButton *btnlogofooter;
+    
+    IBOutlet UIButton *btnslideshowfooter;
+    IBOutlet UIButton *btneventdetailfooter;
+    IBOutlet UIButton *btnmenu1footer;
+    IBOutlet UIButton *btnVieworderfooter;
+    IBOutlet UIView *viewmenufooter;
+    IBOutlet UIView *viewpingfooter;
+    IBOutlet UIView *viewlogofooter;
+    IBOutlet UIView *viewslideshowfooter;
+    IBOutlet UIView *vieweventdetailfooter;
+    IBOutlet UIView *viewmenu1footer;
+    IBOutlet UIView *viewvieworderfooter;
+    NSInteger content;
 }
+
+
+
+
+- (IBAction)btnselecteventdetail:(id)sender;
+- (IBAction)btnViewPDF:(id)sender;
+
+@property (nonatomic) NSIndexPath *expandedIndexPath;
 @property (strong, nonatomic) IBOutlet UIScrollView *sideScroller;
 - (IBAction)newOrderAction:(id)sender;
 - (IBAction)orderHistoryAction:(id)sender;
@@ -36,6 +87,8 @@
 - (IBAction)viewOrderNtnAction:(id)sender;
 - (IBAction)eventDetailsAction:(id)sender;
 - (IBAction)ophemyAction:(id)sender;
+- (IBAction)Slideshow:(id)sender;
+- (void)tick;
 @property (strong, nonatomic) IBOutlet UILabel *EventNamesLbl;
 @property (strong, nonatomic) IBOutlet UILabel *batchLbl;
 @property (strong, nonatomic) IBOutlet UIView *sideMenuWithoutReqAssistance;

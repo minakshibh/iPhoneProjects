@@ -1,12 +1,3 @@
-//
-//  NSBubbleData.m
-//
-//  Created by Alex Barinov
-//  Project home page: http://alexbarinov.github.com/UIBubbleTableView/
-//
-//  This work is licensed under the Creative Commons Attribution-ShareAlike 3.0 Unported License.
-//  To view a copy of this license, visit http://creativecommons.org/licenses/by-sa/3.0/
-//
 
 #import "NSBubbleData.h"
 #import <QuartzCore/QuartzCore.h>
@@ -54,14 +45,30 @@ const UIEdgeInsets textInsetsSomeone = {-5,15, 11, 10};
 - (id)initWithText:(NSString *)text date:(NSDate *)date type:(NSBubbleType)type isDateChanged:(NSString*)dateChanged isCorner:(NSString*) isCorner
 {
     UIFont *font = [UIFont fontWithName:@"Helvetica Neue" size:19];
-    CGSize size = [(text ? text : @"") sizeWithFont:font constrainedToSize:CGSizeMake(220, 9999) lineBreakMode:NSLineBreakByWordWrapping];
+    CGSize size = [(text ? text : @"") sizeWithFont:font constrainedToSize:CGSizeMake(320, 9999) lineBreakMode:NSLineBreakByWordWrapping];
     
-    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, -5, size.width, size.height)];
+    UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0, -5, size.width+3, size.height+3)];
     label.numberOfLines = 0;
     label.lineBreakMode = NSLineBreakByWordWrapping;
     label.text = (text ? text : @"");
-    label.font = font;
+    label.font = [UIFont fontWithName:@"Helvetica Neue" size:19];
     label.backgroundColor = [UIColor clearColor];
+    
+    NSMutableAttributedString * string = [[NSMutableAttributedString alloc]initWithString:text];
+    
+    NSArray *words=[text componentsSeparatedByString:@":"];
+    
+    if (words.count>=1)
+    {
+        NSString *word=[NSString stringWithFormat:@"%@:",[words objectAtIndex:0]];
+        NSRange range=[text rangeOfString:word];
+        [string addAttribute:NSFontAttributeName value:[UIFont fontWithName:@"Helvetica-Bold" size:16] range :range];
+
+        [string addAttribute:NSForegroundColorAttributeName value:[UIColor colorWithRed:173.0f/255.0 green:37.0f/255.0 blue:11.0f/255.0 alpha:1.0] range:range];
+    }
+    
+    [label setAttributedText:string];
+
     
 #if !__has_feature(objc_arc)
     [label autorelease];

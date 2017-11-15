@@ -1,10 +1,3 @@
-//
-//  eventDetailViewController.m
-//  Nini Events
-//
-//  Created by Krishna_Mac_1 on 2/13/15.
-//  Copyright (c) 2015 Krishna_Mac_1. All rights reserved.
-//
 
 #import "eventDetailViewController.h"
 #import "OrdersListViewController.h"
@@ -24,12 +17,25 @@
     [super viewDidLoad];
     NSUserDefaults *defaults = [NSUserDefaults standardUserDefaults];
     [defaults valueForKey:@"PDF"];
-    NSURL *targetURL = [NSURL URLWithString:[NSString stringWithFormat:@"%@",[defaults valueForKey:@"PDF"]]];
-    NSURLRequest *request = [NSURLRequest requestWithURL:targetURL];
-    [self.eventPdfView loadRequest:request];
-    self.eventPdfView.backgroundColor = [UIColor clearColor];
     
+    activityIndicator = [[UIActivityIndicatorView alloc] initWithActivityIndicatorStyle:UIActivityIndicatorViewStyleWhiteLarge];
+    if (IS_IPAD_Pro) {
+        activityIndicator.center = CGPointMake(1366/2, 1028/2);
+    }else{
+        activityIndicator.center = CGPointMake(self.view.frame.size.width/2, self.view.frame.size.height/2);
+    }
+    activityIndicator.color=[UIColor whiteColor];
     
+    [self.view addSubview:activityIndicator];
+    
+    [activityIndicator startAnimating];
+    [self disabled];
+    
+    _pdfURL = [_pdfURL stringByReplacingOccurrencesOfString:@" " withString:@"%20"];
+    NSMutableURLRequest * request =[NSMutableURLRequest requestWithURL:[NSURL URLWithString:_pdfURL]];
+    [webView loadRequest:request];
+    webView.backgroundColor = [UIColor clearColor];
+    webView.delegate = self;
     // Do any additional setup after loading the view from its nib.
 }
 
@@ -62,7 +68,7 @@
 
 
 - (IBAction)exitAction:(id)sender {
-     UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"GOGO EVENTS" message:@"ARE YOU SURE YOU WANT TO EXIT?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES",nil];
+     UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"OPHEMY" message:@"ARE YOU SURE YOU WANT TO EXIT?" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES",nil];
     alert.tag = 1;
     [alert show];
 }
@@ -79,7 +85,11 @@
     rc = [self.sideScroller convertRect:rc toView:self.sideScroller];
     pt = rc.origin;
     if (pt.x == 0) {
-        pt.x -= 265;
+        if (IS_IPAD_Pro) {
+            pt.x -= 356;
+        }else{
+            pt.x -= 265;
+        }
     }else{
         pt.x = 0;
     }
@@ -121,15 +131,50 @@
         [defaults removeObjectForKey:@"Table image"];
         [defaults removeObjectForKey:@"Role"];
         
-        [defaults setObject:[NSString stringWithFormat:@"YES"] forKey:@"isLogedOut"];
+        if ([[[NSUserDefaults standardUserDefaults] valueForKey:@"bulb"] isEqualToString:@"ON"]) {
+            [[NSUserDefaults standardUserDefaults] setValue:@"OFF" forKey:@"bulb"];
+        }
+        
+        [defaults setObject:@"YES"forKey:@"isLogedOut"];
         loginViewController *loginVC = [[loginViewController alloc] initWithNibName:@"loginViewController" bundle:nil];
         [self.navigationController pushViewController:loginVC animated:YES];
     }
 }
 - (IBAction)backAction:(id)sender {
-    appHomeViewController *homeVC = [[appHomeViewController alloc] initWithNibName:@"appHomeViewController" bundle:nil];
-    [self.navigationController pushViewController:homeVC animated:NO];
+    
+    [self.navigationController popViewControllerAnimated:NO];
 }
 
+-(BOOL)webView:(UIWebView *)webView shouldStartLoadWithRequest:(NSURLRequest *)request navigationType:(UIWebViewNavigationType)navigationType
+{
+    //Start the progressbar..
+    [activityIndicator startAnimating];
+    [self disabled];
+    return YES;
+}
 
+-(void)webViewDidFinishLoad:(UIWebView *)webView
+{
+    [activityIndicator stopAnimating];
+    [self enable];
+    //Stop or remove progressbar
+}
+
+-(void)webView:(UIWebView *)webView didFailLoadWithError:(NSError *)error
+{
+    UIAlertView *alert=[[UIAlertView alloc]initWithTitle:@"OPHEMY" message:@"PDF url seems to be incorrect" delegate:self cancelButtonTitle:@"NO" otherButtonTitles:@"YES",nil];
+    alert.tag = 1;
+    [alert show];
+}
+
+- (void) disabled
+{
+    self.view.userInteractionEnabled = NO;
+    disabledImgView.hidden = NO;
+}
+- (void) enable
+{
+    self.view.userInteractionEnabled = YES;
+    disabledImgView.hidden = YES;
+}
 @end
