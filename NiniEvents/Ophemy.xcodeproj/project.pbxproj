@@ -133,7 +133,7 @@
 		D9352AF51C9955920018E589 /* checkbox-checked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9352AF31C9955920018E589 /* checkbox-checked@2x.png */; };
 		D9352AF61C9955920018E589 /* checkbox-unchecked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9352AF41C9955920018E589 /* checkbox-unchecked@2x.png */; };
 		D9352AF91C9955C70018E589 /* checkbox-checked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9352AF71C9955C70018E589 /* checkbox-checked@2x.png */; };
-		D9352AFA1C9955C70018E589 /* checkbox-unchecked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9352AF81C9955C70018E589 /* checkbox-unchecked@2x.png */; };
+		D9352AFA1C9955C70018E589 /* checkbox-Unchecked@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = D9352AF81C9955C70018E589 /* checkbox-Unchecked@2x.png */; };
 		D959CDDD1BFD89B100CE4BC4 /* cell1TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D959CDDB1BFD89B100CE4BC4 /* cell1TableViewCell.m */; };
 		D959CDDE1BFD89B100CE4BC4 /* cell1TableViewCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = D959CDDC1BFD89B100CE4BC4 /* cell1TableViewCell.xib */; };
 		D959CDE21BFD89C800CE4BC4 /* cell2TableViewCell.m in Sources */ = {isa = PBXBuildFile; fileRef = D959CDE01BFD89C800CE4BC4 /* cell2TableViewCell.m */; };
@@ -150,7 +150,7 @@
 		F93D10781C80543900DF4F99 /* 120@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F93D10731C80543900DF4F99 /* 120@2x.png */; };
 		F93D10791C80543900DF4F99 /* 152@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F93D10741C80543900DF4F99 /* 152@2x.png */; };
 		F93D107A1C80543900DF4F99 /* 180@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F93D10751C80543900DF4F99 /* 180@2x.png */; };
-		F93D107B1C80543900DF4F99 /* 76@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F93D10761C80543900DF4F99 /* 76@2x.png */; };
+		F93D107B1C80543900DF4F99 /* 760@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F93D10761C80543900DF4F99 /* 760@2x.png */; };
 		F93D107C1C80543900DF4F99 /* icon.png in Resources */ = {isa = PBXBuildFile; fileRef = F93D10771C80543900DF4F99 /* icon.png */; };
 		F93D107E1C8057C900DF4F99 /* Icon-83.5@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F93D107D1C8057C900DF4F99 /* Icon-83.5@2x.png */; };
 		F96A10C41C1A9DA1005C58E7 /* NIDropDown.m in Sources */ = {isa = PBXBuildFile; fileRef = F96A10C31C1A9DA1005C58E7 /* NIDropDown.m */; };
@@ -242,7 +242,7 @@
 		F979066B1C2295F600546664 /* menu@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F97905CE1C2295F600546664 /* menu@2x.png */; };
 		F979066C1C2295F600546664 /* notificationcircle@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F97905CF1C2295F600546664 /* notificationcircle@2x.png */; };
 		F979066D1C2295F600546664 /* ophemy-logo2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F97905D01C2295F600546664 /* ophemy-logo2x.png */; };
-		F979066E1C2295F600546664 /* orderhistory@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F97905D11C2295F600546664 /* orderhistory@2x.png */; };
+		F979066E1C2295F600546664 /* orderHistory@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F97905D11C2295F600546664 /* orderHistory@2x.png */; };
 		F979066F1C2295F600546664 /* orderHistorySelect@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F97905D21C2295F600546664 /* orderHistorySelect@2x.png */; };
 		F97906701C2295F600546664 /* password-icon@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F97905D31C2295F600546664 /* password-icon@2x.png */; };
 		F97906711C2295F600546664 /* popUp-without-text_small@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = F97905D41C2295F600546664 /* popUp-without-text_small@2x.png */; };
@@ -556,7 +556,7 @@
 		D9352AF31C9955920018E589 /* checkbox-checked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox-checked@2x.png"; sourceTree = "<group>"; };
 		D9352AF41C9955920018E589 /* checkbox-unchecked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox-unchecked@2x.png"; sourceTree = "<group>"; };
 		D9352AF71C9955C70018E589 /* checkbox-checked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox-checked@2x.png"; sourceTree = "<group>"; };
-		D9352AF81C9955C70018E589 /* checkbox-unchecked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox-unchecked@2x.png"; sourceTree = "<group>"; };
+		D9352AF81C9955C70018E589 /* checkbox-Unchecked@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "checkbox-Unchecked@2x.png"; sourceTree = "<group>"; };
 		D959CDDA1BFD89B100CE4BC4 /* cell1TableViewCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = cell1TableViewCell.h; sourceTree = "<group>"; };
 		D959CDDB1BFD89B100CE4BC4 /* cell1TableViewCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = cell1TableViewCell.m; sourceTree = "<group>"; };
 		D959CDDC1BFD89B100CE4BC4 /* cell1TableViewCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = cell1TableViewCell.xib; sourceTree = "<group>"; };
@@ -575,7 +575,7 @@
 		F93D10731C80543900DF4F99 /* 120@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "120@2x.png"; sourceTree = "<group>"; };
 		F93D10741C80543900DF4F99 /* 152@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "152@2x.png"; sourceTree = "<group>"; };
 		F93D10751C80543900DF4F99 /* 180@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "180@2x.png"; sourceTree = "<group>"; };
-		F93D10761C80543900DF4F99 /* 76@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "76@2x.png"; sourceTree = "<group>"; };
+		F93D10761C80543900DF4F99 /* 760@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "760@2x.png"; sourceTree = "<group>"; };
 		F93D10771C80543900DF4F99 /* icon.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = icon.png; sourceTree = "<group>"; };
 		F93D107D1C8057C900DF4F99 /* Icon-83.5@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "Icon-83.5@2x.png"; sourceTree = "<group>"; };
 		F96A10C21C1A9DA1005C58E7 /* NIDropDown.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = NIDropDown.h; sourceTree = "<group>"; };
@@ -668,7 +668,7 @@
 		F97905CE1C2295F600546664 /* menu@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "menu@2x.png"; sourceTree = "<group>"; };
 		F97905CF1C2295F600546664 /* notificationcircle@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "notificationcircle@2x.png"; sourceTree = "<group>"; };
 		F97905D01C2295F600546664 /* ophemy-logo2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "ophemy-logo2x.png"; sourceTree = "<group>"; };
-		F97905D11C2295F600546664 /* orderhistory@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "orderhistory@2x.png"; sourceTree = "<group>"; };
+		F97905D11C2295F600546664 /* orderHistory@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "orderHistory@2x.png"; sourceTree = "<group>"; };
 		F97905D21C2295F600546664 /* orderHistorySelect@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "orderHistorySelect@2x.png"; sourceTree = "<group>"; };
 		F97905D31C2295F600546664 /* password-icon@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "password-icon@2x.png"; sourceTree = "<group>"; };
 		F97905D41C2295F600546664 /* popUp-without-text_small@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; path = "popUp-without-text_small@2x.png"; sourceTree = "<group>"; };
@@ -1152,7 +1152,7 @@
 				F93D10731C80543900DF4F99 /* 120@2x.png */,
 				F93D10741C80543900DF4F99 /* 152@2x.png */,
 				F93D10751C80543900DF4F99 /* 180@2x.png */,
-				F93D10761C80543900DF4F99 /* 76@2x.png */,
+				F93D10761C80543900DF4F99 /* 760@2x.png */,
 				F93D107D1C8057C900DF4F99 /* Icon-83.5@2x.png */,
 				F93D10771C80543900DF4F99 /* icon.png */,
 			);
@@ -1364,7 +1364,7 @@
 				F97905CE1C2295F600546664 /* menu@2x.png */,
 				F97905CF1C2295F600546664 /* notificationcircle@2x.png */,
 				F97905D01C2295F600546664 /* ophemy-logo2x.png */,
-				F97905D11C2295F600546664 /* orderhistory@2x.png */,
+				F97905D11C2295F600546664 /* orderHistory@2x.png */,
 				F97905D21C2295F600546664 /* orderHistorySelect@2x.png */,
 				F97905D31C2295F600546664 /* password-icon@2x.png */,
 				F97905D41C2295F600546664 /* popUp-without-text_small@2x.png */,
@@ -1392,7 +1392,7 @@
 			isa = PBXGroup;
 			children = (
 				D9352AF71C9955C70018E589 /* checkbox-checked@2x.png */,
-				D9352AF81C9955C70018E589 /* checkbox-unchecked@2x.png */,
+				D9352AF81C9955C70018E589 /* checkbox-Unchecked@2x.png */,
 				F97906C11C22A0F600546664 /* addtocart@2x.png */,
 				F97906C21C22A0F600546664 /* back@2x.png */,
 				F97906C31C22A0F600546664 /* boxAssistance@2x.png */,
@@ -1538,7 +1538,7 @@
 				F97906F71C22A0F600546664 /* boxAssistance@2x.png in Resources */,
 				979158341AB2AE25006ACE81 /* output_U78sIP.mp4 in Resources */,
 				977BA8751A84A12B0058B67B /* BebasNeue Regular.ttf in Resources */,
-				F979066E1C2295F600546664 /* orderhistory@2x.png in Resources */,
+				F979066E1C2295F600546664 /* orderHistory@2x.png in Resources */,
 				D959CDF01BFDB79D00CE4BC4 /* right-arrow@2x.png in Resources */,
 				F97906BA1C229A2F00546664 /* 76@2x.png in Resources */,
 				F97906411C2295F600546664 /* right-arrow.png in Resources */,
@@ -1635,7 +1635,7 @@
 				F97906501C2295F600546664 /* box_assistance@2x.png in Resources */,
 				D959CDEF1BFDB79D00CE4BC4 /* right-arrow.png in Resources */,
 				F979067F1C2295F600546664 /* user-icon@2x.png in Resources */,
-				F93D107B1C80543900DF4F99 /* 76@2x.png in Resources */,
+				F93D107B1C80543900DF4F99 /* 760@2x.png in Resources */,
 				F979062C1C2295F600546664 /* dropdown-downWhite.png in Resources */,
 				18C74DE91AA864D6004418D4 /* menuStateViewController.xib in Resources */,
 				D959CDF71BFDCD1200CE4BC4 /* dropdown-up.png in Resources */,
@@ -1701,7 +1701,7 @@
 				F979064F1C2295F600546664 /* back@2x.png in Resources */,
 				F97906BC1C229A2F00546664 /* 152@2x.png in Resources */,
 				979D1C8B1A25A8310073E822 /* serviceProviderHomeViewController.xib in Resources */,
-				D9352AFA1C9955C70018E589 /* checkbox-unchecked@2x.png in Resources */,
+				D9352AFA1C9955C70018E589 /* checkbox-Unchecked@2x.png in Resources */,
 				F97906751C2295F600546664 /* right-arrow@2x.png in Resources */,
 				F979064C1C2295F600546664 /* viewdetail.png in Resources */,
 				F97906331C2295F600546664 /* increaseselect.png in Resources */,
